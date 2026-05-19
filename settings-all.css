@@ -1,0 +1,163 @@
+/* =============================================================
+   Settings — All settings hub page
+   ============================================================= */
+
+.sa-page {
+  padding: 32px;
+  max-width: 1200px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ── Header ── */
+.sa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 24px;
+}
+
+.sa-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 300;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+/* ── Search ── */
+.sa-search-wrap {
+  position: relative;
+  width: 260px;
+}
+
+.sa-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.sa-search {
+  width: 100%;
+  box-sizing: border-box;
+  height: 38px;
+  padding: 0 14px 0 36px;
+  border: 1px solid #D6DBE6;
+  border-radius: 20px;
+  font: 400 14px/1 'Roboto', sans-serif;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.sa-search::placeholder { color: #9ca3af; }
+.sa-search:focus {
+  border-color: #2aa7ff;
+  box-shadow: 0 0 0 3px rgba(42,167,255,.12);
+}
+
+/* ── Card grid ── */
+.sa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 1280px) {
+  .sa-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Card ── */
+.sa-card {
+  position: relative;
+  padding: 20px 20px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  transition: box-shadow 160ms ease;
+  cursor: pointer;
+}
+.sa-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.10);
+}
+
+.sa-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sa-card-icon {
+  font-size: 24px;
+  color: #2aa7ff;
+  flex-shrink: 0;
+}
+
+.sa-card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  flex: 1;
+}
+
+/* ── Add-on badge ── */
+.sa-addon-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  white-space: nowrap;
+}
+
+/* ── Card links ── */
+.sa-card-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sa-link {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 10px;
+  margin: 0 -10px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #2aa7ff;
+  text-decoration: none;
+  transition: background 100ms ease, font-weight 100ms ease;
+  white-space: nowrap;
+}
+.sa-link:hover {
+  background: rgba(42,167,255,.08);
+  font-weight: 500;
+}
+
+/* ── Footer ── */
+.sa-footer {
+  padding-top: 4px;
+}
+
+.sa-features-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2aa7ff;
+  text-decoration: none;
+}
+.sa-features-link:hover { text-decoration: underline; }
+.sa-features-link .material-symbols-rounded { font-size: 18px; }

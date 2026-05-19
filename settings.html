@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@18,400,0,0;24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="settings-all.css" />
+</head>
+<body>
+
+<div id="shell-content">
+  <div class="sa-page">
+
+    <!-- Header -->
+    <div class="sa-header">
+      <h2 class="sa-title">Settings</h2>
+      <div class="sa-search-wrap">
+        <span class="material-symbols-rounded sa-search-icon">search</span>
+        <input type="search" class="sa-search" placeholder="Search settings" />
+      </div>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="sa-grid">
+
+      <!-- Organization -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">domain</span>
+          <h3 class="sa-card-title">Organization</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="index.html" class="sa-link">Company information</a>
+          <a href="#" class="sa-link">Security &amp; log in</a>
+          <a href="#" class="sa-link">Projects &amp; to-dos</a>
+          <a href="#" class="sa-link">Permissions</a>
+        </div>
+      </div>
+
+      <!-- Members -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">group</span>
+          <h3 class="sa-card-title">Members</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">Custom fields</a>
+          <a href="#" class="sa-link">Work time limits</a>
+          <a href="#" class="sa-link">Payments</a>
+          <a href="#" class="sa-link">Achievements</a>
+        </div>
+      </div>
+
+      <!-- Schedules -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">calendar_today</span>
+          <h3 class="sa-card-title">Schedules</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">Calendar</a>
+          <a href="#" class="sa-link">Job sites</a>
+          <a href="#" class="sa-link">Map</a>
+        </div>
+      </div>
+
+      <!-- Activity & tracking -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">query_stats</span>
+          <h3 class="sa-card-title">Activity &amp; tracking</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">Activity</a>
+          <a href="#" class="sa-link">Timesheets</a>
+          <a href="#" class="sa-link">Time &amp; tracking</a>
+          <a href="#" class="sa-link">Screenshots</a>
+        </div>
+      </div>
+
+      <!-- Insights -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">lightbulb</span>
+          <h3 class="sa-card-title">Insights</h3>
+          <span class="sa-addon-badge">Add-on</span>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">Apps/URLs classifications</a>
+          <a href="#" class="sa-link">Remote vs in-office</a>
+        </div>
+      </div>
+
+      <!-- Policies -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">article</span>
+          <h3 class="sa-card-title">Policies</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">Time off</a>
+          <a href="#" class="sa-link">Work breaks</a>
+          <a href="#" class="sa-link">Overtime</a>
+        </div>
+      </div>
+
+      <!-- Integrations -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">dashboard_customize</span>
+          <h3 class="sa-card-title">Integrations</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">All integrations</a>
+          <a href="#" class="sa-link">Wise</a>
+          <a href="#" class="sa-link">Jira</a>
+          <a href="#" class="sa-link">Slack</a>
+        </div>
+      </div>
+
+      <!-- Billing -->
+      <div class="sa-card">
+        <div class="sa-card-header">
+          <span class="material-symbols-rounded sa-card-icon">credit_card</span>
+          <h3 class="sa-card-title">Billing</h3>
+        </div>
+        <div class="sa-card-links">
+          <a href="#" class="sa-link">Billing information</a>
+          <a href="#" class="sa-link">Subscription invoices</a>
+          <a href="#" class="sa-link">Subscription settings</a>
+          <a href="#" class="sa-link">Client invoice</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="sa-footer">
+      <a href="#" class="sa-features-link">
+        <span class="material-symbols-rounded">tune</span>
+        Enable/disable features
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="hubstaff-shell.js?v=8"></script>
+<script>
+  HubstaffShell.init({ activeItem: 'settings' });
+</script>
+
+<!-- Design annotations -->
+<script src="design-annotations.js"></script>
+<script>
+  DesignAnnotations.init({
+    page: 'Settings — All settings',
+    required: [],
+    suggestions: [
+      'Search settings input could filter cards and links in real time',
+      'Card hover state could navigate to the first link in each section'
+    ]
+  });
+</script>
+</body>
+</html>

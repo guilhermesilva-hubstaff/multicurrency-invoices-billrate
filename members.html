@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Members — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="stylesheet" href="members.css?v=3">
+</head>
+<body>
+<script src="hubstaff-shell.js?v=8"></script>
+
+<div id="shell-content">
+  <div class="mem-page">
+
+    <!-- ── Header ───────────────────────────────────────────── -->
+    <div class="mem-header">
+      <h2 class="mem-title">Members</h2>
+      <div class="mem-header-actions">
+        <button class="mem-btn mem-btn--ghost" id="mem-onboarding-btn">
+          <span class="material-symbols-rounded">checklist</span>
+          Onboarding status
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Tabs ─────────────────────────────────────────────── -->
+    <div class="mem-tabs">
+      <button class="mem-tab is-active" data-tab="members">Members (184)</button>
+      <button class="mem-tab" data-tab="invites">Invites (8)</button>
+      <button class="mem-tab" data-tab="merge">Merge members</button>
+    </div>
+
+    <!-- ── Seat info bar ─────────────────────────────────────── -->
+    <div class="mem-seat-bar">
+      <span class="material-symbols-rounded mem-seat-bar__icon">info</span>
+      <span class="mem-seat-bar__text">
+        Seats: <strong>184 paid</strong> / <strong>184 occupied</strong> / <strong>0 open</strong>
+      </span>
+      <a href="#" class="mem-seat-bar__link">Add more seats</a>
+    </div>
+
+    <!-- ── Toolbar ───────────────────────────────────────────── -->
+    <div class="mem-toolbar">
+
+      <!-- Row 1: Search + primary actions -->
+      <div class="mem-toolbar__row">
+        <div class="mem-toolbar__left">
+          <!-- Search -->
+          <div class="mem-search">
+            <span class="material-symbols-rounded mem-search__icon">search</span>
+            <input type="text" class="mem-search__input" placeholder="Search members…" id="mem-search-input">
+          </div>
+        </div>
+
+        <div class="mem-toolbar__right">
+          <!-- Export dropdown (ghost, download icon) -->
+          <div class="mem-dropdown" id="mem-export-dropdown">
+            <button class="mem-btn mem-btn--ghost" id="mem-export-btn">
+              <span class="material-symbols-rounded">download</span>
+              Export
+            </button>
+            <div class="mem-dropdown__menu mem-dropdown__menu--right" id="mem-export-menu">
+              <div class="mem-dropdown__item">
+                <span class="material-symbols-rounded">download</span>
+                Export to CSV
+              </div>
+            </div>
+          </div>
+
+          <!-- Import (outline, no icon) -->
+          <button class="mem-btn mem-btn--outline" id="mem-import-btn">Import members</button>
+
+          <!-- Add members (primary, no icon) -->
+          <button class="mem-btn mem-btn--primary" id="mem-add-btn">Add members</button>
+
+          <!-- Filters (outline, no icon) -->
+          <button class="mem-btn mem-btn--outline mem-filter-toggle" id="mem-filter-btn">
+            Filters
+            <span class="mem-filter-badge" id="mem-filter-badge" hidden>0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2: Batch actions + columns toggle -->
+      <div class="mem-toolbar__row">
+        <div class="mem-toolbar__left">
+          <!-- Batch actions dropdown -->
+          <div class="mem-dropdown" id="mem-batch-dropdown">
+            <button class="mem-btn mem-btn--outline" id="mem-batch-btn">
+              Batch actions
+              <span class="material-symbols-rounded">expand_more</span>
+            </button>
+            <div class="mem-dropdown__menu" id="mem-batch-menu">
+              <div class="mem-dropdown__item">
+                <span class="material-symbols-rounded">upload</span>
+                Import list
+              </div>
+              <div class="mem-dropdown__divider"></div>
+              <div class="mem-dropdown__group-header">Batch edit members</div>
+              <div class="mem-dropdown__item">
+                <span class="material-symbols-rounded">attach_money</span>
+                Edit pay rate
+              </div>
+              <div class="mem-dropdown__item">
+                <span class="material-symbols-rounded">payments</span>
+                Edit bill rate
+              </div>
+              <div class="mem-dropdown__item">
+                <span class="material-symbols-rounded">calendar_today</span>
+                Edit pay period
+              </div>
+              <div class="mem-dropdown__item">
+                <span class="material-symbols-rounded">schedule</span>
+                Edit limits
+              </div>
+              <div class="mem-dropdown__divider"></div>
+              <div class="mem-dropdown__item mem-dropdown__item--danger">
+                <span class="material-symbols-rounded">person_remove</span>
+                Remove member
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mem-toolbar__right">
+          <!-- Table columns toggle -->
+          <div class="mem-dropdown mem-cols-dropdown" id="mem-cols-dropdown">
+          <button class="mem-btn mem-btn--icon" id="mem-cols-btn" title="Show/hide columns">
+            <span class="material-symbols-rounded">view_column</span>
+          </button>
+
+          <div class="mem-cols__menu" id="mem-cols-menu">
+
+            <div class="mem-cols__section-header">Always shown</div>
+            <div class="mem-cols__item is-locked">
+              <span class="mem-cols__check material-symbols-rounded">check_box</span>
+              Member
+            </div>
+
+            <div class="mem-cols__divider"></div>
+
+            <!-- Info group -->
+            <div class="mem-cols__item mem-cols__item--group" id="mem-cols-info-trigger">
+              <span class="mem-cols__group-label">
+                <span class="material-symbols-rounded" style="font-size:15px;color:#9ca3af">info</span>
+                Info
+              </span>
+              <span class="material-symbols-rounded mem-cols__chevron">chevron_right</span>
+            </div>
+            <div class="mem-cols__subpanel" id="mem-cols-info-panel">
+              <div class="mem-cols__subgroup-header">Identity</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="status">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Status
+              </div>
+              <div class="mem-cols__subgroup-header">Work contact</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="email">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Work email
+              </div>
+              <div class="mem-cols__subgroup-header">Personal contact</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="personal_email">
+                <span class="mem-cols__check material-symbols-rounded" style="color:#d1d5db;font-variation-settings:normal">check_box_outline_blank</span>
+                Personal email
+              </div>
+            </div>
+
+            <!-- Employment group -->
+            <div class="mem-cols__item mem-cols__item--group" id="mem-cols-employ-trigger">
+              <span class="mem-cols__group-label">
+                <span class="material-symbols-rounded" style="font-size:15px;color:#9ca3af">work</span>
+                Employment
+              </span>
+              <span class="material-symbols-rounded mem-cols__chevron">chevron_right</span>
+            </div>
+            <div class="mem-cols__subpanel" id="mem-cols-employ-panel">
+              <div class="mem-cols__subgroup-header">Job details</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="role">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Role
+              </div>
+              <div class="mem-cols__subgroup-header">Hiring details</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="date">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Date added
+              </div>
+              <div class="mem-cols__subgroup-header">Accounting</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="payment">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Payment
+              </div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="limits">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Limits
+              </div>
+              <div class="mem-cols__subgroup-header">Timeline</div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="tracking">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Time tracking status
+              </div>
+            </div>
+
+            <div class="mem-cols__divider"></div>
+            <div class="mem-cols__item" data-col="projects">
+              <span class="mem-cols__check material-symbols-rounded">check_box</span>
+              Projects
+            </div>
+            <div class="mem-cols__item" data-col="workorders">
+              <span class="mem-cols__check material-symbols-rounded">check_box</span>
+              Work orders
+            </div>
+
+          </div>
+        </div>
+
+        </div><!-- /mem-toolbar__right row2 -->
+      </div><!-- /mem-toolbar__row row2 -->
+    </div><!-- /mem-toolbar -->
+
+    <!-- ── Selection bar (visible when rows checked) ────────── -->
+    <div class="mem-sel-bar" id="mem-sel-bar">
+      <span class="mem-sel-bar__count" id="mem-sel-count">0 selected</span>
+      <div class="mem-sel-bar__actions">
+        <button class="mem-sel-bar__btn">
+          <span class="material-symbols-rounded">edit</span>
+          Edit pay rate
+        </button>
+        <button class="mem-sel-bar__btn">
+          <span class="material-symbols-rounded">payments</span>
+          Edit bill rate
+        </button>
+        <button class="mem-sel-bar__btn">
+          <span class="material-symbols-rounded">schedule</span>
+          Edit limits
+        </button>
+        <button class="mem-sel-bar__btn mem-sel-bar__btn--danger">
+          <span class="material-symbols-rounded">person_remove</span>
+          Remove member
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Content layout (table + optional filter panel) ───── -->
+    <div class="mem-layout" id="mem-layout">
+
+      <!-- Table -->
+      <div class="mem-table-wrap" id="mem-table-wrap">
+        <table class="mem-table" id="mem-table">
+          <thead>
+            <tr>
+              <th class="mem-th--check">
+                <input type="checkbox" class="mem-checkbox" id="mem-check-all">
+              </th>
+              <th class="is-sortable is-sorted mem-col--member" data-sort="name">
+                <span class="mem-th__sort">Member <span class="material-symbols-rounded">arrow_upward</span></span>
+              </th>
+              <th class="is-sortable mem-col--email" data-sort="email">
+                <span class="mem-th__sort">Work email <span class="material-symbols-rounded">unfold_more</span></span>
+              </th>
+              <th class="mem-col--status">Status</th>
+              <th class="is-sortable mem-col--role" data-sort="role">
+                <span class="mem-th__sort">Role <span class="material-symbols-rounded">unfold_more</span></span>
+              </th>
+              <th class="mem-col--projects">Projects</th>
+              <th class="mem-col--workorders">Work orders</th>
+              <th class="mem-col--payment">Payment</th>
+              <th class="mem-col--limits">Limits</th>
+              <th class="mem-col--tracking">Time tracking</th>
+              <th class="is-sortable mem-col--date" data-sort="date">
+                <span class="mem-th__sort">Date added <span class="material-symbols-rounded">unfold_more</span></span>
+              </th>
+              <th class="mem-col--actions"></th>
+            </tr>
+          </thead>
+          <tbody id="mem-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Filter panel -->
+      <aside class="mem-filter-panel" id="mem-filter-panel" aria-hidden="true">
+        <div class="mem-filter-panel__header">
+          <span class="mem-filter-panel__title">Filters</span>
+          <button class="mem-filter-panel__close" id="mem-filter-close" aria-label="Close filters">
+            <span class="material-symbols-rounded">close</span>
+          </button>
+        </div>
+
+        <div class="mem-filter-panel__body">
+
+          <!-- Role -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Role</div>
+            <div class="mem-filter-checkboxes">
+              <label class="mem-filter-checkbox"><input type="checkbox" value="Admin"> Admin</label>
+              <label class="mem-filter-checkbox"><input type="checkbox" value="Manager"> Manager</label>
+              <label class="mem-filter-checkbox"><input type="checkbox" value="Member"> Member</label>
+              <label class="mem-filter-checkbox"><input type="checkbox" value="Viewer"> Viewer</label>
+            </div>
+          </div>
+
+          <!-- Projects -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Projects / Work orders</div>
+            <div class="mem-filter-select-wrap">
+              <select class="mem-filter-select">
+                <option value="">All projects</option>
+                <option>Website Redesign</option>
+                <option>Mobile App</option>
+                <option>API Integration</option>
+                <option>Marketing Campaign</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Department -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Department</div>
+            <div class="mem-filter-select-wrap">
+              <select class="mem-filter-select">
+                <option value="">All departments</option>
+                <option>Engineering</option>
+                <option>Design</option>
+                <option>Marketing</option>
+                <option>Finance</option>
+                <option>Operations</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Employment type -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Employment type</div>
+            <div class="mem-filter-checkboxes">
+              <label class="mem-filter-checkbox"><input type="checkbox" value="full_time"> Full time</label>
+              <label class="mem-filter-checkbox"><input type="checkbox" value="part_time"> Part time</label>
+              <label class="mem-filter-checkbox"><input type="checkbox" value="contractor"> Contractor</label>
+            </div>
+          </div>
+
+          <!-- Time tracking status -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Time tracking status</div>
+            <div class="mem-filter-checkboxes">
+              <label class="mem-filter-checkbox"><input type="checkbox" value="enabled"> Enabled</label>
+              <label class="mem-filter-checkbox"><input type="checkbox" value="disabled"> Disabled</label>
+            </div>
+          </div>
+
+          <!-- Date added -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Date added</div>
+            <div class="mem-filter-daterange">
+              <input type="date" class="mem-filter-date" placeholder="From">
+              <span class="mem-filter-daterange__sep">—</span>
+              <input type="date" class="mem-filter-date" placeholder="To">
+            </div>
+          </div>
+
+          <!-- Date removed -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Date removed</div>
+            <div class="mem-filter-daterange">
+              <input type="date" class="mem-filter-date" placeholder="From">
+              <span class="mem-filter-daterange__sep">—</span>
+              <input type="date" class="mem-filter-date" placeholder="To">
+            </div>
+          </div>
+
+          <!-- Work country -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Work country / region</div>
+            <div class="mem-filter-select-wrap">
+              <select class="mem-filter-select">
+                <option value="">All countries</option>
+                <option>United States</option>
+                <option>Brazil</option>
+                <option>India</option>
+                <option>United Kingdom</option>
+                <option>Germany</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Currency -->
+          <div class="mem-filter-group">
+            <div class="mem-filter-group__label">Currency</div>
+            <div class="mem-filter-select-wrap">
+              <select class="mem-filter-select">
+                <option value="">All currencies</option>
+                <option>USD</option>
+                <option>EUR</option>
+                <option>GBP</option>
+                <option>BRL</option>
+                <option>INR</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Show removed toggle -->
+          <div class="mem-filter-group mem-filter-group--toggle">
+            <label class="mem-filter-toggle-label">
+              <span>Show removed members</span>
+              <span class="mem-toggle" id="mem-show-removed-toggle">
+                <input type="checkbox" hidden>
+                <span class="mem-toggle__track"></span>
+              </span>
+            </label>
+          </div>
+
+        </div>
+
+        <div class="mem-filter-panel__footer">
+          <button class="mem-btn mem-btn--ghost-sm" id="mem-filter-clear">Clear all filters</button>
+          <button class="mem-btn mem-btn--primary-sm" id="mem-filter-apply">Apply</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ── Pagination ─────────────────────────────────────────── -->
+    <div class="mem-pagination" id="mem-pagination">
+      <div class="mem-pagination__info" id="mem-pagination-info">Showing 1 – 25 of 184 members</div>
+      <div class="mem-pagination__controls" id="mem-pagination-controls"></div>
+      <div class="mem-pagination__perpage">
+        Show
+        <select class="mem-perpage-select" id="mem-per-page">
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100" selected>100</option>
+        </select>
+        per page
+      </div>
+    </div>
+
+  </div><!-- .mem-page -->
+</div><!-- #shell-content -->
+
+<!-- Per-row actions dropdown (shared, positioned by JS) -->
+<div class="mem-row-menu" id="mem-row-menu">
+  <div class="mem-row-menu__item" data-action="edit-info">
+    <span class="material-symbols-rounded">person</span>
+    Edit info
+  </div>
+  <div class="mem-row-menu__item" data-action="merge">
+    <span class="material-symbols-rounded">merge</span>
+    Merge duplicate member
+  </div>
+  <div class="mem-row-menu__item" data-action="role">
+    <span class="material-symbols-rounded">manage_accounts</span>
+    Edit role and memberships
+  </div>
+  <div class="mem-row-menu__item" data-action="payment">
+    <span class="material-symbols-rounded">payments</span>
+    Edit payment details
+  </div>
+  <div class="mem-row-menu__item" data-action="limits">
+    <span class="material-symbols-rounded">schedule</span>
+    Edit limits
+  </div>
+  <div class="mem-row-menu__divider"></div>
+  <div class="mem-row-menu__item" data-action="toggle-tracking">
+    <span class="material-symbols-rounded">timer_off</span>
+    Disable tracking
+  </div>
+  <div class="mem-row-menu__item" data-action="reset-pw">
+    <span class="material-symbols-rounded">lock_reset</span>
+    Reset password
+  </div>
+  <div class="mem-row-menu__divider"></div>
+  <div class="mem-row-menu__item mem-row-menu__item--danger" data-action="remove">
+    <span class="material-symbols-rounded">person_remove</span>
+    Remove member
+  </div>
+</div>
+
+<script>
+  HubstaffShell.init({ activeItem: 'people' });
+</script>
+
+<script>
+/* ================================================================
+   Members page — JS
+   ================================================================ */
+(function () {
+  'use strict';
+
+  /* ── Sample data ─────────────────────────────────────────── */
+  var AVATAR_COLORS = [
+    '#0168DD','#7c3aed','#db2777','#059669','#d97706','#dc2626',
+    '#0891b2','#65a30d','#9333ea','#ea580c'
+  ];
+  var ROLES       = ['Admin','Manager','Member','Viewer'];
+  var STATUSES    = ['active','active','active','active','inactive','pending'];
+  var PAY_PERIODS = ['Hourly','Weekly','Biweekly','Monthly'];
+  var PAY_TYPES   = ['Fixed salary','Hourly rate'];
+  var NAMES = [
+    'Alice Johnson','Bob Martínez','Carol Chen','David Kim',
+    'Emma Wilson','Frank Okafor','Grace Liu','Henry Patel',
+    'Isabel Santos','James Robinson','Karen White','Liam Brown',
+    'Mia Garcia','Noah Taylor','Olivia Anderson','Paul Nakamura',
+    'Quinn Davis','Rachel Thompson','Samuel Lee','Tina Nguyen',
+    'Uma Patel','Victor Hernandez','Wendy Clark','Xavier Moore',
+    'Yuki Tanaka'
+  ];
+  var PROJECTS = ['Website Redesign','Mobile App','API Integration',
+    'Marketing Campaign','Data Pipeline','Internal Tools',
+    'Customer Portal','Analytics Dashboard'];
+
+  function initials(name) {
+    var p = name.trim().split(/\s+/);
+    return (p[0][0] + (p[1] ? p[1][0] : '')).toUpperCase();
+  }
+  function avatarColor(i) { return AVATAR_COLORS[i % AVATAR_COLORS.length]; }
+  function fmtDate(d) {
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return M[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+  function fmtMoney(n) { return '$' + n.toFixed(2); }
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* Seeded pseudo-random for stable data */
+  var _rng = 42;
+  function sr(arr) { _rng=(_rng*1664525+1013904223)&0xffffffff; return arr[Math.abs(_rng)%arr.length]; }
+  function sf()    { _rng=(_rng*1664525+1013904223)&0xffffffff; return Math.abs(_rng)/0xffffffff; }
+  function si(lo,hi){ _rng=(_rng*1664525+1013904223)&0xffffffff; return lo+Math.abs(_rng)%(hi-lo+1); }
+
+  var ALL_MEMBERS = [];
+  for (var i = 0; i < 184; i++) {
+    var baseName  = NAMES[i % NAMES.length];
+    var suffix    = i >= NAMES.length ? ' '+(Math.floor(i/NAMES.length)+1) : '';
+    var fullName  = baseName + suffix;
+    var parts     = fullName.split(' ');
+    var email     = parts[0].toLowerCase()+'.'+parts.slice(1).join('').toLowerCase().replace(/[^a-z]/g,'')+'@company.com';
+    var status    = i===0 ? 'active' : sr(STATUSES);
+    var role      = i===0 ? 'Admin' : sr(ROLES);
+    var numProj   = si(0,4);
+    var projSet   = new Set();
+    for(var p=0;p<numProj;p++) projSet.add(sr(PROJECTS));
+    var projects  = Array.from(projSet);
+    var numWO     = si(0,3);
+    var hasPay    = sf()>0.2;
+    var payRate   = hasPay ? si(15,120) : null;
+    var billRate  = hasPay ? payRate+si(5,60) : null;
+    var period    = hasPay ? sr(PAY_PERIODS) : null;
+    var payType   = hasPay ? sr(PAY_TYPES)   : null;
+    var wkLim     = sf()>0.4 ? si(20,60) : null;
+    var dayLim    = sf()>0.6 ? si(4,12)  : null;
+    var added     = new Date(2022+si(0,2),si(0,11),si(1,28));
+    var tracking  = sf()>0.15;
+    var approvals = sf()>0.5;
+
+    ALL_MEMBERS.push({
+      id:i+1, name:fullName, email:email, status:status, role:role,
+      projects:projects, workOrders:numWO,
+      payRate:payRate, billRate:billRate, period:period, payType:payType,
+      weeklyLimit:wkLim, dailyLimit:dayLim,
+      dateAdded:added, trackingOn:tracking, approvals:approvals,
+      color:avatarColor(i)
+    });
+  }
+
+  /* ── State ─────────────────────────────────────────────────── */
+  var state = {
+    members:   ALL_MEMBERS.slice(),
+    filtered:  ALL_MEMBERS.slice(),
+    page:      1,
+    perPage:   100,
+    sortKey:   'name',
+    sortDir:   'asc',
+    selected:  new Set(),
+    hiddenCols:new Set(),
+    query:     ''
+  };
+
+  /* ── DOM refs ─────────────────────────────────────────────── */
+  var $tbody    = document.getElementById('mem-tbody');
+  var $checkAll = document.getElementById('mem-check-all');
+  var $selBar   = document.getElementById('mem-sel-bar');
+  var $selCount = document.getElementById('mem-sel-count');
+  var $pgInfo   = document.getElementById('mem-pagination-info');
+  var $pgCtrl   = document.getElementById('mem-pagination-controls');
+  var $search   = document.getElementById('mem-search-input');
+  var $rowMenu  = document.getElementById('mem-row-menu');
+  var $colsMenu = document.getElementById('mem-cols-menu');
+  var $batchMenu= document.getElementById('mem-batch-menu');
+  var $exportMenu=document.getElementById('mem-export-menu');
+
+  /* ── Render ───────────────────────────────────────────────── */
+  function renderTable() {
+    var start = (state.page-1)*state.perPage;
+    var end   = Math.min(start+state.perPage, state.filtered.length);
+    var page  = state.filtered.slice(start, end);
+
+    if (!page.length) {
+      $tbody.innerHTML =
+        '<tr><td colspan="12"><div class="mem-empty">' +
+        '<span class="material-symbols-rounded mem-empty__icon">search_off</span>' +
+        '<p class="mem-empty__title">No members found</p>' +
+        '<p class="mem-empty__sub">Try adjusting your search or filters.</p>' +
+        '</div></td></tr>';
+      renderPagination();
+      updateSelBar();
+      return;
+    }
+
+    $tbody.innerHTML = page.map(function(m) {
+      var sel = state.selected.has(m.id);
+      var statusLabel = m.status.charAt(0).toUpperCase()+m.status.slice(1);
+
+      /* Projects */
+      var projCell = m.projects.length
+        ? '<a href="#" class="mem-link">'+m.projects.length+' project'+(m.projects.length!==1?'s':'')+'</a>'
+        : '<span class="mem-muted">—</span>';
+
+      /* Work orders */
+      var woCell = m.workOrders
+        ? '<a href="#" class="mem-link">'+m.workOrders+' order'+(m.workOrders!==1?'s':'')+'</a>'
+        : '<span class="mem-muted">—</span>';
+
+      /* Payment */
+      var payCell;
+      if (m.payRate) {
+        payCell =
+          '<div class="mem-pay">' +
+            '<div class="mem-pay__row">' +
+              '<span class="mem-pay__label">Pay rate:</span>' +
+              '<span class="mem-pay__val">'+fmtMoney(m.payRate)+'/hr</span>' +
+              '<button class="mem-inline-edit" title="Edit"><span class="material-symbols-rounded">edit</span></button>' +
+            '</div>' +
+            '<div class="mem-pay__row mem-pay__row--muted">' +
+              '<span class="mem-pay__label">Bill rate:</span>' +
+              '<span class="mem-pay__val">'+fmtMoney(m.billRate)+'/hr</span>' +
+              '<button class="mem-inline-edit" title="Edit"><span class="material-symbols-rounded">edit</span></button>' +
+            '</div>' +
+            '<div class="mem-pay__row mem-pay__row--meta">' +
+              m.period+' &nbsp;·&nbsp; Approvals: <a href="#">'+(m.approvals?'On':'Off')+'</a>' +
+            '</div>' +
+          '</div>';
+      } else {
+        payCell = '<span class="mem-muted">Not set</span>';
+      }
+
+      /* Limits */
+      var limCell =
+        '<div class="mem-limits">' +
+          '<div>'+(m.weeklyLimit ? m.weeklyLimit+':00 / week' : '<span class="mem-muted">No weekly limit</span>')+'</div>' +
+          '<div>'+(m.dailyLimit  ? m.dailyLimit+':00 / day'   : '<span class="mem-muted">No daily limit</span>')+'</div>' +
+        '</div>';
+
+      /* Tracking */
+      var trackCell = m.trackingOn
+        ? '<span class="mem-badge mem-badge--success">Enabled</span>'
+        : '<span class="mem-badge mem-badge--neutral">Disabled</span>';
+
+      return [
+        '<tr class="mem-row'+(sel?' is-selected':'')+'" data-id="'+m.id+'">',
+          '<td class="mem-td--check">',
+            '<input type="checkbox" class="mem-checkbox mem-row-check"'+(sel?' checked':'')+' data-id="'+m.id+'">',
+          '</td>',
+          '<td class="mem-td--member mem-col--member">',
+            '<div class="mem-member">',
+              '<div class="mem-avatar" style="background:'+m.color+'">'+initials(m.name)+'</div>',
+              '<div class="mem-member__info">',
+                '<div class="mem-member__name"><a href="'+(m.id===1?'member-detail.html':'#')+'">'+escHtml(m.name)+'</a></div>',
+                '<div class="mem-member__role">'+m.role+'</div>',
+              '</div>',
+            '</div>',
+          '</td>',
+          '<td class="mem-td--email mem-col--email">'+escHtml(m.email)+'</td>',
+          '<td class="mem-col--status"><span class="mem-status mem-status--'+m.status+'">'+statusLabel+'</span></td>',
+          '<td class="mem-td--role mem-col--role">',
+            '<div class="mem-role">',
+              '<span>'+m.role+'</span>',
+              '<button class="mem-inline-edit" title="Edit role"><span class="material-symbols-rounded">edit</span></button>',
+            '</div>',
+          '</td>',
+          '<td class="mem-col--projects">'+projCell+'</td>',
+          '<td class="mem-col--workorders">'+woCell+'</td>',
+          '<td class="mem-td--payment mem-col--payment">'+payCell+'</td>',
+          '<td class="mem-td--limits mem-col--limits">'+limCell+'</td>',
+          '<td class="mem-td--tracking mem-col--tracking">'+trackCell+'</td>',
+          '<td class="mem-td--date mem-col--date">'+fmtDate(m.dateAdded)+'</td>',
+          '<td class="mem-td--actions mem-col--actions">',
+            '<button class="mem-actions-btn mem-row-actions-trigger" data-id="'+m.id+'">',
+              'Actions <span class="material-symbols-rounded">expand_more</span>',
+            '</button>',
+          '</td>',
+        '</tr>'
+      ].join('');
+    }).join('');
+
+    applyColVisibility();
+    renderPagination();
+    updateSelBar();
+    syncCheckAll();
+  }
+
+  /* ── Pagination ───────────────────────────────────────────── */
+  function renderPagination() {
+    var total = state.filtered.length;
+    var start = (state.page-1)*state.perPage+1;
+    var end   = Math.min(state.page*state.perPage, total);
+    var pages = Math.ceil(total/state.perPage);
+
+    $pgInfo.textContent = 'Showing '+start+' – '+end+' of '+total+' members';
+
+    var h='';
+    h += btn('mem-prev','<span class="material-symbols-rounded">chevron_left</span>', state.page<=1);
+    pageRange(state.page, pages).forEach(function(p) {
+      if (p==='…') { h+='<button class="mem-page-btn" disabled>…</button>'; }
+      else { h+='<button class="mem-page-btn'+(p===state.page?' is-active':'')+'" data-page="'+p+'">'+p+'</button>'; }
+    });
+    h += btn('mem-next','<span class="material-symbols-rounded">chevron_right</span>', state.page>=pages);
+    $pgCtrl.innerHTML = h;
+
+    $pgCtrl.querySelectorAll('[data-page]').forEach(function(b) {
+      b.addEventListener('click', function() { gotoPage(parseInt(this.dataset.page,10)); });
+    });
+    var prev=document.getElementById('mem-prev'), next=document.getElementById('mem-next');
+    if(prev) prev.addEventListener('click', function(){ gotoPage(state.page-1); });
+    if(next) next.addEventListener('click', function(){ gotoPage(state.page+1); });
+  }
+
+  function btn(id, html, disabled) {
+    return '<button class="mem-page-btn" id="'+id+'"'+(disabled?' disabled':'')+'>'+html+'</button>';
+  }
+  function gotoPage(p) { state.page=p; state.selected.clear(); renderTable(); window.scrollTo(0,0); }
+  function pageRange(cur, tot) {
+    if(tot<=7) return Array.from({length:tot},function(_,i){return i+1;});
+    if(cur<=4) return [1,2,3,4,5,'…',tot];
+    if(cur>=tot-3) return [1,'…',tot-4,tot-3,tot-2,tot-1,tot];
+    return [1,'…',cur-1,cur,cur+1,'…',tot];
+  }
+
+  /* ── Filter / sort ─────────────────────────────────────────── */
+  function applyFilter() {
+    var q = state.query.toLowerCase().trim();
+    state.filtered = q
+      ? state.members.filter(function(m) {
+          return m.name.toLowerCase().indexOf(q)!==-1 ||
+                 m.email.toLowerCase().indexOf(q)!==-1 ||
+                 m.role.toLowerCase().indexOf(q)!==-1;
+        })
+      : state.members.slice();
+    state.page=1; state.selected.clear(); renderTable();
+  }
+
+  function applySort(key) {
+    if(state.sortKey===key) state.sortDir=state.sortDir==='asc'?'desc':'asc';
+    else { state.sortKey=key; state.sortDir='asc'; }
+    var dir=state.sortDir==='asc'?1:-1;
+    state.filtered.sort(function(a,b) {
+      var va=sortVal(a,key),vb=sortVal(b,key);
+      return va<vb?-dir:va>vb?dir:0;
+    });
+    state.page=1;
+    document.querySelectorAll('.mem-table th').forEach(function(th) {
+      th.classList.remove('is-sorted');
+      var ic=th.querySelector('.mem-th__sort .material-symbols-rounded');
+      if(ic) ic.textContent='unfold_more';
+    });
+    var ath=document.querySelector('[data-sort="'+key+'"]');
+    if(ath) {
+      ath.classList.add('is-sorted');
+      var ic=ath.querySelector('.material-symbols-rounded');
+      if(ic) ic.textContent=state.sortDir==='asc'?'arrow_upward':'arrow_downward';
+    }
+    renderTable();
+  }
+
+  function sortVal(m,key) {
+    switch(key) {
+      case 'name':  return m.name.toLowerCase();
+      case 'email': return m.email.toLowerCase();
+      case 'role':  return m.role.toLowerCase();
+      case 'date':  return m.dateAdded.getTime();
+      default:      return '';
+    }
+  }
+
+  /* ── Column visibility ─────────────────────────────────────── */
+  var COL_MAP = {
+    email:'.mem-col--email', status:'.mem-col--status',
+    role:'.mem-col--role', projects:'.mem-col--projects',
+    workorders:'.mem-col--workorders', payment:'.mem-col--payment',
+    limits:'.mem-col--limits', tracking:'.mem-col--tracking',
+    date:'.mem-col--date'
+  };
+  function applyColVisibility() {
+    Object.keys(COL_MAP).forEach(function(col) {
+      var hidden=state.hiddenCols.has(col);
+      document.querySelectorAll(COL_MAP[col]).forEach(function(el) {
+        el.classList.toggle('mem-col--hidden', hidden);
+      });
+    });
+  }
+
+  /* ── Selection bar ─────────────────────────────────────────── */
+  function updateSelBar() {
+    var n=state.selected.size;
+    $selBar.classList.toggle('is-visible', n>0);
+    $selCount.textContent=n+' selected';
+  }
+  function syncCheckAll() {
+    var ids=$tbody.querySelectorAll('.mem-row-check');
+    var pageIds=Array.from(ids).map(function(cb){ return parseInt(cb.dataset.id,10); });
+    var all=pageIds.length>0 && pageIds.every(function(id){ return state.selected.has(id); });
+    $checkAll.checked=all;
+    $checkAll.indeterminate=!all && pageIds.some(function(id){ return state.selected.has(id); });
+  }
+
+  /* ── Close all overlays ─────────────────────────────────────── */
+  function closeAll() {
+    [$rowMenu,$colsMenu,$batchMenu,$exportMenu].forEach(function(el) {
+      el.classList.remove('is-open');
+    });
+  }
+
+  /* ── Filter panel ──────────────────────────────────────────── */
+  var filterOpen = false;
+  var $filterPanel = document.getElementById('mem-filter-panel');
+  var $layout      = document.getElementById('mem-layout');
+
+  function openFilterPanel() {
+    filterOpen=true;
+    $filterPanel.classList.add('is-open');
+    $filterPanel.setAttribute('aria-hidden','false');
+    $layout.classList.add('has-filter');
+    document.getElementById('mem-filter-btn').classList.add('is-active');
+  }
+  function closeFilterPanel() {
+    filterOpen=false;
+    $filterPanel.classList.remove('is-open');
+    $filterPanel.setAttribute('aria-hidden','true');
+    $layout.classList.remove('has-filter');
+    document.getElementById('mem-filter-btn').classList.remove('is-active');
+  }
+
+  /* ── Events ─────────────────────────────────────────────────── */
+
+  /* Search */
+  $search.addEventListener('input', function(){ state.query=this.value; applyFilter(); });
+
+  /* Select-all */
+  $checkAll.addEventListener('change', function() {
+    $tbody.querySelectorAll('.mem-row-check').forEach(function(cb) {
+      var id=parseInt(cb.dataset.id,10);
+      if($checkAll.checked) state.selected.add(id); else state.selected.delete(id);
+    });
+    renderTable();
+  });
+
+  /* Row checkboxes (delegated) */
+  $tbody.addEventListener('change', function(e) {
+    if(!e.target.classList.contains('mem-row-check')) return;
+    var id=parseInt(e.target.dataset.id,10);
+    if(e.target.checked) state.selected.add(id); else state.selected.delete(id);
+    updateSelBar(); syncCheckAll();
+  });
+
+  /* Sort headers */
+  document.querySelector('.mem-table thead').addEventListener('click', function(e) {
+    var th=e.target.closest('[data-sort]');
+    if(th) applySort(th.dataset.sort);
+  });
+
+  /* Per-page */
+  document.getElementById('mem-per-page').addEventListener('change', function() {
+    state.perPage=parseInt(this.value,10); state.page=1; state.selected.clear(); renderTable();
+  });
+
+  /* Tabs */
+  document.querySelectorAll('.mem-tab').forEach(function(t) {
+    t.addEventListener('click', function() {
+      document.querySelectorAll('.mem-tab').forEach(function(x){ x.classList.remove('is-active'); });
+      this.classList.add('is-active');
+    });
+  });
+
+  /* Batch dropdown */
+  document.getElementById('mem-batch-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open=$batchMenu.classList.contains('is-open');
+    closeAll(); if(!open) $batchMenu.classList.add('is-open');
+  });
+
+  /* Export dropdown */
+  document.getElementById('mem-export-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open=$exportMenu.classList.contains('is-open');
+    closeAll(); if(!open) $exportMenu.classList.add('is-open');
+  });
+
+  /* Cols dropdown */
+  document.getElementById('mem-cols-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open=$colsMenu.classList.contains('is-open');
+    closeAll(); if(!open) $colsMenu.classList.add('is-open');
+  });
+
+  /* Column toggle items */
+  $colsMenu.querySelectorAll('.mem-cols__item[data-col]').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var col=this.dataset.col;
+      var ic=this.querySelector('.mem-cols__check');
+      if(state.hiddenCols.has(col)) {
+        state.hiddenCols.delete(col);
+        if(ic){ ic.textContent='check_box'; ic.style.color='#0168DD'; ic.style.fontVariationSettings="'FILL' 1"; }
+      } else {
+        state.hiddenCols.add(col);
+        if(ic){ ic.textContent='check_box_outline_blank'; ic.style.color='#d1d5db'; ic.style.fontVariationSettings=''; }
+      }
+      applyColVisibility();
+    });
+  });
+
+  /* Column group expand */
+  ['info','employ'].forEach(function(k) {
+    var trigger=document.getElementById('mem-cols-'+k+'-trigger');
+    var panel=document.getElementById('mem-cols-'+k+'-panel');
+    if(!trigger||!panel) return;
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      trigger.classList.toggle('is-open');
+      panel.classList.toggle('is-open');
+    });
+  });
+
+  /* Filter panel toggle */
+  document.getElementById('mem-filter-btn').addEventListener('click', function() {
+    filterOpen ? closeFilterPanel() : openFilterPanel();
+  });
+  document.getElementById('mem-filter-close').addEventListener('click', closeFilterPanel);
+  document.getElementById('mem-filter-clear').addEventListener('click', function() {
+    document.querySelectorAll('.mem-filter-panel input[type=checkbox]').forEach(function(cb){ cb.checked=false; });
+    document.querySelectorAll('.mem-filter-panel select').forEach(function(s){ s.selectedIndex=0; });
+    document.querySelectorAll('.mem-filter-panel input[type=date]').forEach(function(d){ d.value=''; });
+  });
+
+  /* Per-row actions */
+  var _activeActionId = null;
+  $tbody.addEventListener('click', function(e) {
+    var btn=e.target.closest('.mem-row-actions-trigger');
+    if(!btn) return;
+    e.stopPropagation();
+    if($rowMenu.classList.contains('is-open') && _activeActionId===parseInt(btn.dataset.id,10)) {
+      $rowMenu.classList.remove('is-open'); _activeActionId=null; return;
+    }
+    _activeActionId=parseInt(btn.dataset.id,10);
+    closeAll(); $rowMenu.classList.add('is-open');
+    var r=btn.getBoundingClientRect();
+    var dw=$rowMenu.offsetWidth||220, dh=$rowMenu.offsetHeight||280;
+    var top=r.bottom+4, left=r.right-dw;
+    if(top+dh>window.innerHeight-12) top=r.top-dh-4;
+    if(left<12) left=12;
+    $rowMenu.style.top=top+'px'; $rowMenu.style.left=left+'px';
+  });
+  $rowMenu.addEventListener('click', function(e) {
+    if(e.target.closest('.mem-row-menu__item')) $rowMenu.classList.remove('is-open');
+    e.stopPropagation();
+  });
+
+  /* Click-outside / Escape */
+  document.addEventListener('click', closeAll);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+  [$colsMenu,$batchMenu,$exportMenu].forEach(function(el) {
+    el.addEventListener('click', function(e){ e.stopPropagation(); });
+  });
+
+  /* Toggle switch */
+  document.getElementById('mem-show-removed-toggle').addEventListener('click', function() {
+    this.classList.toggle('is-on');
+  });
+
+  /* Initial render */
+  renderTable();
+}());
+</script>
+
+<script src="design-annotations.js"></script>
+<script>
+  DesignAnnotations.init({
+    page: 'People → Members',
+    required: [
+      'Member name should navigate to the member detail/profile page',
+      'Real pagination should be server-driven (currently client-side with 184 generated members)',
+      {
+        text: 'Payment column must reflect actual rates from the database',
+        sub: [
+          'Pay rate (what the member earns)',
+          'Bill rate (what the client is charged)',
+          'Pay period & type (Hourly / Weekly / Biweekly / Monthly)',
+          'Timesheet approvals toggle state'
+        ]
+      },
+      'Filter panel: Role, Status, Projects, Date range — all filters should be server-driven',
+      'Export To CSV must honour currently visible columns and applied filters'
+    ],
+    suggestions: [
+      'Add "Last active" column — useful for identifying dormant members',
+      'Bulk "Assign to projects" would reduce repetitive row-by-row edits',
+      'Amount in org currency column for Payment — with exchange-rate note explaining daily rate source'
+    ]
+  });
+</script>
+</body>
+</html>

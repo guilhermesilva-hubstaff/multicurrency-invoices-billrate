@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Invoice — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="stylesheet" href="new-invoice.css?v=3">
+</head>
+<body>
+<script src="hubstaff-shell.js?v=8"></script>
+
+<div id="shell-content">
+  <div class="ni-page">
+
+    <div class="ni-page-header">
+      <h2 class="ni-title">New Invoice</h2>
+      <div class="ni-header-actions">
+        <a href="invoices.html" class="ni-btn-cancel">Cancel</a>
+        <button class="ni-btn-draft">Save as draft</button>
+        <button class="ni-btn-send">Save and send</button>
+      </div>
+    </div>
+
+    <div class="ni-header-grid">
+      <div>
+        <div class="ni-field">
+          <div class="ni-label">From</div>
+          <div class="ni-from-text">Dante upd</div>
+        </div>
+        <div class="ni-field">
+          <div class="ni-label">
+            Logo
+            <span class="material-symbols-rounded ni-label-info" title="You can save an invoice logo for all invoices, or use your default organization logo.">info</span>
+          </div>
+          <div class="ni-upload-zone">
+            <div class="ni-upload-text">Drag and drop your image here<br>or <a href="#">browse files</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Client -->
+        <div class="ni-field">
+          <div class="ni-label">Client <abbr title="required">*</abbr></div>
+          <div class="ni-select-wrap">
+            <select class="ni-select" id="ni-client-select">
+              <option value="">Select a client</option>
+              <option value="1">City of Chicago</option>
+              <option value="2">Shawn Williams</option>
+              <option value="3">Ourselves</option>
+              <option value="4">Jorge</option>
+              <option value="5">Microsoft</option>
+              <option value="6">Acme Corp</option>
+              <option value="7">TechBrasil</option>
+              <option value="8">Global Trading Ltd</option>
+              <option value="9">Sakura Digital</option>
+              <option value="10">Nordic Solutions</option>
+            </select>
+            <span class="material-symbols-rounded ni-select-icon">expand_more</span>
+          </div>
+        </div>
+
+        <!-- Currency — always visible, grouped by hierarchy -->
+        <div class="ni-field">
+          <div class="ni-label">Invoice Currency <abbr title="required">*</abbr></div>
+          <div class="ni-select-wrap">
+            <select class="ni-select" id="ni-currency-select">
+              <!-- Built dynamically by buildCurrencySelect() -->
+            </select>
+            <span class="material-symbols-rounded ni-select-icon">expand_more</span>
+          </div>
+          <p class="ni-currency-note" id="ni-currency-note">All line items on this invoice will use this currency. Currency defaults can be changed individually for <a href="settings.html" class="ni-currency-link">organization</a>, <a href="clients.html" class="ni-currency-link">clients</a>, or <a href="projects.html" class="ni-currency-link">projects</a>.</p>
+        </div>
+
+        <div class="ni-two-col ni-field">
+          <div>
+            <div class="ni-label">Issue date <abbr title="required">*</abbr></div>
+            <div class="ni-input-wrap">
+              <input type="text" class="ni-input" value="Tue, May 12, 2026" readonly>
+              <span class="material-symbols-rounded ni-input-icon">calendar_today</span>
+            </div>
+          </div>
+          <div>
+            <div class="ni-label">Due date</div>
+            <div class="ni-input-wrap">
+              <input type="text" class="ni-input" value="Thu, Jun 11, 2026" readonly>
+              <span class="material-symbols-rounded ni-input-icon">calendar_today</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ni-two-col ni-field">
+          <div>
+            <div class="ni-label">Invoice number <abbr title="required">*</abbr></div>
+            <input type="text" class="ni-input" value="DA1032">
+          </div>
+          <div>
+            <div class="ni-label">PO number</div>
+            <input type="text" class="ni-input" placeholder="Enter the PO number">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ni-divider"></div>
+
+    <div class="ni-table-wrap">
+      <table class="ni-table">
+        <thead>
+          <tr>
+            <th class="ni-th ni-th--handle"></th>
+            <th class="ni-th ni-th--project">Project</th>
+            <th class="ni-th ni-th--desc">Description</th>
+            <th class="ni-th ni-th--note"></th>
+            <th class="ni-th ni-th--narrow">Total hours (qty)</th>
+            <th class="ni-th ni-th--narrow" id="ni-th-unit-price">Unit price <span id="ni-unit-price-currency">(USD)</span></th>
+            <th class="ni-th ni-th--amount">Amount</th>
+            <th class="ni-th ni-th--toggle">Tax 1</th>
+            <th class="ni-th ni-th--toggle">Tax 2</th>
+            <th class="ni-th ni-th--toggle">Discount</th>
+            <th class="ni-th ni-th--actions"></th>
+          </tr>
+        </thead>
+        <tbody id="ni-line-items">
+          <tr class="ni-line-item-row" data-amount="0">
+            <td class="ni-td ni-td--handle"><span class="material-symbols-rounded">drag_indicator</span></td>
+            <td class="ni-td ni-td--project">
+              <div class="ni-project-wrap">
+                <select class="ni-project-select js-ni-project-select" disabled>
+                  <option value="">— Select client first —</option>
+                </select>
+                <span class="material-symbols-rounded ni-project-icon">expand_more</span>
+              </div>
+            </td>
+            <td class="ni-td"><input type="text" class="ni-li-input" placeholder="Description"></td>
+            <td class="ni-td"><button class="ni-add-note-btn">+ Note</button></td>
+            <td class="ni-td"><input type="text" class="ni-li-input js-qty" placeholder="0:00:00" value="0:00:00"></td>
+            <td class="ni-td"><input type="text" class="ni-li-input js-unit-price" placeholder="0.00"></td>
+            <td class="ni-td ni-td--amount js-amount">USD 0.00</td>
+            <td class="ni-td ni-td--toggle"><label class="ni-toggle"><input type="checkbox" class="ni-toggle-input" checked><div class="ni-toggle-track"><div class="ni-toggle-thumb"></div></div></label></td>
+            <td class="ni-td ni-td--toggle"><label class="ni-toggle"><input type="checkbox" class="ni-toggle-input" checked><div class="ni-toggle-track"><div class="ni-toggle-thumb"></div></div></label></td>
+            <td class="ni-td ni-td--toggle"><label class="ni-toggle"><input type="checkbox" class="ni-toggle-input" checked><div class="ni-toggle-track"><div class="ni-toggle-thumb"></div></div></label></td>
+            <td class="ni-td ni-td--delete"><button class="ni-delete-btn js-ni-delete-row" title="Remove"><span class="material-symbols-rounded">delete</span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ni-actions-row">
+      <button class="ni-add-btn" id="ni-add-item">Add item</button>
+      <button class="ni-gen-btn">Generate line items <span class="material-symbols-rounded ni-gen-icon" title="Pulls time entries from Hubstaff for this client's projects and turns them into ready-to-send invoice line items.">info</span></button>
+    </div>
+
+    <div class="ni-actions-divider"></div>
+
+    <div class="ni-bottom">
+      <div>
+        <label class="ni-notes-label">Notes (shown on invoices)</label>
+        <textarea class="ni-notes" rows="5" placeholder="Enter notes to client"></textarea>
+      </div>
+
+      <div class="ni-totals">
+        <table class="ni-totals-table">
+          <tbody>
+            <tr>
+              <td class="ni-totals-label"><strong>Total</strong></td>
+              <td class="ni-totals-value"><span class="ni-totals-amount" id="ni-total">USD 0.00</span></td>
+            </tr>
+            <tr>
+              <td class="ni-totals-label">Tax 1</td>
+              <td class="ni-totals-value"><input type="number" class="ni-totals-input" id="ni-tax1" placeholder="Enter tax %" min="0" max="100" step="any"></td>
+            </tr>
+            <tr>
+              <td class="ni-totals-label">Tax 2</td>
+              <td class="ni-totals-value"><input type="number" class="ni-totals-input" id="ni-tax2" placeholder="Enter tax %" min="0" max="100" step="any"></td>
+            </tr>
+            <tr>
+              <td class="ni-totals-label">Discount</td>
+              <td class="ni-totals-value"><input type="number" class="ni-totals-input" id="ni-discount" placeholder="Enter discount %" min="0" max="100" step="any"></td>
+            </tr>
+            <tr>
+              <td class="ni-totals-label ni-grand-total-label">Grand total</td>
+              <td class="ni-totals-value"><span class="ni-grand-total-amount" id="ni-grand-total">USD 0.00</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  HubstaffShell.init({ activeItem: 'financials' });
+
+  // ── Static data ──
+  var ORG_CURRENCY = { code: 'USD', name: 'US Dollar' };
+
+  var CURRENCY_NAMES = {
+    USD: 'US Dollar',  GBP: 'British Pound', EUR: 'Euro',
+    CAD: 'Canadian Dollar', BRL: 'Brazilian Real', JPY: 'Japanese Yen',
+    MXN: 'Mexican Peso', SEK: 'Swedish Krona', AUD: 'Australian Dollar',
+    PHP: 'Philippine Peso'
+  };
+
+  var CLIENTS_DATA = [
+    { id: 1,  name: 'City of Chicago',    currency: 'USD' },
+    { id: 2,  name: 'Shawn Williams',     currency: 'USD' },
+    { id: 3,  name: 'Ourselves',          currency: 'USD' },
+    { id: 4,  name: 'Jorge',              currency: 'USD' },
+    { id: 5,  name: 'Microsoft',          currency: 'CAD' },
+    { id: 6,  name: 'Acme Corp',          currency: 'EUR' },
+    { id: 7,  name: 'TechBrasil',         currency: 'BRL' },
+    { id: 8,  name: 'Global Trading Ltd', currency: 'GBP' },
+    { id: 9,  name: 'Sakura Digital',     currency: 'JPY' },
+    { id: 10, name: 'Nordic Solutions',   currency: 'SEK' },
+  ];
+
+  var PROJECTS_DATA = {
+    1: [
+      { id:101, name:'Infrastructure Audit'                           },
+      { id:102, name:'Web Portal Redesign',   currency:'EUR'          },
+      { id:103, name:'Data Migration'                                 },
+      { id:104, name:'Smart City Initiative'                          },
+      { id:105, name:'Public Transport App',  currency:'CAD'          },
+    ],
+    2: [
+      { id:201, name:'Consulting Services'                            },
+      { id:202, name:'Annual Report',         currency:'GBP'          },
+      { id:203, name:'Brand Identity'                                 },
+    ],
+    3: [
+      { id:301, name:'Internal Tools'                                 },
+      { id:302, name:'Marketing Campaign'                             },
+      { id:303, name:'HR Platform'                                    },
+      { id:304, name:'Finance Dashboard'                              },
+    ],
+    4: [
+      { id:401, name:'Design System'                                  },
+      { id:402, name:'Dev Work',              currency:'MXN'          },
+      { id:403, name:'Mobile App'                                     },
+    ],
+    5: [
+      { id:501, name:'Azure Migration'                                },
+      { id:502, name:'Vancouver HQ'                                   },
+      { id:503, name:'Toronto Platform'                               },
+      { id:504, name:'Montreal Office'                                },
+      { id:505, name:'São Paulo Office',      currency:'BRL'          },
+      { id:506, name:'Rio Branch',            currency:'BRL'          },
+      { id:507, name:'Belo Horizonte Lab',    currency:'BRL'          },
+      { id:508, name:'London Team',           currency:'GBP'          },
+      { id:509, name:'US Go-to-Market',       currency:'USD'          },
+      { id:510, name:'Sydney Office',         currency:'AUD'          },
+    ],
+    6: [
+      { id:601, name:'Brand Campaign'                                 },
+      { id:602, name:'Berlin HQ'                                      },
+      { id:603, name:'Paris Office'                                   },
+      { id:604, name:'US Expansion',          currency:'USD'          },
+      { id:605, name:'Tokyo Branch',          currency:'JPY'          },
+      { id:606, name:'São Paulo Lead',        currency:'BRL'          },
+    ],
+    7: [
+      { id:701, name:'Rio Product Launch'                             },
+      { id:702, name:'São Paulo Platform'                             },
+      { id:703, name:'Manaus Factory'                                 },
+      { id:704, name:'Brasília Office'                                },
+      { id:705, name:'Curitiba Hub'                                   },
+      { id:706, name:'API Integration',       currency:'USD'          },
+      { id:707, name:'European Rollout',      currency:'EUR'          },
+      { id:708, name:'Toronto Bridge',        currency:'CAD'          },
+    ],
+    8: [
+      { id:801, name:'UK Operations'                                  },
+      { id:802, name:'Edinburgh Hub'                                  },
+      { id:803, name:'EU Expansion',          currency:'EUR'          },
+      { id:804, name:'APAC Launch',           currency:'AUD'          },
+      { id:805, name:'Canada Desk',           currency:'CAD'          },
+      { id:806, name:'Brazil Office',         currency:'BRL'          },
+    ],
+    9: [
+      { id:901, name:'Tokyo App'                                      },
+      { id:902, name:'Osaka Platform'                                 },
+      { id:903, name:'Global Platform',       currency:'USD'          },
+      { id:904, name:'EU Gateway',            currency:'EUR'          },
+    ],
+    10: [
+      { id:1001, name:'Nordic Infrastructure'                         },
+      { id:1002, name:'Stockholm HQ'                                  },
+      { id:1003, name:'EU Compliance',        currency:'EUR'          },
+      { id:1004, name:'US Partnerships',      currency:'USD'          },
+      { id:1005, name:'Canada Expansion',     currency:'CAD'          },
+      { id:1006, name:'Brazil Initiative',    currency:'BRL'          },
+    ],
+  };
+
+  // ── Active currency state ──
+  var currentCurrencyCode = ORG_CURRENCY.code;
+
+  function fmt(value) {
+    return parseFloat(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtAmount(value) {
+    return currentCurrencyCode + ' ' + fmt(value);
+  }
+
+  // ── Build the grouped currency <select> ──
+  function buildCurrencySelect(clientId) {
+    var sel = document.getElementById('ni-currency-select');
+    var prevCode = currentCurrencyCode;
+    sel.innerHTML = '';
+
+    var client = CLIENTS_DATA.find(function(c) { return c.id === clientId; });
+
+    // 1 — Organization currency
+    var orgGroup = document.createElement('optgroup');
+    orgGroup.label = 'Organization currency';
+    var orgOpt = document.createElement('option');
+    orgOpt.value = ORG_CURRENCY.code;
+    orgOpt.textContent = 'Organization currency · ' + ORG_CURRENCY.code + ' — ' + ORG_CURRENCY.name;
+    orgGroup.appendChild(orgOpt);
+    sel.appendChild(orgGroup);
+
+    // 2 — Client currency (only if different from org)
+    if (client && client.currency !== ORG_CURRENCY.code) {
+      var clientGroup = document.createElement('optgroup');
+      clientGroup.label = 'Client currency';
+      var clientOpt = document.createElement('option');
+      clientOpt.value = client.currency;
+      clientOpt.textContent = 'Client currency · ' + client.currency + ' — ' + (CURRENCY_NAMES[client.currency] || client.currency);
+      clientGroup.appendChild(clientOpt);
+      sel.appendChild(clientGroup);
+    }
+
+    // 3 — Project currencies (distinct, excluding org + client already shown)
+    var projects = PROJECTS_DATA[clientId] || [];
+    if (projects.length > 0) {
+      var countByCurrency = {};
+      projects.forEach(function(p) {
+        var code = p.currency || (client ? client.currency : ORG_CURRENCY.code);
+        countByCurrency[code] = (countByCurrency[code] || 0) + 1;
+      });
+
+      // Filter out what's already shown
+      var shownCodes = [ORG_CURRENCY.code];
+      if (client && client.currency !== ORG_CURRENCY.code) shownCodes.push(client.currency);
+
+      var projCodes = Object.keys(countByCurrency).filter(function(code) {
+        return shownCodes.indexOf(code) === -1;
+      }).sort();
+
+      if (projCodes.length > 0) {
+        var projGroup = document.createElement('optgroup');
+        projGroup.label = 'Project currencies';
+        projCodes.forEach(function(code) {
+          var opt = document.createElement('option');
+          opt.value = code;
+          var count = countByCurrency[code];
+          opt.textContent = 'Project currencies · ' + code + ' — ' + (CURRENCY_NAMES[code] || code)
+            + ' · ' + count + (count === 1 ? ' project' : ' projects');
+          projGroup.appendChild(opt);
+        });
+        sel.appendChild(projGroup);
+      }
+    }
+
+    // Restore previous selection if still available, else pick client currency, else org
+    var available = Array.from(sel.options).map(function(o) { return o.value; });
+    if (available.indexOf(prevCode) !== -1) {
+      sel.value = prevCode;
+    } else if (client && available.indexOf(client.currency) !== -1) {
+      sel.value = client.currency;
+    } else {
+      sel.value = ORG_CURRENCY.code;
+    }
+
+    applyCurrencyFromSelect();
+  }
+
+  // ── Apply currency from select value ──
+  function applyCurrencyFromSelect() {
+    var sel = document.getElementById('ni-currency-select');
+    var code = sel.value || ORG_CURRENCY.code;
+    currentCurrencyCode = code;
+    var hdr = document.getElementById('ni-unit-price-currency');
+    if (hdr) hdr.textContent = '(' + code + ')';
+    recalcAll();
+    refreshProjectSelects();
+  }
+
+  // ── Refresh project selects — filter by selected currency ──
+  function getProjectEffectiveCurrency(p, client) {
+    return p.currency || (client ? client.currency : ORG_CURRENCY.code);
+  }
+
+  function refreshProjectSelects() {
+    var clientId  = parseInt(document.getElementById('ni-client-select').value);
+    var projects  = PROJECTS_DATA[clientId] || [];
+    var client    = CLIENTS_DATA.find(function(c) { return c.id === clientId; });
+    var selCode   = currentCurrencyCode;
+
+    document.querySelectorAll('.js-ni-project-select').forEach(function(sel) {
+      var prevVal = sel.value;
+      sel.innerHTML = '';
+
+      if (!clientId) {
+        sel.disabled = true;
+        var ph = document.createElement('option');
+        ph.value = ''; ph.textContent = '— Select client first —';
+        sel.appendChild(ph);
+        return;
+      }
+
+      var ph = document.createElement('option');
+      ph.value = ''; ph.textContent = '— Select project —';
+      sel.appendChild(ph);
+
+      var matchingProjects = projects.filter(function(p) {
+        return getProjectEffectiveCurrency(p, client) === selCode;
+      });
+
+      if (matchingProjects.length === 0) {
+        sel.disabled = true;
+        var empty = document.createElement('option');
+        empty.value = ''; empty.textContent = '— No ' + selCode + ' projects —';
+        sel.innerHTML = '';
+        sel.appendChild(empty);
+        return;
+      }
+
+      sel.disabled = false;
+      matchingProjects.forEach(function(p) {
+        var opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
+      });
+
+      // Restore previous selection if still in the list
+      if (prevVal && sel.querySelector('option[value="' + prevVal + '"]')) {
+        sel.value = prevVal;
+      }
+    });
+  }
+
+  // ── Time mask ──
+  function getTimeBuf(val) {
+    var parts = (val || '0:00:00').split(':');
+    if (parts.length === 3) {
+      var h = Math.min(parseInt(parts[0]) || 0, 99);
+      var m = Math.min(parseInt(parts[1]) || 0, 59);
+      var s = Math.min(parseInt(parts[2]) || 0, 59);
+      return String(h).padStart(2,'0') + String(m).padStart(2,'0') + String(s).padStart(2,'0');
+    }
+    return '000000';
+  }
+
+  function renderTimeBuf(buf) {
+    var h  = parseInt(buf.slice(0, 2), 10);
+    var mm = buf.slice(2, 4);
+    var ss = buf.slice(4, 6);
+    return h + ':' + mm + ':' + ss;
+  }
+
+  function applyTimeMask(input) {
+    input.addEventListener('keydown', function(e) {
+      if (e.key >= '0' && e.key <= '9') {
+        e.preventDefault();
+        var buf = getTimeBuf(this.value);
+        buf = buf.slice(1) + e.key;
+        this.value = renderTimeBuf(buf);
+        recalcAll();
+      } else if (e.key === 'Backspace') {
+        e.preventDefault();
+        var buf = getTimeBuf(this.value);
+        buf = '0' + buf.slice(0, 5);
+        this.value = renderTimeBuf(buf);
+        recalcAll();
+      } else if (e.key !== 'Tab' && e.key !== 'Enter' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+      }
+    });
+    input.addEventListener('blur', function() {
+      if (!this.value) this.value = '0:00:00';
+    });
+  }
+
+  function parseQty(val) {
+    if (!val || val === '0:00:00') return 0;
+    var parts = val.split(':');
+    if (parts.length === 3) {
+      return (parseInt(parts[0]) || 0)
+           + (parseInt(parts[1]) || 0) / 60
+           + (parseInt(parts[2]) || 0) / 3600;
+    }
+    return parseFloat(val) || 0;
+  }
+
+  document.querySelectorAll('.js-qty').forEach(applyTimeMask);
+
+  // ── Price mask ──
+  function applyPriceMask(input) {
+    input.addEventListener('input', function() {
+      var raw = this.value.replace(/[^0-9.]/g, '');
+      var parts = raw.split('.');
+      if (parts.length > 2) raw = parts[0] + '.' + parts.slice(1).join('');
+      if (parts[1] && parts[1].length > 2) raw = parts[0] + '.' + parts[1].slice(0, 2);
+      this.value = raw;
+      recalcAll();
+    });
+    input.addEventListener('blur', function() {
+      var val = parseFloat(this.value) || 0;
+      if (val > 0) this.value = fmt(val);
+      recalcAll();
+    });
+    input.addEventListener('focus', function() {
+      this.value = this.value.replace(/,/g, '');
+    });
+  }
+
+  document.querySelectorAll('.js-unit-price').forEach(applyPriceMask);
+
+  // ── Recalculate ──
+  function recalcRow(row) {
+    var qty   = parseQty(row.querySelector('.js-qty').value);
+    var price = parseFloat(row.querySelector('.js-unit-price').value.replace(/,/g, '')) || 0;
+    var amount = qty * price;
+    row.dataset.amount = amount;
+    row.querySelector('.js-amount').textContent = fmtAmount(amount);
+  }
+
+  function recalcAll() {
+    var total = 0;
+    document.querySelectorAll('.ni-line-item-row').forEach(function(row) {
+      recalcRow(row);
+      total += parseFloat(row.dataset.amount) || 0;
+    });
+    var tax1     = parseFloat(document.getElementById('ni-tax1').value)     || 0;
+    var tax2     = parseFloat(document.getElementById('ni-tax2').value)     || 0;
+    var discount = parseFloat(document.getElementById('ni-discount').value) || 0;
+    var grand    = total + (total * tax1 / 100) + (total * tax2 / 100) - (total * discount / 100);
+    document.getElementById('ni-total').textContent       = fmtAmount(total);
+    document.getElementById('ni-grand-total').textContent = fmtAmount(grand);
+  }
+
+  ['ni-tax1','ni-tax2','ni-discount'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', recalcAll);
+  });
+
+  // ── Client change — rebuild currency select, auto-select client currency ──
+  document.getElementById('ni-client-select').addEventListener('change', function() {
+    var clientId = parseInt(this.value);
+    var client   = CLIENTS_DATA.find(function(c) { return c.id === clientId; });
+
+    // Auto-select client currency when client is picked; fall back to org
+    if (client) {
+      currentCurrencyCode = client.currency;
+    } else {
+      currentCurrencyCode = ORG_CURRENCY.code;
+    }
+
+    buildCurrencySelect(clientId);
+  });
+
+  // ── Currency change ──
+  document.getElementById('ni-currency-select').addEventListener('change', applyCurrencyFromSelect);
+
+  // ── Add / remove rows ──
+  function buildRow() {
+    var row = document.querySelector('.ni-line-item-row').cloneNode(true);
+    row.dataset.amount = 0;
+    row.querySelectorAll('input[type="text"]').forEach(function(inp) {
+      inp.value = inp.classList.contains('js-qty') ? '0:00:00' : '';
+    });
+    row.querySelectorAll('input[type="checkbox"]').forEach(function(cb) { cb.checked = true; });
+    row.querySelector('.js-unit-price').placeholder = '0.00';
+    row.querySelector('.js-amount').textContent = fmtAmount(0);
+    applyTimeMask(row.querySelector('.js-qty'));
+    applyPriceMask(row.querySelector('.js-unit-price'));
+    return row;
+  }
+
+  document.getElementById('ni-add-item').addEventListener('click', function() {
+    var row = buildRow();
+    document.getElementById('ni-line-items').appendChild(row);
+    refreshProjectSelects();
+    wireDeleteButtons();
+  });
+
+  function wireDeleteButtons() {
+    document.querySelectorAll('.js-ni-delete-row').forEach(function(btn) {
+      btn.onclick = function() {
+        if (document.querySelectorAll('.ni-line-item-row').length > 1) {
+          this.closest('.ni-line-item-row').remove();
+          recalcAll();
+        }
+      };
+    });
+  }
+
+  wireDeleteButtons();
+
+  // ── Init ──
+  buildCurrencySelect(null); // no client selected, org currency only
+  recalcAll();
+</script>
+
+<!-- Design annotations -->
+<script src="design-annotations.js"></script>
+<script>
+  DesignAnnotations.init({
+    page: 'Invoicing — New / Edit invoice',
+    required: [
+      {
+        text: 'Currency field with hierarchy-based grouped dropdown',
+        sub: [
+          'Organization currency — always present as fallback (USD)',
+          'Client currency — shown when client has a different currency from org',
+          'Project currencies — all distinct currencies found in client projects, excluding org and client currencies already shown; each option shows project count',
+          'Selecting a currency filters the Project dropdown in line items to only matching projects'
+        ]
+      },
+      {
+        text: 'Client selection auto-updates Currency field',
+        sub: [
+          'When a client is selected, Currency auto-switches to the client\'s currency',
+          'If the client uses org currency, Currency stays on org currency',
+          'If no client is selected, only Organization currency is available'
+        ]
+      },
+      {
+        text: 'Project field is now organizational only — currency is driven by the top-level Currency field',
+        sub: [
+          'Project selection does not change the invoice currency',
+          'Projects in line items are filtered to only show those matching the selected currency',
+          'One invoice = one currency throughout'
+        ]
+      },
+      {
+        text: '"Unit price" column header must include the active currency in parentheses',
+        sub: ['Example: "Unit price (USD)", "Unit price (CAD)"']
+      }
+    ],
+    suggestions: [
+      'Consider locking the currency once line items have been added — warn the user if they try to switch currencies after adding items with values',
+      'When a currency is selected that has no matching projects, show a helper message in the project dropdown explaining why it is empty',
+      'Save as draft and Add item buttons should use outlined style (border: 1px solid #2aa7ff, background: transparent, text: #2aa7ff) — they are secondary actions relative to Save invoice',
+      'A divider (1px solid #e5e7eb) should separate the line items table from the Notes / Totals section below for visual grouping',
+      'Increase the bottom margin above the Notes / Totals section to 24px for better visual separation from line items',
+      '"Qty" placeholder in the hours/quantity column should show a time-format hint (e.g. "0:00") rather than a generic number, since this is a time-tracking product',
+      'Unit price column header should display the active invoice currency in parentheses — e.g. "Unit price (USD)" — so users know which currency they are entering',
+      'Project dropdown in line items filters to only projects matching the selected invoice currency — communicate this filtering to the user (e.g. helper text or empty-state label)'
+    ]
+  });
+</script>
+</body>
+</html>

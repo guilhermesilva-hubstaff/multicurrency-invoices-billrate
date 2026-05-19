@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alice Johnson — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="stylesheet" href="member-detail.css">
+</head>
+<body>
+<script src="hubstaff-shell.js?v=8"></script>
+
+<div id="shell-content">
+  <div class="md-page">
+
+    <!-- ── Breadcrumb ─────────────────────────────────────────── -->
+    <a href="members.html" class="md-breadcrumb">
+      <span class="material-symbols-rounded">chevron_left</span>
+      Members
+    </a>
+
+    <!-- ── Page header ────────────────────────────────────────── -->
+    <div class="md-header">
+      <h2 class="md-title">Alice Johnson</h2>
+      <div class="md-header__actions">
+        <div class="md-dropdown" id="md-actions-dropdown">
+          <button class="md-btn md-btn--outline" id="md-actions-btn">
+            Actions
+            <span class="material-symbols-rounded">expand_more</span>
+          </button>
+          <div class="md-dropdown__menu md-dropdown__menu--right" id="md-actions-menu">
+            <div class="md-dropdown__item"><span class="material-symbols-rounded">mail</span>Send invite</div>
+            <div class="md-dropdown__item"><span class="material-symbols-rounded">lock_reset</span>Reset password</div>
+            <div class="md-dropdown__divider"></div>
+            <div class="md-dropdown__item md-dropdown__item--danger"><span class="material-symbols-rounded">person_remove</span>Remove member</div>
+          </div>
+        </div>
+        <button class="md-btn md-btn--primary" id="md-save-btn">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- ── Tabs ───────────────────────────────────────────────── -->
+    <div class="md-tabs">
+      <button class="md-tab is-active" data-tab="info">Info</button>
+      <button class="md-tab" data-tab="employment">Employment</button>
+      <button class="md-tab" data-tab="roles">Roles</button>
+      <button class="md-tab" data-tab="pay-bill">Pay / Bill</button>
+      <button class="md-tab" data-tab="limits">Work Time &amp; Limits</button>
+      <button class="md-tab" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         INFO tab
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="md-tab-content" id="md-tab-info">
+
+      <div class="md-member-card">
+        <div class="md-avatar"><span class="material-symbols-rounded">person</span></div>
+        <div class="md-member-card__meta">
+          <div class="md-member-card__row"><span class="material-symbols-rounded md-meta-icon">mail</span><span>alice.johnson@company.com</span></div>
+          <div class="md-member-card__row"><span class="material-symbols-rounded md-meta-icon">schedule</span><span>(GMT-05:00) America/New_York</span></div>
+          <div class="md-member-card__row"><span class="md-status-dot md-status-dot--active"></span><span>Last tracked time 2 hours ago</span></div>
+          <div class="md-member-card__joined">Joined<br>Mon, Jan 15, 2024</div>
+        </div>
+      </div>
+
+      <div class="md-form-layout">
+        <div class="md-form-col md-form-col--main">
+
+          <div class="md-section">
+            <div class="md-section__title">Identity</div>
+            <div class="md-field"><label class="md-label">First name</label><input type="text" class="md-input" value="Alice"></div>
+            <div class="md-field"><label class="md-label">Last name</label><input type="text" class="md-input" value="Johnson"></div>
+            <div class="md-field"><label class="md-label">OS username</label><input type="text" class="md-input" placeholder="No OS username"></div>
+            <div class="md-field"><label class="md-label">Employee ID</label><input type="text" class="md-input" placeholder="No employee ID"></div>
+            <div class="md-field">
+              <label class="md-label">Birthday</label>
+              <div class="md-birthday">
+                <div class="md-select-wrap">
+                  <select class="md-select"><option value="">Select a month</option><option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option></select>
+                  <span class="material-symbols-rounded md-select-arrow">expand_more</span>
+                </div>
+                <div class="md-select-wrap">
+                  <select class="md-select"><option value="">Select a day</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>
+                  <span class="material-symbols-rounded md-select-arrow">expand_more</span>
+                </div>
+                <div class="md-select-wrap">
+                  <select class="md-select"><option value="">Select a year</option><option>2000</option><option>1999</option><option>1998</option><option>1997</option><option>1996</option><option>1995</option><option>1994</option><option>1993</option><option>1992</option><option>1991</option><option>1990</option><option>1985</option><option>1980</option><option>1975</option><option>1970</option></select>
+                  <span class="material-symbols-rounded md-select-arrow">expand_more</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="md-section">
+            <div class="md-section__title">Contact</div>
+            <div class="md-field">
+              <div class="md-label-row"><label class="md-label">Work address <span class="material-symbols-rounded md-label-icon">info</span></label><a href="#" class="md-link">Edit work address</a></div>
+              <input type="text" class="md-input md-input--disabled" value="No address" disabled>
+            </div>
+            <div class="md-field">
+              <div class="md-label-row"><label class="md-label">Home address <span class="material-symbols-rounded md-label-icon">info</span></label><a href="#" class="md-link">Mailing address</a></div>
+              <input type="text" class="md-input md-input--disabled" placeholder="Search for an address" disabled>
+            </div>
+            <div class="md-field"><label class="md-label">Work email</label><input type="email" class="md-input" value="alice.johnson@company.com"></div>
+            <div class="md-field"><label class="md-label">Personal email</label><input type="email" class="md-input" placeholder="name@example.com"></div>
+            <div class="md-field">
+              <label class="md-label">Work phone</label>
+              <div class="md-phone"><button class="md-phone__flag" type="button">🇺🇸 <span class="material-symbols-rounded">expand_more</span></button><input type="tel" class="md-input md-input--phone" placeholder="+1 201-555-0123"></div>
+            </div>
+            <div class="md-field">
+              <label class="md-label">Personal phone</label>
+              <div class="md-phone"><button class="md-phone__flag" type="button">🇺🇸 <span class="material-symbols-rounded">expand_more</span></button><input type="tel" class="md-input md-input--phone" placeholder="+1 201-555-0123"></div>
+            </div>
+          </div>
+
+          <div class="md-section">
+            <div class="md-section__title-row">
+              <span class="md-section__title">Custom fields</span>
+              <span class="material-symbols-rounded md-label-icon">info</span>
+              <a href="#" class="md-link md-link--right">Manage custom fields</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="md-form-col md-form-col--side">
+          <div class="md-field">
+            <div class="md-label-row"><label class="md-label">IP address <span class="material-symbols-rounded md-label-icon">info</span></label></div>
+            <input type="text" class="md-input md-input--disabled" value="No IP address" disabled>
+          </div>
+          <div class="md-field">
+            <div class="md-label-row"><label class="md-label">Date <span class="material-symbols-rounded md-label-icon">info</span></label></div>
+            <input type="text" class="md-input md-input--disabled" value="No sign-in date" disabled>
+          </div>
+          <div class="md-people-card">
+            <div class="md-people-card__header">
+              <div class="md-people-card__logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#2AA7FF"/><path d="M8 8h4a2 2 0 0 1 0 4H8V8zm0 6h5a2 2 0 0 1 0 4H8v-4z" fill="#fff"/></svg>
+                <span class="md-people-card__name">Hubstaff People</span>
+              </div>
+              <span class="md-people-card__badge">BETA</span>
+            </div>
+            <p class="md-people-card__desc">Try these new features for free while Hubstaff People is in BETA</p>
+            <ul class="md-people-card__list"><li>View IP addresses</li><li>Create and manage custom fields</li></ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /md-tab-info -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         PAY/BILL tab
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="md-tab-content" id="md-tab-pay-bill" hidden>
+
+      <!-- Member card -->
+      <div class="md-member-card">
+        <div class="md-avatar"><span class="material-symbols-rounded">person</span></div>
+        <div class="md-member-card__meta">
+          <div class="md-member-card__row"><span class="material-symbols-rounded md-meta-icon">mail</span><span>alice.johnson@company.com</span></div>
+          <div class="md-member-card__row"><span class="material-symbols-rounded md-meta-icon">schedule</span><span>(GMT-05:00) America/New_York</span></div>
+          <div class="md-member-card__row"><span class="md-status-dot md-status-dot--active"></span><span>Last tracked time 2 hours ago</span></div>
+          <div class="md-member-card__joined">Joined<br>Mon, Jan 15, 2024</div>
+        </div>
+      </div>
+
+      <!-- ── Pay periods — always visible ──────────────────────── -->
+      <div class="pb-section" id="pb-pay-periods">
+        <div class="pb-section__head">
+          <h3 class="pb-section__title">Pay periods</h3>
+          <p class="pb-section__sub">Set how worked hours are grouped into timesheets.</p>
+        </div>
+
+        <div class="pb-row pb-row--period">
+          <div class="pb-field pb-field--flex">
+            <div class="pb-label-group">
+              <label class="pb-label">Frequency</label>
+              <p class="pb-hint">How often timesheets reset.</p>
+            </div>
+            <div class="pb-select-wrap">
+              <select class="pb-select" id="pb-freq-select">
+                <option>Twice per month</option>
+                <option>Weekly</option>
+                <option>Biweekly</option>
+                <option>Monthly</option>
+              </select>
+              <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+            </div>
+          </div>
+
+          <div class="pb-field pb-field--flex">
+            <div class="pb-label-group">
+              <label class="pb-label">Period start</label>
+              <p class="pb-hint">The day each timesheet period begins.</p>
+            </div>
+            <div class="pb-chips-field">
+              <div class="pb-chips-inner" id="pb-period-chips">
+                <span class="pb-chip" data-day="1">1st <span class="pb-chip__x material-symbols-rounded">close</span></span>
+                <span class="pb-chip" data-day="16">16th <span class="pb-chip__x material-symbols-rounded">close</span></span>
+              </div>
+              <button class="pb-chips-clear" id="pb-chips-clear" type="button"><span class="material-symbols-rounded">close</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pb-banner">
+          <span class="material-symbols-rounded pb-banner__icon">info</span>
+          <p id="pb-banner-text" class="pb-banner__text">
+            When saved, timesheets will run <strong>twice per month</strong>, starting every <strong>1st and 16th</strong>. First period begins <strong id="pb-next-date">calculating…</strong>.
+          </p>
+        </div>
+
+        <div class="pb-row">
+          <div class="pb-field">
+            <label class="pb-label">Past timesheets</label>
+            <button class="pb-btn pb-btn--outline" type="button">Edit timesheets</button>
+          </div>
+          <div class="pb-field">
+            <label class="pb-label">Require timesheet approval</label>
+            <div class="pb-toggle-row">
+              <button class="pb-toggle pb-toggle--on" id="pb-approval-toggle" type="button" role="switch" aria-checked="true"></button>
+              <span class="pb-toggle-label" id="pb-approval-label">Yes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="pb-divider">
+
+      <!-- ── Member Rates ───────────────────────────────────────── -->
+      <div class="pb-section">
+        <div class="pb-section__head">
+          <h3 class="pb-section__title">Member Rates</h3>
+          <p class="pb-section__sub" id="pb-rates-sub">Set how worked hours are grouped into timesheets.</p>
+        </div>
+
+        <!-- TYPE pill toggle — hugs content -->
+        <div class="pb-type-row">
+          <div class="pb-label-row">
+            <label class="pb-label">Type</label>
+            <span class="material-symbols-rounded pb-info-icon">info</span>
+          </div>
+          <div class="pb-pill-toggle" id="pb-type-toggle">
+            <button class="pb-pill is-active" data-panel="pay">Pay rate</button>
+            <button class="pb-pill" data-panel="bill">Bill rate</button>
+            <button class="pb-pill" data-panel="project">Project rate</button>
+          </div>
+        </div>
+
+        <!-- Pay rate fields -->
+        <div id="pb-fields-pay">
+          <div class="pb-fields-row">
+            <div class="pb-field pb-field--narrow">
+              <label class="pb-label">Pay type</label>
+              <div class="pb-select-wrap">
+                <select class="pb-select" id="pb-pay-type-select">
+                  <option>Hourly</option>
+                </select>
+                <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+              </div>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">Currency</label>
+              <div class="pb-select-wrap">
+                <select class="pb-select pb-currency-select" id="pb-currency-pay">
+                  <option value="USD">USD - American dollars</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="GBP">GBP - British Pound</option>
+                  <option value="BRL">BRL - Brazilian Real</option>
+                </select>
+                <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+              </div>
+            </div>
+            <div class="pb-field pb-field--wide">
+              <div class="pb-label-row">
+                <label class="pb-label">Fixed amount (per period)</label>
+                <span class="material-symbols-rounded pb-info-icon">info</span>
+              </div>
+              <div class="pb-split-field">
+                <input type="text" class="pb-split-input" value="2500.00">
+                <span class="pb-split-suffix" id="pb-pay-suffix">USD/twice per month</span>
+              </div>
+            </div>
+            <div class="pb-field">
+              <div class="pb-label-row">
+                <label class="pb-label">Effective date</label>
+                <span class="material-symbols-rounded pb-info-icon">info</span>
+              </div>
+              <div class="pb-date-readonly">Mon, May 1, 2026</div>
+            </div>
+          </div>
+          <button class="pb-add-note" type="button"><span class="material-symbols-rounded">edit_square</span>Add note</button>
+        </div>
+
+        <!-- Bill rate fields -->
+        <div id="pb-fields-bill" hidden>
+          <div class="pb-fields-row">
+            <div class="pb-field">
+              <label class="pb-label">Currency</label>
+              <div class="pb-select-wrap">
+                <select class="pb-select pb-currency-select" id="pb-currency-bill">
+                  <option value="USD">USD - American dollars</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="GBP">GBP - British Pound</option>
+                  <option value="BRL">BRL - Brazilian Real</option>
+                </select>
+                <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+              </div>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">Bill rate</label>
+              <div class="pb-split-field">
+                <input type="text" class="pb-split-input" value="20.0">
+                <span class="pb-split-suffix" id="pb-bill-suffix">USD/hr</span>
+              </div>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">Effective date</label>
+              <div class="pb-date-input-wrap">
+                <input type="date" class="pb-date-input" value="2025-05-07">
+              </div>
+            </div>
+          </div>
+          <button class="pb-add-note" type="button"><span class="material-symbols-rounded">edit_square</span>Add note</button>
+        </div>
+
+        <!-- Project rate placeholder -->
+        <div id="pb-fields-project" hidden>
+          <p class="pb-empty-state">Project rate configuration coming soon.</p>
+        </div>
+      </div>
+
+      <!-- Pay rate history -->
+      <div id="pb-history-pay" class="pb-history">
+        <div class="pb-history__header">
+          <span class="pb-history__title">Pay rate history</span>
+          <div class="pb-people-badge"><div class="pb-people-badge__logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#2AA7FF"/><path d="M8 8h4a2 2 0 0 1 0 4H8V8zm0 6h5a2 2 0 0 1 0 4H8v-4z" fill="#fff"/></svg><span>Hubstaff People</span></div><span class="pb-people-badge__beta">BETA</span></div>
+        </div>
+        <table class="pb-table">
+          <thead><tr>
+            <th style="width:70px">Status</th><th style="width:130px">Pay period</th><th style="width:70px">Pay type</th>
+            <th style="width:100px">Pay rate</th><th style="width:130px">Start date</th><th style="width:130px">End date</th><th>Note</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Current</td><td>Twice per month</td><td>Fixed</td><td>$2,500.00</td><td>Tue, Apr 28, 2026</td><td>Present</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
+            <tr class="pb-row--past"><td>Past</td><td>Twice per month</td><td>Fixed</td><td>$2,000.00</td><td>Mon, Apr 25, 2024</td><td>Mon, Apr 27, 2026</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bill rate history -->
+      <div id="pb-history-bill" class="pb-history" hidden>
+        <div class="pb-history__header">
+          <span class="pb-history__title">Bill rate history</span>
+          <div class="pb-people-badge"><div class="pb-people-badge__logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#2AA7FF"/><path d="M8 8h4a2 2 0 0 1 0 4H8V8zm0 6h5a2 2 0 0 1 0 4H8v-4z" fill="#fff"/></svg><span>Hubstaff People</span></div><span class="pb-people-badge__beta">BETA</span></div>
+        </div>
+        <table class="pb-table">
+          <thead><tr>
+            <th style="width:70px">Status</th><th style="width:110px">Bill rate</th><th style="width:80px">Pay type</th><th style="width:140px">Start date</th><th>Note</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Current</td><td>$2,500.00</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- /md-tab-pay-bill -->
+
+  </div>
+</div>
+
+<script>
+  HubstaffShell.init({ activeItem: 'people' });
+
+  // ── Tab switching ─────────────────────────────────────────────
+  const TAB_MAP = { 'info': 'md-tab-info', 'pay-bill': 'md-tab-pay-bill' };
+
+  document.querySelectorAll('.md-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.md-tab').forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      Object.values(TAB_MAP).forEach(id => { const el = document.getElementById(id); if (el) el.hidden = true; });
+      const el = document.getElementById(TAB_MAP[tab.dataset.tab]);
+      if (el) el.hidden = false;
+    });
+  });
+
+  // ── Actions dropdown ──────────────────────────────────────────
+  const actionsBtn  = document.getElementById('md-actions-btn');
+  const actionsMenu = document.getElementById('md-actions-menu');
+  actionsBtn.addEventListener('click', e => { e.stopPropagation(); actionsMenu.classList.toggle('is-open'); actionsBtn.classList.toggle('is-open'); });
+  document.addEventListener('click', () => { actionsMenu.classList.remove('is-open'); actionsBtn.classList.remove('is-open'); });
+
+  // ── Helpers ───────────────────────────────────────────────────
+  var MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var DAYS_SHORT   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  function fmtDate(d) {
+    return DAYS_SHORT[d.getDay()] + ', ' + MONTHS_SHORT[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function ordinalToNum(s) { return parseInt(s.replace(/[^0-9]/g, ''), 10) || 0; }
+
+  function calcNextStart(chips, freq) {
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var dayNums = chips.map(ordinalToNum).filter(function(n){ return n > 0; }).sort(function(a,b){ return a-b; });
+
+    if (freq === 'Twice per month' || freq === 'Monthly') {
+      if (!dayNums.length) return null;
+      for (var pass = 0; pass < 3; pass++) {
+        for (var i = 0; i < dayNums.length; i++) {
+          var d = dayNums[i];
+          var yr = today.getFullYear(), mo = today.getMonth() + pass;
+          var yr2 = yr + Math.floor(mo / 12); mo = mo % 12;
+          var candidate = new Date(yr2, mo, d);
+          if (candidate > today) return fmtDate(candidate);
+        }
+      }
+      return null;
+    }
+    if (freq === 'Weekly') {
+      var n = new Date(today); n.setDate(today.getDate() + 7); return fmtDate(n);
+    }
+    if (freq === 'Biweekly') {
+      var n = new Date(today); n.setDate(today.getDate() + 14); return fmtDate(n);
+    }
+    return null;
+  }
+
+  function getChipLabels() {
+    return Array.from(document.querySelectorAll('#pb-period-chips .pb-chip')).map(function(c) {
+      return c.firstChild.textContent.trim();
+    });
+  }
+
+  function getCurrencyCode() {
+    var sel = document.getElementById('pb-currency-pay') || document.getElementById('pb-currency-bill');
+    return sel ? sel.value : 'USD';
+  }
+
+  function getFreqLabel(val) {
+    var map = { 'Twice per month': 'twice per month', 'Weekly': 'weekly', 'Biweekly': 'biweekly', 'Monthly': 'monthly' };
+    return map[val] || val.toLowerCase();
+  }
+
+  // ── Update banner text ────────────────────────────────────────
+  function updateBanner() {
+    var freqSel   = document.getElementById('pb-freq-select');
+    var freq      = freqSel ? freqSel.value : 'Twice per month';
+    var freqLabel = getFreqLabel(freq);
+    var chips     = getChipLabels();
+    var startStr  = chips.length ? chips.join(' and ') : '[day/date]';
+    var nextDate  = calcNextStart(chips, freq);
+    var nextStr   = nextDate || '[calculated date]';
+
+    var banner = document.getElementById('pb-banner-text');
+    if (banner) {
+      banner.innerHTML = 'When saved, timesheets will run <strong>' + freqLabel +
+        '</strong>, starting every <strong>' + startStr +
+        '</strong>. First period begins <strong>' + nextStr + '</strong>.';
+    }
+    updateSuffixes(freq);
+  }
+
+  // ── Update currency suffixes ──────────────────────────────────
+  function updateSuffixes(freq) {
+    if (!freq) {
+      var freqSel = document.getElementById('pb-freq-select');
+      freq = freqSel ? freqSel.value : 'Twice per month';
+    }
+    var currency = getCurrencyCode();
+    var paySuffix  = document.getElementById('pb-pay-suffix');
+    var billSuffix = document.getElementById('pb-bill-suffix');
+    if (paySuffix)  paySuffix.textContent  = currency + '/' + getFreqLabel(freq);
+    if (billSuffix) billSuffix.textContent = currency + '/hr';
+  }
+
+  // ── Sync currency selects ─────────────────────────────────────
+  document.querySelectorAll('.pb-currency-select').forEach(function(sel) {
+    sel.addEventListener('change', function() {
+      var val = this.value;
+      document.querySelectorAll('.pb-currency-select').forEach(function(s) { s.value = val; });
+      updateSuffixes();
+    });
+  });
+
+  // ── Frequency change → update banner + suffix ─────────────────
+  var freqSelect = document.getElementById('pb-freq-select');
+  if (freqSelect) freqSelect.addEventListener('change', updateBanner);
+
+  // ── Chip removal ──────────────────────────────────────────────
+  document.getElementById('pb-period-chips').addEventListener('click', function(e) {
+    var x = e.target.closest('.pb-chip__x');
+    if (x) { x.closest('.pb-chip').remove(); updateBanner(); }
+  });
+  document.getElementById('pb-chips-clear').addEventListener('click', function() {
+    document.querySelectorAll('#pb-period-chips .pb-chip').forEach(function(c){ c.remove(); });
+    updateBanner();
+  });
+
+  // ── Pill toggle ───────────────────────────────────────────────
+  var RATE_SUBTITLES = {
+    pay:     'Set how worked hours are grouped into timesheets.',
+    bill:    "Manage this member's pay, bill, and project rates.",
+    project: 'Set project-level rates for this member.'
+  };
+
+  document.getElementById('pb-type-toggle').querySelectorAll('.pb-pill').forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      var panel = pill.dataset.panel;
+
+      // Update active pill
+      document.querySelectorAll('#pb-type-toggle .pb-pill').forEach(function(p) {
+        p.classList.toggle('is-active', p.dataset.panel === panel);
+      });
+
+      // Swap fields
+      ['pay','bill','project'].forEach(function(p) {
+        var el = document.getElementById('pb-fields-' + p);
+        if (el) el.hidden = (p !== panel);
+      });
+
+      // Swap history
+      ['pay','bill'].forEach(function(p) {
+        var el = document.getElementById('pb-history-' + p);
+        if (el) el.hidden = (p !== panel);
+      });
+
+      // Update subtitle
+      var sub = document.getElementById('pb-rates-sub');
+      if (sub) sub.textContent = RATE_SUBTITLES[panel] || '';
+    });
+  });
+
+  // ── Approval toggle ───────────────────────────────────────────
+  var approvalToggle = document.getElementById('pb-approval-toggle');
+  var approvalLabel  = document.getElementById('pb-approval-label');
+  approvalToggle.addEventListener('click', function() {
+    var on = approvalToggle.classList.toggle('pb-toggle--on');
+    approvalToggle.setAttribute('aria-checked', String(on));
+    approvalLabel.textContent = on ? 'Yes' : 'No';
+  });
+
+  // ── Init ──────────────────────────────────────────────────────
+  updateBanner();
+</script>
+</body>
+</html>

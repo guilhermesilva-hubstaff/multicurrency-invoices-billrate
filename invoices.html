@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoices — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="stylesheet" href="invoices.css?v=5">
+</head>
+<body>
+<script src="hubstaff-shell.js?v=8"></script>
+
+<div id="shell-content">
+  <div class="iv-page">
+
+    <!-- Header -->
+    <div class="iv-header">
+      <h2 class="iv-title">Invoices</h2>
+      <a href="#" class="iv-settings-link">
+        <span class="material-symbols-rounded">settings</span>
+        Settings
+      </a>
+    </div>
+
+    <!-- Tabs -->
+    <div class="iv-tabs">
+      <button class="iv-tab is-active">Clients (15)</button>
+      <button class="iv-tab">Team (3)</button>
+    </div>
+
+    <!-- Date + Aggregates -->
+    <div class="iv-date-row">
+      <div class="iv-date-picker">
+        <input type="text" class="iv-date-input" placeholder="All Dates" readonly>
+        <span class="material-symbols-rounded iv-date-icon">calendar_today</span>
+      </div>
+      <div class="iv-aggregates">
+
+        <div class="iv-agg" id="iv-agg-outstanding">
+          <span class="iv-agg-label">OUTSTANDING</span>
+          <div class="iv-agg-block">
+            <span class="iv-agg-value" id="iv-outstanding-value">—</span>
+            <a href="#" class="iv-breakdown-link" id="iv-outstanding-breakdown-btn">
+              View breakdown
+              <span class="material-symbols-rounded">expand_more</span>
+            </a>
+          </div>
+          <div class="iv-breakdown-panel" id="iv-outstanding-breakdown"></div>
+        </div>
+
+        <div class="iv-agg" id="iv-agg-paid">
+          <span class="iv-agg-label">PAID</span>
+          <div class="iv-agg-block">
+            <span class="iv-agg-value iv-agg-value--paid" id="iv-paid-value">—</span>
+            <a href="#" class="iv-breakdown-link" id="iv-paid-breakdown-btn">
+              View breakdown
+              <span class="material-symbols-rounded">expand_more</span>
+            </a>
+          </div>
+          <div class="iv-breakdown-panel" id="iv-paid-breakdown"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="iv-filters">
+      <div class="iv-filter-group">
+        <label class="iv-filter-label">Clients</label>
+        <div class="iv-select-wrap">
+          <select class="iv-select" id="iv-client-filter">
+            <option value="">All Clients</option>
+            <option value="city-of-chicago">City of Chicago</option>
+            <option value="jorge">Jorge</option>
+            <option value="ourselves">Ourselves</option>
+            <option value="shawn-williams">Shawn Williams</option>
+          </select>
+          <span class="material-symbols-rounded iv-select-icon">expand_more</span>
+        </div>
+      </div>
+      <div class="iv-filter-group">
+        <label class="iv-filter-label">Status</label>
+        <div class="iv-select-wrap">
+          <select class="iv-select" id="iv-status-filter">
+            <option value="" selected>All</option>
+            <option value="sent">Open</option>
+            <option value="paid">Closed</option>
+            <option value="draft">Draft</option>
+          </select>
+          <span class="material-symbols-rounded iv-select-icon">expand_more</span>
+        </div>
+      </div>
+      <div class="iv-filter-group">
+        <label class="iv-filter-label">Currency</label>
+        <div class="iv-select-wrap">
+          <select class="iv-select" id="iv-currency-filter">
+            <option value="">All Currencies</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="CAD">CAD — Canadian Dollar</option>
+            <option value="BRL">BRL — Brazilian Real</option>
+            <option value="JPY">JPY — Japanese Yen</option>
+          </select>
+          <span class="material-symbols-rounded iv-select-icon">expand_more</span>
+        </div>
+      </div>
+      <button class="iv-apply-btn" id="iv-apply-btn">Apply</button>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="iv-toolbar">
+      <div class="iv-search-wrap">
+        <span class="material-symbols-rounded iv-search-icon">search</span>
+        <input type="search" class="iv-search" placeholder="Search invoices">
+      </div>
+      <div class="iv-toolbar-right">
+        <a href="new-invoice.html" class="btn btn--primary">New invoice</a>
+        <div class="iv-export-wrap">
+          <button class="iv-export-btn js-iv-export-btn">
+            Export
+            <span class="material-symbols-rounded">expand_more</span>
+          </button>
+          <div class="iv-export-dropdown" id="ivExportDropdown">
+            <a href="#" class="iv-export-item">To CSV</a>
+          </div>
+        </div>
+        <div class="iv-col-toggle-wrap">
+          <button class="iv-col-toggle-btn js-iv-col-btn" title="Table columns">
+            <span class="material-symbols-rounded">view_column</span>
+          </button>
+          <ul class="iv-col-menu" id="ivColMenu">
+            <li class="iv-col-menu-header">Table columns</li>
+            <li class="iv-col-menu-item is-on is-disabled">Invoice</li>
+            <li class="iv-col-menu-item is-on is-disabled">Client</li>
+            <li class="iv-col-menu-item is-on" data-col="date">Issue date</li>
+            <li class="iv-col-menu-item is-on" data-col="days">Days old</li>
+            <li class="iv-col-menu-item is-on" data-col="amount-orig">Original Amount</li>
+            <li class="iv-col-menu-item is-on" data-col="amount-org">Organization Currency Amount</li>
+            <li class="iv-col-menu-item is-on" data-col="status">Status</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="iv-table-wrap">
+      <table class="iv-table">
+        <thead>
+          <tr>
+            <th class="iv-th iv-th--check">
+              <label class="iv-check-wrap">
+                <input type="checkbox" id="iv-select-all">
+                <span class="iv-check-box"></span>
+              </label>
+            </th>
+            <th class="iv-th">Invoice</th>
+            <th class="iv-th">Client</th>
+            <th class="iv-th iv-col-date">Issue date</th>
+            <th class="iv-th iv-col-days">Days old</th>
+            <th class="iv-th iv-col-amount-orig">Original Amount</th>
+            <th class="iv-th iv-col-amount-org">Organization Currency Amount <span class="material-symbols-rounded iv-th-info" data-tooltip="Converted to your organization currency (USD) using daily exchange rates from Open Exchange Rates. Amounts are indicative and may fluctuate day to day.">info</span></th>
+            <th class="iv-th iv-col-status">Status</th>
+            <th class="iv-th"></th>
+          </tr>
+        </thead>
+        <tbody id="iv-tbody">
+
+          <!-- DA1035 · USD -->
+          <tr class="iv-tr" data-currency="USD" data-total="300" data-paid="0" data-status="sent" data-client="city-of-chicago">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1035</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#4e4302">C</div>
+                City of Chicago
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 22, 2024</td>
+            <td class="iv-td iv-col-days">750</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1037 · GBP (Paid) -->
+          <tr class="iv-tr" data-currency="GBP" data-total="250" data-paid="250" data-status="paid" data-client="ourselves">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="invoice-detail.html" class="iv-invoice-link">DA1037</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#1c3e0f">O</div>
+                Ourselves
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 22, 2024</td>
+            <td class="iv-td iv-col-days">750</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--paid">Paid</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <span class="iv-dropdown-item iv-dropdown-item--disabled">Record payment</span>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1036 · EUR -->
+          <tr class="iv-tr" data-currency="EUR" data-total="280" data-paid="0" data-status="sent" data-client="shawn-williams">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1036</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#a4793e">S</div>
+                Shawn Williams
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 22, 2024</td>
+            <td class="iv-td iv-col-days">750</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1034 · CAD -->
+          <tr class="iv-tr" data-currency="CAD" data-total="320" data-paid="0" data-status="sent" data-client="ourselves">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1034</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#1c3e0f">O</div>
+                Ourselves
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 15, 2024</td>
+            <td class="iv-td iv-col-days">757</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1033 · BRL -->
+          <tr class="iv-tr" data-currency="BRL" data-total="1500" data-paid="0" data-status="sent" data-client="shawn-williams">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1033</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#a4793e">S</div>
+                Shawn Williams
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 15, 2024</td>
+            <td class="iv-td iv-col-days">757</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1032 · GBP -->
+          <tr class="iv-tr" data-currency="GBP" data-total="380" data-paid="0" data-status="sent" data-client="city-of-chicago">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1032</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#4e4302">C</div>
+                City of Chicago
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 15, 2024</td>
+            <td class="iv-td iv-col-days">757</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1030 · EUR -->
+          <tr class="iv-tr" data-currency="EUR" data-total="420" data-paid="0" data-status="sent" data-client="ourselves">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1030</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#1c3e0f">O</div>
+                Ourselves
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 8, 2024</td>
+            <td class="iv-td iv-col-days">764</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1027 · JPY -->
+          <tr class="iv-tr" data-currency="JPY" data-total="45000" data-paid="0" data-status="sent" data-client="jorge">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1027</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#c381a0">J</div>
+                Jorge
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 8, 2024</td>
+            <td class="iv-td iv-col-days">764</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1028 · USD -->
+          <tr class="iv-tr" data-currency="USD" data-total="300" data-paid="0" data-status="sent" data-client="city-of-chicago">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1028</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#4e4302">C</div>
+                City of Chicago
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 8, 2024</td>
+            <td class="iv-td iv-col-days">764</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1029 · CAD -->
+          <tr class="iv-tr" data-currency="CAD" data-total="310" data-paid="0" data-status="sent" data-client="shawn-williams">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1029</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#a4793e">S</div>
+                Shawn Williams
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 8, 2024</td>
+            <td class="iv-td iv-col-days">764</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1023 · GBP -->
+          <tr class="iv-tr" data-currency="GBP" data-total="290" data-paid="0" data-status="sent" data-client="jorge">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1023</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#c381a0">J</div>
+                Jorge
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 1, 2024</td>
+            <td class="iv-td iv-col-days">771</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1026 · EUR -->
+          <tr class="iv-tr" data-currency="EUR" data-total="350" data-paid="0" data-status="sent" data-client="ourselves">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1026</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#1c3e0f">O</div>
+                Ourselves
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 1, 2024</td>
+            <td class="iv-td iv-col-days">771</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1025 · BRL -->
+          <tr class="iv-tr" data-currency="BRL" data-total="1800" data-paid="0" data-status="sent" data-client="shawn-williams">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1025</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#a4793e">S</div>
+                Shawn Williams
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 1, 2024</td>
+            <td class="iv-td iv-col-days">771</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1024 · USD -->
+          <tr class="iv-tr" data-currency="USD" data-total="300" data-paid="0" data-status="sent" data-client="city-of-chicago">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1024</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#4e4302">C</div>
+                City of Chicago
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Mon, Apr 1, 2024</td>
+            <td class="iv-td iv-col-days">771</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--sent">Sent</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- DA1031 · JPY · Draft -->
+          <tr class="iv-tr" data-currency="JPY" data-total="32000" data-paid="0" data-status="draft" data-client="jorge">
+            <td class="iv-td iv-td--check">
+              <label class="iv-check-wrap"><input type="checkbox"><span class="iv-check-box"></span></label>
+            </td>
+            <td class="iv-td"><a href="#" class="iv-invoice-link">DA1031</a></td>
+            <td class="iv-td">
+              <a href="#" class="iv-client">
+                <div class="iv-avatar" style="background:#c381a0">J</div>
+                Jorge
+              </a>
+            </td>
+            <td class="iv-td iv-col-date">Tue, Dec 5, 2023</td>
+            <td class="iv-td iv-col-days">889</td>
+            <td class="iv-td iv-col-status"><span class="iv-badge iv-badge--draft">Draft</span></td>
+            <td class="iv-td iv-td--actions">
+              <div class="iv-actions-wrap">
+                <button class="iv-actions-btn js-iv-actions-btn">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                <div class="iv-dropdown">
+                  <a href="#" class="iv-dropdown-item">Record payment</a>
+                  <a href="#" class="iv-dropdown-item">Edit invoice</a>
+                  <a href="#" class="iv-dropdown-item iv-dropdown-item--danger">Delete invoice</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="iv-footer" id="iv-footer">Showing 15 of 15 invoices</div>
+
+  </div>
+</div>
+
+<!-- Record Payment Modal -->
+<div class="iv-modal-backdrop" id="ivRecordPaymentBackdrop">
+  <div class="iv-modal" id="ivRecordPaymentModal" role="dialog" aria-labelledby="ivRecordPaymentTitle" aria-modal="true">
+    <div class="iv-modal-header">
+      <h3 class="iv-modal-title" id="ivRecordPaymentTitle">Record payment</h3>
+      <button class="iv-modal-close" id="ivRecordPaymentClose" aria-label="Close">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+    <div class="iv-modal-body">
+      <div class="iv-modal-field-row">
+        <div class="iv-modal-field">
+          <label class="iv-modal-label">Invoice number</label>
+          <div class="iv-modal-readonly" id="ivRpInvoiceNumber">—</div>
+        </div>
+        <div class="iv-modal-field">
+          <label class="iv-modal-label">Balance due</label>
+          <div class="iv-modal-readonly" id="ivRpBalanceDue">—</div>
+        </div>
+      </div>
+      <div class="iv-modal-field">
+        <label class="iv-modal-label" for="ivRpAmountPaid">Amount paid <abbr title="required">*</abbr></label>
+        <input type="number" class="iv-modal-input" id="ivRpAmountPaid" min="0" step="0.01" placeholder="0.00">
+      </div>
+      <div class="iv-modal-field">
+        <label class="iv-modal-label" for="ivRpPaymentDate">Payment date <abbr title="required">*</abbr></label>
+        <div class="iv-modal-date-wrap">
+          <input type="date" class="iv-modal-input iv-modal-input--date" id="ivRpPaymentDate">
+          <span class="material-symbols-rounded iv-modal-date-icon">calendar_today</span>
+        </div>
+        <p class="iv-modal-helper">The payment date determines the exchange rate used to convert this payment into your organization currency.</p>
+      </div>
+      <div class="iv-modal-field">
+        <label class="iv-modal-label" for="ivRpNotes">Notes</label>
+        <textarea class="iv-modal-textarea" id="ivRpNotes" rows="3" placeholder="Add a note..."></textarea>
+      </div>
+    </div>
+    <div class="iv-modal-footer">
+      <button class="iv-modal-btn iv-modal-btn--cancel" id="ivRecordPaymentCancel">Cancel</button>
+      <button class="iv-modal-btn iv-modal-btn--save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  HubstaffShell.init({ activeItem: 'financials' });
+
+  // ── FX rates (approximate, USD base) ──
+  var FX    = { USD: 1, GBP: 1.27, EUR: 1.08, CAD: 0.74, BRL: 0.20, JPY: 0.0067 };
+  var NAMES = { USD: 'US Dollar', GBP: 'British Pound', EUR: 'Euro', CAD: 'Canadian Dollar', BRL: 'Brazilian Real', JPY: 'Japanese Yen' };
+
+  function fmtCode(amount, currency) {
+    if (currency === 'JPY') return currency + ' ' + Math.round(amount).toLocaleString('en-US');
+    return currency + ' ' + parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function toUSD(amount, currency) {
+    return parseFloat(amount) * (FX[currency] || 1);
+  }
+
+  function fmtUSD(amount) {
+    return 'USD ' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // ── Compute and render aggregates from visible rows ──
+  function computeAggregates() {
+    var rows = document.querySelectorAll('#iv-tbody .iv-tr:not([style*="display: none"]):not([style*="display:none"])');
+
+    var outstanding = {};
+    var paid = {};
+
+    rows.forEach(function(row) {
+      var currency = row.dataset.currency;
+      var total = parseFloat(row.dataset.total) || 0;
+      var paidAmt = parseFloat(row.dataset.paid) || 0;
+      var outstandingAmt = total - paidAmt;
+
+      if (outstandingAmt > 0) {
+        outstanding[currency] = (outstanding[currency] || 0) + outstandingAmt;
+      }
+      if (paidAmt > 0) {
+        paid[currency] = (paid[currency] || 0) + paidAmt;
+      }
+    });
+
+    renderAggregate('outstanding', outstanding);
+    renderAggregate('paid', paid);
+  }
+
+  function renderAggregate(type, breakdown) {
+    var valueEl = document.getElementById('iv-' + type + '-value');
+    var linkEl  = document.getElementById('iv-' + type + '-breakdown-btn');
+    var panelEl = document.getElementById('iv-' + type + '-breakdown');
+
+    var totalUSD = 0;
+    Object.keys(breakdown).forEach(function(currency) {
+      totalUSD += toUSD(breakdown[currency], currency);
+    });
+
+    var currencies = Object.keys(breakdown);
+
+    if (currencies.length === 0) {
+      valueEl.textContent = 'USD 0.00';
+      linkEl.classList.add('is-hidden');
+      panelEl.innerHTML = '';
+      panelEl.classList.remove('is-open');
+      linkEl.classList.remove('is-open');
+      return;
+    }
+
+    valueEl.textContent = fmtUSD(totalUSD);
+    linkEl.classList.remove('is-hidden');
+
+    var sorted = currencies.slice().sort(function(a, b) {
+      return toUSD(breakdown[b], b) - toUSD(breakdown[a], a);
+    });
+
+    var rows = sorted.map(function(currency) {
+      var native = breakdown[currency];
+      var usd = toUSD(native, currency);
+      var isSameAsUSD = currency === 'USD';
+      var rateStr = isSameAsUSD ? '' : '1 ' + currency + ' = ' + FX[currency].toFixed(4);
+      return '<div class="iv-breakdown-row">'
+        + '<span class="iv-breakdown-flag">' + currency + '</span>'
+        + '<span class="iv-breakdown-native">' + fmtCode(native, currency) + '</span>'
+        + '<span class="iv-breakdown-rate">' + rateStr + '</span>'
+        + '<span class="iv-breakdown-usd">' + fmtUSD(usd) + '</span>'
+        + '</div>';
+    }).join('');
+
+    var hasNonUSD = sorted.some(function(c) { return c !== 'USD'; });
+    var metaHtml = '';
+    if (hasNonUSD) {
+      var today = new Date();
+      var dateStr = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      metaHtml = '<div class="iv-breakdown-footer-meta">'
+        + '<span class="iv-breakdown-footer-meta-title">Exchange rates · ' + dateStr + ' · Open Exchange Rates</span>'
+        + 'Rates update daily. Converted amounts are estimates and may differ from amounts received.'
+        + '</div>';
+    }
+
+    panelEl.innerHTML = ''
+      + '<div class="iv-breakdown-title">Breakdown by currency</div>'
+      + '<div class="iv-breakdown-header">'
+      +   '<span class="iv-breakdown-header-flag"></span>'
+      +   '<span class="iv-breakdown-header-col">Amount</span>'
+      +   '<span class="iv-breakdown-header-col">Rate</span>'
+      +   '<span class="iv-breakdown-header-col iv-breakdown-header-col--usd">USD</span>'
+      + '</div>'
+      + rows
+      + '<div class="iv-breakdown-footer">'
+      +   '<div class="iv-breakdown-footer-total">'
+      +     '<span class="iv-breakdown-footer-label">Total (org currency)</span>'
+      +     '<span class="iv-breakdown-footer-value">' + fmtUSD(totalUSD) + '</span>'
+      +   '</div>'
+      +   metaHtml
+      + '</div>';
+  }
+
+  // ── Populate Amount Orig. and Amount Org Currency columns ──
+  function populateAmountColumns() {
+    document.querySelectorAll('#iv-tbody .iv-tr').forEach(function(row) {
+      if (row.querySelector('.iv-td--amount-orig')) return;
+      var currency = row.dataset.currency;
+      var total    = parseFloat(row.dataset.total) || 0;
+      var paidAmt  = parseFloat(row.dataset.paid)  || 0;
+
+      // Amount Orig. — original currency, total + paid sub-line
+      var tdOrig = document.createElement('td');
+      tdOrig.className = 'iv-td iv-td--amount-orig iv-col-amount-orig';
+      tdOrig.innerHTML =
+          '<div class="iv-amount-main">' + fmtCode(total, currency) + '</div>'
+        + '<div class="iv-amount-sub">' + fmtCode(paidAmt, currency) + ' (paid)</div>';
+
+      // Amount Org Currency — converted to USD, total + paid sub-line
+      var totalUSD = toUSD(total, currency);
+      var paidUSD  = toUSD(paidAmt, currency);
+      var tdOrg = document.createElement('td');
+      tdOrg.className = 'iv-td iv-td--amount-org iv-col-amount-org';
+      tdOrg.innerHTML =
+          '<div class="iv-amount-main">' + fmtUSD(totalUSD) + '</div>'
+        + '<div class="iv-amount-sub">' + fmtUSD(paidUSD) + ' (paid)</div>';
+
+      // Insert both before the status cell
+      var statusTd = row.querySelector('.iv-col-status');
+      row.insertBefore(tdOrig, statusTd);
+      row.insertBefore(tdOrg, statusTd);
+    });
+  }
+
+  // ── Filtering ──
+  var activeFilters = { client: '', status: '', currency: '' };
+
+  function applyFilters() {
+    var clientFilter   = document.getElementById('iv-client-filter').value;
+    var statusFilter   = document.getElementById('iv-status-filter').value;
+    var currencyFilter = document.getElementById('iv-currency-filter').value;
+
+    activeFilters = { client: clientFilter, status: statusFilter, currency: currencyFilter };
+
+    var rows = document.querySelectorAll('#iv-tbody .iv-tr');
+    var visible = 0;
+
+    rows.forEach(function(row) {
+      var matchClient   = !clientFilter   || row.dataset.client   === clientFilter;
+      var matchStatus   = !statusFilter   || row.dataset.status   === statusFilter;
+      var matchCurrency = !currencyFilter || row.dataset.currency === currencyFilter;
+
+      if (matchClient && matchStatus && matchCurrency) {
+        row.style.display = '';
+        visible++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    document.getElementById('iv-footer').textContent = 'Showing ' + visible + ' of 15 invoices';
+
+    document.querySelectorAll('.iv-breakdown-panel').forEach(function(p) { p.classList.remove('is-open'); });
+    document.querySelectorAll('.iv-breakdown-link').forEach(function(l) { l.classList.remove('is-open'); });
+
+    computeAggregates();
+  }
+
+  document.getElementById('iv-apply-btn').addEventListener('click', applyFilters);
+
+  // ── Breakdown toggle ──
+  ['outstanding', 'paid'].forEach(function(type) {
+    var btn   = document.getElementById('iv-' + type + '-breakdown-btn');
+    var panel = document.getElementById('iv-' + type + '-breakdown');
+
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var isOpen = panel.classList.contains('is-open');
+      document.querySelectorAll('.iv-breakdown-panel').forEach(function(p) { p.classList.remove('is-open'); });
+      document.querySelectorAll('.iv-breakdown-link').forEach(function(l) { l.classList.remove('is-open'); });
+      if (!isOpen) {
+        panel.classList.add('is-open');
+        btn.classList.add('is-open');
+      }
+    });
+  });
+
+  // ── Actions dropdowns ──
+  document.querySelectorAll('.js-iv-actions-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var dropdown = this.nextElementSibling;
+      var isOpen = dropdown.classList.contains('is-open');
+      document.querySelectorAll('.iv-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+      document.getElementById('ivExportDropdown').classList.remove('is-open');
+      if (!isOpen) dropdown.classList.add('is-open');
+    });
+  });
+
+  // ── Record Payment Modal ──
+  var rpBackdrop  = document.getElementById('ivRecordPaymentBackdrop');
+  var rpInvoiceEl = document.getElementById('ivRpInvoiceNumber');
+  var rpBalanceEl = document.getElementById('ivRpBalanceDue');
+  var rpAmountEl  = document.getElementById('ivRpAmountPaid');
+  var rpDateEl    = document.getElementById('ivRpPaymentDate');
+  var rpNotesEl   = document.getElementById('ivRpNotes');
+
+  function openRecordPayment(row) {
+    var invoiceNum = row.querySelector('.iv-invoice-link').textContent.trim();
+    var currency   = row.dataset.currency;
+    var total      = parseFloat(row.dataset.total) || 0;
+    var paid       = parseFloat(row.dataset.paid)  || 0;
+    var balance    = total - paid;
+
+    rpInvoiceEl.textContent = invoiceNum;
+    rpBalanceEl.textContent = fmtCode(balance, currency);
+    rpAmountEl.value        = currency === 'JPY' ? Math.round(balance) : balance.toFixed(2);
+    rpNotesEl.value         = '';
+
+    var today = new Date();
+    var yyyy  = today.getFullYear();
+    var mm    = String(today.getMonth() + 1).padStart(2, '0');
+    var dd    = String(today.getDate()).padStart(2, '0');
+    rpDateEl.value = yyyy + '-' + mm + '-' + dd;
+
+    document.querySelectorAll('.iv-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+    rpBackdrop.classList.add('is-open');
+    setTimeout(function() { rpAmountEl.focus(); }, 60);
+  }
+
+  function closeRecordPayment() {
+    rpBackdrop.classList.remove('is-open');
+  }
+
+  document.getElementById('ivRecordPaymentClose').addEventListener('click', closeRecordPayment);
+  document.getElementById('ivRecordPaymentCancel').addEventListener('click', closeRecordPayment);
+
+  rpBackdrop.addEventListener('click', function(e) {
+    if (e.target === rpBackdrop) closeRecordPayment();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && rpBackdrop.classList.contains('is-open')) closeRecordPayment();
+  });
+
+  // Event delegation — "Record payment" on sent invoices
+  document.getElementById('iv-tbody').addEventListener('click', function(e) {
+    var item = e.target.closest('a.iv-dropdown-item');
+    if (!item) return;
+    if (item.textContent.trim() !== 'Record payment') return;
+    e.preventDefault();
+    var row = item.closest('.iv-tr');
+    if (!row || row.dataset.status !== 'sent') return;
+    openRecordPayment(row);
+  });
+
+  // ── Export dropdown ──
+  document.querySelector('.js-iv-export-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    var dd = document.getElementById('ivExportDropdown');
+    var isOpen = dd.classList.contains('is-open');
+    document.querySelectorAll('.iv-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+    dd.classList.toggle('is-open', !isOpen);
+  });
+
+  // ── Column toggle ──
+  var tableWrap = document.querySelector('.iv-table-wrap');
+  var colMenu   = document.getElementById('ivColMenu');
+  var colBtn    = document.querySelector('.js-iv-col-btn');
+
+  function setCol(colKey, on) {
+    tableWrap.classList.toggle('hide-' + colKey, !on);
+    var item = colMenu.querySelector('[data-col="' + colKey + '"]');
+    if (item) item.classList.toggle('is-on', on);
+    localStorage.setItem('iv-col-' + colKey, on ? 'on' : 'off');
+  }
+
+  ['date', 'days', 'amount-orig', 'amount-org', 'status'].forEach(function(key) {
+    var on = localStorage.getItem('iv-col-' + key) !== 'off';
+    setCol(key, on);
+  });
+
+  colBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = colMenu.classList.contains('is-open');
+    document.querySelectorAll('.iv-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+    document.getElementById('ivExportDropdown').classList.remove('is-open');
+    colMenu.classList.toggle('is-open', !open);
+    colBtn.classList.toggle('is-open', !open);
+  });
+
+  colMenu.querySelectorAll('.iv-col-menu-item[data-col]').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var key = this.dataset.col;
+      var on = !this.classList.contains('is-on');
+      setCol(key, on);
+    });
+  });
+
+  // ── Close on outside click ──
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.iv-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+    document.getElementById('ivExportDropdown').classList.remove('is-open');
+    document.getElementById('ivColMenu').classList.remove('is-open');
+    document.querySelector('.js-iv-col-btn').classList.remove('is-open');
+    document.querySelectorAll('.iv-breakdown-panel').forEach(function(p) { p.classList.remove('is-open'); });
+    document.querySelectorAll('.iv-breakdown-link').forEach(function(l) { l.classList.remove('is-open'); });
+  });
+
+  // ── Select-all checkbox ──
+  document.getElementById('iv-select-all').addEventListener('change', function() {
+    document.querySelectorAll('.iv-tr input[type="checkbox"]').forEach(function(cb) {
+      cb.checked = this.checked;
+    }, this);
+  });
+
+  // ── Tabs (visual only) ──
+  document.querySelectorAll('.iv-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.iv-tab').forEach(function(t) { t.classList.remove('is-active'); });
+      this.classList.add('is-active');
+    });
+  });
+
+  // ── Initial render ──
+  populateAmountColumns();
+  applyFilters();
+
+</script>
+
+<!-- Design annotations -->
+<script src="design-annotations.js"></script>
+<script>
+  DesignAnnotations.init({
+    page: 'Invoicing — Invoices list',
+    required: [
+      {
+        text: 'Ensure the invoice total displayed in the table reflects the actual invoice currency',
+        sub: [
+          'Currently all totals show USD — they should match the currency selected on each individual invoice',
+          'If an invoice uses CAD, the amount column should show CAD'
+        ]
+      },
+      {
+        text: 'Add a Currencies filter to the filter bar',
+        sub: [
+          'Populated from the distinct currencies present across invoices',
+          'Filtering by currency should update the table and aggregate totals accordingly'
+        ]
+      },
+      {
+        text: 'Aggregate totals (Outstanding / Paid) should reflect multi-currency context',
+        sub: [
+          'Show a USD equivalent total as the primary value',
+          'Provide a "View breakdown" link that expands to show per-currency native amounts, exchange rate used, and USD equivalent',
+          'Breakdown popover footer should include exchange rate source (Open Exchange Rates), date, and a disclaimer that amounts are indicative and may fluctuate'
+        ]
+      },
+      {
+        text: 'Amount Orig. and Amount Org Currency columns replace the old Total / Paid / USD columns',
+        sub: [
+          'Amount Orig. shows the invoice total in the original currency, with paid-so-far on a second line',
+          'Amount Org Currency shows the equivalent in org currency (USD), with paid-so-far on a second line',
+          'No currency symbols — use ISO codes only (USD, EUR, GBP, etc.)',
+          'No approximation prefixes (no ~, no ≈, no =)'
+        ]
+      },
+      {
+        text: 'Add a Table columns control to the toolbar (after Export)',
+        sub: [
+          'Icon-only button (view_column icon) that opens a dropdown listing all table columns',
+          'Invoice and Client columns are always on and non-interactive (disabled state)',
+          'All other columns are individually toggleable',
+          'Column visibility state should persist per user session (localStorage)'
+        ]
+      },
+      {
+        text: 'Record payment dialog — Payment date field must include a helper note',
+        sub: [
+          'Helper text below the Payment date field: "The payment date determines the exchange rate used to convert this payment into your organization currency."',
+          'This is critical for user understanding — the selected date locks the FX rate used for the conversion entry in the invoice detail\'s Conversion history',
+          'Helper text should be visible at all times (not behind a tooltip), using muted gray (#6b7280), font-size 12px'
+        ]
+      }
+    ],
+    suggestions: [
+      'Consider locking the rate used at the time an invoice is paid (vs. always showing today\'s live rate) to support accurate reconciliation against bank statements',
+      'A "stale rate" indicator on the Amount Org Currency column header could warn users when rate data is older than 24h',
+      'New invoice + Export buttons have been moved into the page header area (toolbar row), not a separate action bar — revisit placement in final design',
+      'Apply filter button should be outlined blue (border: 1px solid #2aa7ff, background: transparent, text: #2aa7ff) rather than a filled green CTA — it is a filter action, not a primary action'
+    ]
+  });
+</script>
+</body>
+</html>

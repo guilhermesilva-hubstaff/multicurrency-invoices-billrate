@@ -1,0 +1,99 @@
+/* =============================================================
+   Page-level styles for the starter template
+   -------------------------------------------------------------
+   The Hubstaff shell injects all of its own styles (top bar,
+   sidebar, collapse toggle, content offset). This file only
+   styles the placeholder so the centre area looks tidy.
+   Delete the .placeholder rules once you add real content.
+   ============================================================= */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  color: #111827;
+}
+
+/* Generic page wrapper inside the shell content area */
+.page {
+  padding: 32px;
+  max-width: 1200px;
+}
+
+/* Placeholder card (delete when you add real content) */
+.placeholder {
+  background: #ffffff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.placeholder__art {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: #dbeafe;
+  color: #0168dd;
+  margin-bottom: 4px;
+}
+.placeholder__art .material-symbols-rounded { font-size: 28px; }
+.placeholder__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: #111827;
+}
+.placeholder__body {
+  margin: 0;
+  max-width: 480px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #6b7280;
+}
+.placeholder__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.placeholder__hint {
+  margin: 16px 0 0;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Generic buttons (reusable across the app) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #374151;
+  font: 400 14px/1 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.btn:hover { background: #f9fafb; }
+.btn--primary {
+  background: #2aa7ff;
+  border-color: #2aa7ff;
+  color: #ffffff;
+}
+.btn--primary:hover { background: #1f95eb; border-color: #1f95eb; }
+.btn:focus-visible {
+  outline: 2px solid #2aa7ff;
+  outline-offset: 2px;
+}

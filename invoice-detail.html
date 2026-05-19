@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice DA1037 — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="stylesheet" href="invoice-detail.css">
+</head>
+<body>
+<script src="hubstaff-shell.js?v=8"></script>
+
+<div id="shell-content">
+  <div class="id-page" id="id-page">
+
+    <!-- Top nav -->
+    <div class="id-topnav">
+      <a href="invoices.html" class="id-back-link">
+        <span class="material-symbols-rounded">arrow_back</span>
+        All invoices
+      </a>
+      <div class="id-actions">
+        <button class="id-btn id-btn--primary" disabled title="Payments cannot be recorded because the invoice is fully paid">
+          Record payment
+        </button>
+        <a href="#" class="id-btn">Edit</a>
+        <button class="id-btn" id="id-view-as-client-btn">View as client</button>
+        <div class="id-more-wrap">
+          <button class="id-btn js-id-more-btn">
+            More actions
+            <span class="material-symbols-rounded">expand_more</span>
+          </button>
+          <div class="id-more-dropdown" id="idMoreDropdown">
+            <a href="#" class="id-more-item">Resend</a>
+            <a href="#" class="id-more-item">Download PDF</a>
+            <a href="#" class="id-more-item">Close</a>
+            <a href="#" class="id-more-item id-more-item--danger">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client view banner -->
+    <div class="id-client-banner" id="id-client-banner">
+      <span class="material-symbols-rounded">visibility</span>
+      You are viewing this invoice as the client sees it. Internal fields (Conversion history) are hidden.
+      <button class="id-client-banner-close" id="id-client-banner-close">Exit client view</button>
+    </div>
+
+    <!-- Invoice card -->
+    <div class="id-card">
+
+      <!-- Invoice number + status -->
+      <div class="id-invoice-title-row">
+        <div class="id-invoice-title-group">
+          <h2 class="id-invoice-number">Invoice DA1037</h2>
+          <span class="id-badge id-badge--paid">Paid</span>
+        </div>
+      </div>
+
+      <!-- From / To + Meta -->
+      <div class="id-meta-outer">
+        <div class="id-from-to">
+          <div>
+            <div class="id-party-label id-party-label--paid">FROM</div>
+            <div class="id-org-name">Dante upd</div>
+            <div class="id-party-detail">Tax ID: 1234567</div>
+          </div>
+          <div>
+            <div class="id-party-label">TO</div>
+            <div class="id-client-name">Ourselves</div>
+          </div>
+        </div>
+
+        <div class="id-meta-list">
+          <div class="id-meta-item">
+            <span class="id-meta-key">Issue date:</span>
+            <strong class="id-meta-val">Mon, Apr 22, 2024</strong>
+          </div>
+          <div class="id-meta-item">
+            <span class="id-meta-key">Due date:</span>
+            <strong class="id-meta-val">Wed, May 22, 2024</strong>
+          </div>
+          <div class="id-meta-item">
+            <span class="id-meta-key">Balance:</span>
+            <strong class="id-meta-val">GBP 0.00</strong>
+          </div>
+          <div class="id-meta-item">
+            <span class="id-meta-key">Paid:</span>
+            <strong class="id-meta-val">GBP 250.00</strong>
+          </div>
+          <div class="id-meta-item">
+            <span class="id-meta-key">Days old:</span>
+            <strong class="id-meta-val">757</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Line items -->
+      <table class="id-table">
+        <thead>
+          <tr>
+            <th class="id-th">Description</th>
+            <th class="id-th id-th--narrow">Total hours (qty)</th>
+            <th class="id-th id-th--narrow">Unit price (GBP)</th>
+            <th class="id-th id-th--narrow">Amount (GBP)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="id-tr">
+            <td class="id-td"><strong>Fixed amount</strong></td>
+            <td class="id-td id-td--value">1:00:00</td>
+            <td class="id-td id-td--value">GBP 250.00</td>
+            <td class="id-td id-td--value">GBP 250.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Totals -->
+      <div class="id-footer-row">
+        <div class="id-totals">
+          <div class="id-total-row">
+            <span class="id-total-label">Subtotal</span>
+            <span class="id-total-val">GBP 250.00</span>
+          </div>
+          <div class="id-total-row">
+            <span class="id-total-label">Total</span>
+            <span class="id-total-val">GBP 250.00</span>
+          </div>
+          <div class="id-total-row">
+            <span class="id-total-label">Paid</span>
+            <span class="id-total-val">GBP 250.00</span>
+          </div>
+          <div class="id-total-row id-total-row--grand">
+            <span class="id-total-label">Amount due</span>
+            <span class="id-total-val">GBP 0.00</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /id-card -->
+
+    <!-- Bottom: History + Conversion history -->
+    <div class="id-bottom">
+
+      <!-- History -->
+      <div class="id-history-section">
+        <h4 class="id-section-title">History</h4>
+        <table class="id-history-table">
+          <tbody>
+            <tr>
+              <td>Reopened</td>
+              <td>João Teste</td>
+              <td>Mon, May 11, 2026 9:54 pm</td>
+            </tr>
+            <tr>
+              <td>Closed</td>
+              <td>João Teste</td>
+              <td>Mon, May 11, 2026 9:54 pm</td>
+            </tr>
+            <tr>
+              <td>Reopened</td>
+              <td>João Teste</td>
+              <td>Wed, Dec 11, 2024 12:50 pm</td>
+            </tr>
+            <tr>
+              <td>Closed</td>
+              <td>João Teste</td>
+              <td>Wed, Dec 11, 2024 12:46 pm</td>
+            </tr>
+            <tr>
+              <td>Reopened</td>
+              <td>João Teste</td>
+              <td>Wed, Dec 11, 2024 12:46 pm</td>
+            </tr>
+            <tr>
+              <td>Closed</td>
+              <td>João Teste</td>
+              <td>Fri, Jun 7, 2024 7:52 pm</td>
+            </tr>
+            <tr>
+              <td>Recorded payment of GBP 250.00 <a href="#" class="id-history-link">View</a></td>
+              <td>João Teste</td>
+              <td>Fri, Jun 7, 2024 7:52 pm</td>
+            </tr>
+            <tr>
+              <td>Automatically sent</td>
+              <td></td>
+              <td>Thu, Apr 25, 2024 11:43 am</td>
+            </tr>
+            <tr>
+              <td>Automatically sent</td>
+              <td></td>
+              <td>Mon, Apr 22, 2024 11:43 am</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Conversion history (internal only) -->
+      <div class="id-conversion" id="id-conversion-section">
+        <div class="id-conversion-title-row">
+          <h4 class="id-section-title">Conversion history</h4>
+          <div class="id-conversion-note">
+            <span class="material-symbols-rounded">lock</span>
+            Only visible to you — not shown to clients
+          </div>
+        </div>
+
+        <!-- Entry 1 -->
+        <div class="id-conversion-entry">
+          <div class="id-conv-header">
+            <span class="id-conv-date-text" id="id-conv-date-text-1">Payment recorded on Jun 7, 2024</span>
+            <button class="id-conv-edit-btn js-id-conv-open-modal" data-entry="1" data-date="2024-06-07">
+              <span class="material-symbols-rounded">edit</span>
+              Edit date
+            </button>
+          </div>
+          <div class="id-conv-details">
+            <div class="id-conv-row">
+              <span class="id-conv-key">Amount</span>
+              <span class="id-conv-val" id="id-conv-amount-1">GBP 250.00 → USD 317.50</span>
+            </div>
+            <div class="id-conv-row">
+              <span class="id-conv-key">Exchange rate</span>
+              <span class="id-conv-val" id="id-conv-rate-1">1 GBP = 1.2700 USD</span>
+            </div>
+            <div class="id-conv-row">
+              <span class="id-conv-key">Source</span>
+              <span class="id-conv-source">Open Exchange Rates</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /id-conversion-section -->
+
+    </div><!-- /id-bottom -->
+
+  </div>
+</div>
+
+<!-- Edit Payment Date Modal -->
+<div class="id-modal-backdrop" id="idEditPaymentDateBackdrop">
+  <div class="id-modal" role="dialog" aria-labelledby="idEditPaymentDateTitle" aria-modal="true">
+    <div class="id-modal-header">
+      <h3 class="id-modal-title" id="idEditPaymentDateTitle">Edit payment date</h3>
+      <button class="id-modal-close" id="idEditPaymentDateClose" aria-label="Close">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+    <div class="id-modal-body">
+      <p class="id-modal-description">Updating the payment date recalculates the conversion using the exchange rate from the newly selected date. Rates are sourced from <strong>Open Exchange Rates</strong>.</p>
+
+      <!-- Side-by-side comparison -->
+      <div class="id-modal-compare">
+
+        <!-- Current (read-only) -->
+        <div class="id-modal-compare-col id-modal-compare-col--current">
+          <div class="id-modal-compare-header">Current</div>
+          <div class="id-modal-compare-row">
+            <span class="id-modal-compare-key">Payment date</span>
+            <div class="id-modal-date-wrap">
+              <input type="date" class="id-modal-input" id="idCompareCurrDate" disabled>
+              <span class="material-symbols-rounded id-modal-date-icon">calendar_today</span>
+            </div>
+          </div>
+          <div class="id-modal-compare-row">
+            <span class="id-modal-compare-key">Exchange rate</span>
+            <span class="id-modal-compare-static" id="idCompareCurrRate">—</span>
+          </div>
+          <div class="id-modal-compare-row">
+            <span class="id-modal-compare-key">Amount</span>
+            <span class="id-modal-compare-static" id="idCompareCurrAmount">—</span>
+          </div>
+        </div>
+
+        <div class="id-modal-compare-divider"></div>
+
+        <!-- New (editable) -->
+        <div class="id-modal-compare-col id-modal-compare-col--new">
+          <div class="id-modal-compare-header">New</div>
+          <div class="id-modal-compare-row">
+            <span class="id-modal-compare-key">Payment date</span>
+            <div class="id-modal-date-wrap">
+              <input type="date" class="id-modal-input" id="idEditDateInput">
+              <span class="material-symbols-rounded id-modal-date-icon">calendar_today</span>
+            </div>
+          </div>
+          <div class="id-modal-compare-row">
+            <span class="id-modal-compare-key">Exchange rate</span>
+            <span class="id-modal-compare-val" id="idEditPreviewRate">—</span>
+          </div>
+          <div class="id-modal-compare-row">
+            <span class="id-modal-compare-key">Amount</span>
+            <span class="id-modal-compare-val" id="idEditPreviewAmount">—</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="id-modal-footer">
+      <button class="id-modal-btn id-modal-btn--cancel" id="idEditPaymentDateCancel">Cancel</button>
+      <button class="id-modal-btn id-modal-btn--update" id="idEditPaymentDateUpdate">Update</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  HubstaffShell.init({ activeItem: 'financials' });
+
+  // ── FX rates (same as invoices page) ──
+  var FX = { USD: 1, GBP: 1.27, EUR: 1.08, CAD: 0.74, BRL: 0.20, JPY: 0.0067 };
+
+  // Historical GBP/USD rates for prototype (per-date simulation)
+  var HISTORICAL_FX = {
+    '2024-06-07': { GBP: 1.2700 },
+    '2024-06-06': { GBP: 1.2715 },
+    '2024-06-05': { GBP: 1.2730 },
+    '2024-06-04': { GBP: 1.2750 },
+    '2024-06-03': { GBP: 1.2745 }
+  };
+
+  function getRateForDate(currency, dateStr) {
+    if (!dateStr) return FX[currency];
+    var dayRates = HISTORICAL_FX[dateStr];
+    return (dayRates && dayRates[currency]) ? dayRates[currency] : FX[currency];
+  }
+
+  function fmtDate(dateStr) {
+    var d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  // ── View as client toggle ──
+  var page    = document.getElementById('id-page');
+  var banner  = document.getElementById('id-client-banner');
+  var viewBtn = document.getElementById('id-view-as-client-btn');
+
+  viewBtn.addEventListener('click', function() {
+    page.classList.add('is-client-view');
+    banner.classList.add('is-visible');
+    viewBtn.textContent = 'Exit client view';
+  });
+
+  document.getElementById('id-client-banner-close').addEventListener('click', function() {
+    page.classList.remove('is-client-view');
+    banner.classList.remove('is-visible');
+    viewBtn.textContent = 'View as client';
+  });
+
+  // ── Edit Payment Date Modal ──
+  var editBackdrop    = document.getElementById('idEditPaymentDateBackdrop');
+  var editDateInput   = document.getElementById('idEditDateInput');
+  var editPreviewRate = document.getElementById('idEditPreviewRate');
+  var editPreviewAmt  = document.getElementById('idEditPreviewAmount');
+  var activeEntry     = null;
+
+  function calcNewSide() {
+    var dateVal = editDateInput.value;
+    if (!dateVal) {
+      editPreviewRate.textContent = '—';
+      editPreviewAmt.textContent  = '—';
+      return;
+    }
+    var rate = getRateForDate('GBP', dateVal);
+    var paid = 250;
+    var usd  = (paid * rate).toFixed(2);
+    editPreviewRate.textContent = '1 GBP = ' + rate.toFixed(4) + ' USD';
+    editPreviewAmt.textContent  = 'GBP ' + paid.toFixed(2) + ' → USD ' + usd;
+  }
+
+  editDateInput.addEventListener('change', calcNewSide);
+
+  function openEditModal(btn) {
+    activeEntry = btn.dataset.entry;
+    var currDate = btn.dataset.date || '';
+
+    // Populate Current column (disabled input + rate/amount)
+    document.getElementById('idCompareCurrDate').value = currDate;
+    var currRate = getRateForDate('GBP', currDate);
+    var paid = 250;
+    document.getElementById('idCompareCurrRate').textContent   = '1 GBP = ' + currRate.toFixed(4) + ' USD';
+    document.getElementById('idCompareCurrAmount').textContent = 'GBP ' + paid.toFixed(2) + ' → USD ' + (paid * currRate).toFixed(2);
+
+    // Pre-fill New column with a nearby date to show contrast
+    editDateInput.value = '2024-06-04';
+    calcNewSide();
+
+    editBackdrop.classList.add('is-open');
+    setTimeout(function() { editDateInput.focus(); }, 60);
+  }
+
+  function closeEditModal() {
+    editBackdrop.classList.remove('is-open');
+    activeEntry = null;
+  }
+
+  document.querySelectorAll('.js-id-conv-open-modal').forEach(function(btn) {
+    btn.addEventListener('click', function() { openEditModal(this); });
+  });
+
+  document.getElementById('idEditPaymentDateClose').addEventListener('click', closeEditModal);
+  document.getElementById('idEditPaymentDateCancel').addEventListener('click', closeEditModal);
+
+  editBackdrop.addEventListener('click', function(e) {
+    if (e.target === editBackdrop) closeEditModal();
+  });
+
+  document.getElementById('idEditPaymentDateUpdate').addEventListener('click', function() {
+    var dateVal = editDateInput.value;
+    if (!dateVal || !activeEntry) return;
+
+    var rate    = getRateForDate('GBP', dateVal);
+    var paidGBP = 250;
+    var paidUSD = (paidGBP * rate).toFixed(2);
+
+    var btn = document.querySelector('.js-id-conv-open-modal[data-entry="' + activeEntry + '"]');
+    if (btn) btn.dataset.date = dateVal;
+
+    document.getElementById('id-conv-date-text-' + activeEntry).textContent =
+      'Payment recorded on ' + fmtDate(dateVal);
+    document.getElementById('id-conv-amount-' + activeEntry).textContent =
+      'GBP ' + paidGBP.toFixed(2) + ' → USD ' + paidUSD;
+    document.getElementById('id-conv-rate-' + activeEntry).textContent =
+      '1 GBP = ' + rate.toFixed(4) + ' USD';
+
+    closeEditModal();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && editBackdrop.classList.contains('is-open')) closeEditModal();
+  });
+
+  // ── More actions dropdown ──
+  document.querySelector('.js-id-more-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    document.getElementById('idMoreDropdown').classList.toggle('is-open');
+  });
+
+  document.addEventListener('click', function() {
+    document.getElementById('idMoreDropdown').classList.remove('is-open');
+  });
+</script>
+
+<!-- Design annotations -->
+<script src="design-annotations.js?v=2"></script>
+<script>
+  DesignAnnotations.init({
+    page: 'Invoicing — Invoice detail',
+    required: [
+      {
+        text: 'Conversion history section is internal-only',
+        sub: [
+          'Must not appear in "View as client" mode',
+          'Shows per-payment conversion entries with amount, exchange rate, and source',
+          'Partially paid invoices show one entry per payment'
+        ]
+      },
+      {
+        text: 'Exchange rate is locked to the payment date',
+        sub: [
+          'Rate used reflects Open Exchange Rates data for the date of payment',
+          'Editing the payment date recalculates the conversion using the rate from the new date',
+          'Prototype uses a static rate — production should query historical rate by date'
+        ]
+      },
+      {
+        text: 'Currency codes only — no symbols',
+        sub: ['All amounts display as "GBP 250.00", never "£250.00"']
+      }
+    ],
+    suggestions: []
+  });
+</script>
+</body>
+</html>

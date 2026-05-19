@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clients — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@18,400,0,0;24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="clients.css?v=4" />
+</head>
+<body>
+  <div id="shell-content">
+
+    <div class="cl-page">
+
+      <div class="cl-header">
+        <h2 class="cl-title">Clients</h2>
+      </div>
+
+      <div class="cl-tabs">
+        <button class="cl-tab is-active" data-tab="active">Active (4)</button>
+        <button class="cl-tab" data-tab="archived">Archived (1)</button>
+      </div>
+
+      <!-- Currency filter -->
+      <div class="cl-filters">
+        <div class="cl-filter-group">
+          <label class="cl-filter-label">Currency</label>
+          <div class="cl-filter-select-wrap">
+            <select class="cl-filter-select" id="cl-currency-filter">
+              <option value="">All Currencies</option>
+              <option value="USD">USD — US Dollar</option>
+              <option value="EUR">EUR — Euro</option>
+              <option value="BRL">BRL — Brazilian Real</option>
+            </select>
+            <span class="material-symbols-rounded cl-filter-select-icon">expand_more</span>
+          </div>
+        </div>
+        <button class="cl-apply-btn" id="cl-apply-btn">Apply</button>
+      </div>
+
+      <div class="cl-toolbar">
+        <div class="cl-search-wrap">
+          <span class="material-symbols-rounded cl-search-icon">search</span>
+          <input class="cl-search" type="search" placeholder="Search clients" />
+        </div>
+        <div class="cl-toolbar-actions">
+          <button type="button" class="btn btn--outline">Import clients</button>
+          <button type="button" class="btn btn--primary">Add client</button>
+        </div>
+      </div>
+
+      <div class="cl-table-wrap">
+        <table class="cl-table">
+          <thead>
+            <tr>
+              <th class="cl-th cl-th--check"><label class="cl-check-wrap"><input type="checkbox" /><span class="cl-check-box"></span></label></th>
+              <th class="cl-th">Name</th>
+              <th class="cl-th">Budget</th>
+              <th class="cl-th">Auto-invoicing</th>
+              <th class="cl-th">Currency</th>
+              <th class="cl-th"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- City of Chicago -->
+            <tr class="cl-tr" data-currency="USD">
+              <td class="cl-td cl-td--check"><label class="cl-check-wrap"><input type="checkbox" /><span class="cl-check-box"></span></label></td>
+              <td class="cl-td">
+                <a href="#" class="cl-client-link">
+                  <div class="cl-avatar" style="background:#4e4302;">C</div>
+                  City of Chicago
+                </a>
+              </td>
+              <td class="cl-td">
+                <div class="cl-budget">
+                  <div class="cl-budget-top">
+                    <span class="cl-budget-pct">0%</span>
+                    <span class="cl-budget-info material-symbols-rounded" title="Spent: $0.00 / $85,000.00 · Remaining: $85,000.00">info</span>
+                  </div>
+                  <div class="cl-progress"><div class="cl-progress-bar" style="width:0%"></div></div>
+                  <div class="cl-budget-scale"><span>0%</span><span>100%</span></div>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-autoinv cl-autoinv--off">
+                  <span class="material-symbols-rounded">do_not_disturb_on</span>
+                  <span>Off</span>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-curr">
+                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">USD</span></span>
+                </div>
+              </td>
+              <td class="cl-td cl-td--actions">
+                <div class="cl-actions-wrap">
+                  <button class="cl-actions-btn" type="button">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                  <div class="cl-dropdown">
+                    <a href="#" class="cl-dropdown-item js-edit-client" data-client="City of Chicago" data-currency="USD">Edit client</a>
+                    <a href="#" class="cl-dropdown-item">Archive client</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Jorge -->
+            <tr class="cl-tr" data-currency="EUR">
+              <td class="cl-td cl-td--check"><label class="cl-check-wrap"><input type="checkbox" /><span class="cl-check-box"></span></label></td>
+              <td class="cl-td">
+                <a href="#" class="cl-client-link">
+                  <div class="cl-avatar" style="background:#c381a0;">J</div>
+                  Jorge
+                </a>
+              </td>
+              <td class="cl-td">
+                <div class="cl-budget">
+                  <div class="cl-budget-top">
+                    <span class="cl-budget-pct">0%</span>
+                    <span class="cl-budget-info material-symbols-rounded" title="Spent: 0:00:00 / 111:00:00 · Remaining: 111:00:00">info</span>
+                  </div>
+                  <div class="cl-progress"><div class="cl-progress-bar" style="width:0%"></div></div>
+                  <div class="cl-budget-scale"><span>0%</span><span>100%</span></div>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-autoinv cl-autoinv--custom">
+                  <span class="material-symbols-rounded">tune</span>
+                  <span>Custom settings</span>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-curr">
+                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">EUR</span></span>
+                  <span class="cl-curr-projects"><span class="cl-curr-label">Projects (1): </span><span class="cl-curr-value">USD</span></span>
+                </div>
+              </td>
+              <td class="cl-td cl-td--actions">
+                <div class="cl-actions-wrap">
+                  <button class="cl-actions-btn" type="button">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                  <div class="cl-dropdown">
+                    <a href="#" class="cl-dropdown-item js-edit-client" data-client="Jorge" data-currency="EUR">Edit client</a>
+                    <a href="#" class="cl-dropdown-item">Archive client</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Ourselves -->
+            <tr class="cl-tr" data-currency="USD">
+              <td class="cl-td cl-td--check"><label class="cl-check-wrap"><input type="checkbox" /><span class="cl-check-box"></span></label></td>
+              <td class="cl-td">
+                <a href="#" class="cl-client-link">
+                  <div class="cl-avatar" style="background:#1c3e0f;">O</div>
+                  Ourselves
+                </a>
+              </td>
+              <td class="cl-td">
+                <div class="cl-budget">
+                  <div class="cl-budget-top">
+                    <span class="cl-budget-pct">2%</span>
+                    <span class="cl-budget-info material-symbols-rounded" title="Spent: $20.00 / $1,000.00 · Remaining: $980.00">info</span>
+                  </div>
+                  <div class="cl-progress"><div class="cl-progress-bar" style="width:2%"></div></div>
+                  <div class="cl-budget-scale"><span>0%</span><span>100%</span></div>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-autoinv cl-autoinv--org">
+                  <span class="material-symbols-rounded">corporate_fare</span>
+                  <span>Organization settings</span>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-curr">
+                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">USD</span></span>
+                  <span class="cl-curr-projects"><span class="cl-curr-label">Projects (2): </span><span class="cl-curr-value">CAD, PHP</span></span>
+                </div>
+              </td>
+              <td class="cl-td cl-td--actions">
+                <div class="cl-actions-wrap">
+                  <button class="cl-actions-btn" type="button">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                  <div class="cl-dropdown">
+                    <a href="#" class="cl-dropdown-item js-edit-client" data-client="Ourselves" data-currency="USD">Edit client</a>
+                    <a href="#" class="cl-dropdown-item">Archive client</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Shawn Williams -->
+            <tr class="cl-tr" data-currency="BRL">
+              <td class="cl-td cl-td--check"><label class="cl-check-wrap"><input type="checkbox" /><span class="cl-check-box"></span></label></td>
+              <td class="cl-td">
+                <a href="#" class="cl-client-link">
+                  <div class="cl-avatar" style="background:#a4793e;">S</div>
+                  Shawn Williams
+                </a>
+              </td>
+              <td class="cl-td">
+                <div class="cl-budget">
+                  <div class="cl-budget-top">
+                    <span class="cl-budget-pct">0%</span>
+                    <span class="cl-budget-info material-symbols-rounded" title="Spent: $0.00 / $85,000.00 · Remaining: $85,000.00">info</span>
+                  </div>
+                  <div class="cl-progress"><div class="cl-progress-bar" style="width:0%"></div></div>
+                  <div class="cl-budget-scale"><span>0%</span><span>100%</span></div>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-autoinv cl-autoinv--off">
+                  <span class="material-symbols-rounded">do_not_disturb_on</span>
+                  <span>Off</span>
+                </div>
+              </td>
+              <td class="cl-td">
+                <div class="cl-curr">
+                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">BRL</span></span>
+                </div>
+              </td>
+              <td class="cl-td cl-td--actions">
+                <div class="cl-actions-wrap">
+                  <button class="cl-actions-btn" type="button">Actions <span class="material-symbols-rounded">expand_more</span></button>
+                  <div class="cl-dropdown">
+                    <a href="#" class="cl-dropdown-item js-edit-client" data-client="Shawn Williams" data-currency="BRL">Edit client</a>
+                    <a href="#" class="cl-dropdown-item">Archive client</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Edit client modal -->
+  <div class="cl-modal-backdrop" id="editClientModal">
+    <div class="cl-modal" role="dialog" aria-modal="true">
+
+      <div class="cl-modal-header">
+        <h3 class="cl-modal-title">Edit client</h3>
+        <button class="cl-modal-close js-modal-close" type="button" aria-label="Close">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+
+      <div class="cl-modal-tabs">
+        <button class="cl-modal-tab" data-modal-tab="general">General</button>
+        <button class="cl-modal-tab" data-modal-tab="contact">Contact info</button>
+        <button class="cl-modal-tab" data-modal-tab="projects">Projects / WO</button>
+        <button class="cl-modal-tab" data-modal-tab="budget">Budget</button>
+        <button class="cl-modal-tab is-active" data-modal-tab="invoicing">Invoicing</button>
+      </div>
+
+      <div class="cl-modal-body">
+
+        <div class="cl-modal-panel" id="modal-tab-general"></div>
+        <div class="cl-modal-panel" id="modal-tab-contact"></div>
+        <div class="cl-modal-panel" id="modal-tab-projects"></div>
+        <div class="cl-modal-panel" id="modal-tab-budget"></div>
+
+        <div class="cl-modal-panel is-active" id="modal-tab-invoicing">
+
+          <!-- Default currency -->
+          <div class="cl-inv-field cl-inv-field--half">
+            <label class="cl-inv-label" for="inv-currency">Client Default Currency</label>
+            <div class="org-select-wrap">
+              <select class="org-select" id="inv-currency">
+                <option value="">Use organization default (USD)</option>
+                <option value="USD" selected>USD - United States Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="BRL">BRL - Brazilian Real</option>
+                <option value="MXN">MXN - Mexican Peso</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="PHP">PHP - Philippine Peso</option>
+              </select>
+              <span class="material-symbols-rounded org-select-icon">expand_more</span>
+            </div>
+            <p class="cl-inv-note">This currency will be used for the client invoices to <strong id="cl-inv-note-name">the client</strong>. If needed, project-specific currencies can be set at the <a href="#" class="cl-inv-note-link">project settings</a>.</p>
+          </div>
+
+          <div class="cl-inv-divider"></div>
+
+          <!-- Notes -->
+          <div class="cl-inv-field">
+            <label class="cl-inv-label">Notes <span class="cl-inv-label-sub">(shown on invoices)</span></label>
+            <label class="cl-toggle">
+              <input type="checkbox" class="cl-toggle-input" />
+              <span class="cl-toggle-track"><span class="cl-toggle-thumb"></span></span>
+              <span class="cl-toggle-text">Custom for this client</span>
+            </label>
+            <textarea class="cl-inv-textarea" placeholder="Enter notes to client" rows="4"></textarea>
+          </div>
+
+          <div class="cl-inv-divider"></div>
+
+          <!-- Net terms + Tax rate (2 columns) -->
+          <div class="cl-inv-two-col">
+            <div class="cl-inv-field">
+              <label class="cl-inv-label">
+                Net terms
+                <span class="material-symbols-rounded cl-inv-info" title="Number of days the client has to pay the invoice">info</span>
+              </label>
+              <label class="cl-toggle">
+                <input type="checkbox" class="cl-toggle-input" />
+                <span class="cl-toggle-track"><span class="cl-toggle-thumb"></span></span>
+                <span class="cl-toggle-text">Custom for this client</span>
+              </label>
+              <div class="cl-inv-input-unit">
+                <input class="cl-inv-input" type="number" value="30" />
+                <span class="cl-inv-unit">days</span>
+              </div>
+            </div>
+
+            <div class="cl-inv-field">
+              <label class="cl-inv-label">
+                Tax rate
+                <span class="material-symbols-rounded cl-inv-info" title="Percentage applied as tax on invoices">info</span>
+              </label>
+              <label class="cl-toggle">
+                <input type="checkbox" class="cl-toggle-input" />
+                <span class="cl-toggle-track"><span class="cl-toggle-thumb"></span></span>
+                <span class="cl-toggle-text">Custom for this client</span>
+              </label>
+              <div class="cl-inv-input-unit">
+                <input class="cl-inv-input" type="number" placeholder="Ex. 7" />
+                <span class="cl-inv-unit">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cl-inv-divider"></div>
+
+          <!-- Auto invoicing -->
+          <div class="cl-inv-field">
+            <h4 class="cl-inv-section-title">Auto invoicing</h4>
+            <div class="cl-segmented">
+              <button class="cl-seg-btn" type="button">Off</button>
+              <button class="cl-seg-btn is-active" type="button">Org settings</button>
+              <button class="cl-seg-btn" type="button">Custom</button>
+            </div>
+            <p class="cl-inv-autoinv-note">
+              Auto-invoicing for the organization is enabled.
+              <a href="#" class="org-link">Adjust auto-invoice settings</a>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cl-modal-footer">
+        <button type="button" class="btn js-modal-close">Cancel</button>
+        <button type="button" class="btn btn--primary">Save</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="hubstaff-shell.js?v=8"></script>
+  <script src="layout.js"></script>
+  <script>
+    HubstaffShell.setActiveItem('project_management');
+
+    // Page tabs
+    document.querySelectorAll('.cl-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.cl-tab').forEach(function(t) { t.classList.remove('is-active'); });
+        this.classList.add('is-active');
+      });
+    });
+
+    // Actions dropdown
+    document.querySelectorAll('.cl-actions-wrap').forEach(function(wrap) {
+      var btn = wrap.querySelector('.cl-actions-btn');
+      var dd = wrap.querySelector('.cl-dropdown');
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = dd.classList.contains('is-open');
+        document.querySelectorAll('.cl-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+        if (!isOpen) dd.classList.add('is-open');
+      });
+    });
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.cl-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+    });
+
+    // Edit client modal
+    var modal = document.getElementById('editClientModal');
+    var modalTitle = modal.querySelector('.cl-modal-title');
+    var currencySelect = document.getElementById('inv-currency');
+
+    document.querySelectorAll('.js-edit-client').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelectorAll('.cl-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+        modalTitle.textContent = 'Edit client — ' + this.dataset.client;
+        var noteNameEl = document.getElementById('cl-inv-note-name');
+        if (noteNameEl) noteNameEl.textContent = this.dataset.client;
+        var cur = this.dataset.currency;
+        for (var i = 0; i < currencySelect.options.length; i++) {
+          if (currencySelect.options[i].value === cur) { currencySelect.selectedIndex = i; break; }
+        }
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        DesignAnnotations.setContext({
+          page: 'Edit client → Invoicing tab',
+          required: [
+            {
+              text: 'Add a "Client default currency" dropdown',
+              sub: [
+                'Use the organization currency as the default selected value',
+                'Add helper text explaining that this currency is used as the default for new invoices to this client',
+                'Projects can override this currency at the project level'
+              ]
+            }
+          ],
+          suggestions: []
+        });
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      DesignAnnotations.clearContext();
+    }
+
+    document.querySelectorAll('.js-modal-close').forEach(function(btn) {
+      btn.addEventListener('click', closeModal);
+    });
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Modal tabs
+    document.querySelectorAll('.cl-modal-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var target = this.dataset.modalTab;
+        document.querySelectorAll('.cl-modal-tab').forEach(function(t) { t.classList.remove('is-active'); });
+        document.querySelectorAll('.cl-modal-panel').forEach(function(p) { p.classList.remove('is-active'); });
+        this.classList.add('is-active');
+        document.getElementById('modal-tab-' + target).classList.add('is-active');
+      });
+    });
+
+    // Segmented control
+    document.querySelectorAll('.cl-segmented').forEach(function(seg) {
+      seg.querySelectorAll('.cl-seg-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          seg.querySelectorAll('.cl-seg-btn').forEach(function(b) { b.classList.remove('is-active'); });
+          this.classList.add('is-active');
+        });
+      });
+    });
+
+    // ── Currency filter ──
+    document.getElementById('cl-apply-btn').addEventListener('click', function() {
+      var currency = document.getElementById('cl-currency-filter').value;
+      var rows = document.querySelectorAll('.cl-tr');
+      var visible = 0;
+      rows.forEach(function(row) {
+        if (!currency || row.dataset.currency === currency) {
+          row.style.display = '';
+          visible++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+  <!-- Design annotations -->
+  <script src="design-annotations.js"></script>
+  <script>
+    DesignAnnotations.init({
+      page: 'Clients',
+      required: [
+        {
+          text: 'Clients list — Add a new "Currencies" column to the table',
+          sub: ['Display the client\'s default currency', 'Display the distinct currencies used across that client\'s projects']
+        },
+        {
+          text: 'Edit client → Invoicing tab — Add a "Client default currency" dropdown',
+          sub: ['Include helper text explaining what this currency means and how it cascades to invoices and projects']
+        }
+      ],
+      suggestions: [
+        {
+          text: 'Improve the budget progress bar — it currently looks like a loading state',
+          sub: ['Add clear 0% (empty) and 100% (full) visual markers', 'Consider a label showing the percentage or amount filled']
+        },
+        {
+          text: 'Auto invoicing column uses icons only — add visible labels',
+          sub: ['"Custom settings" for client-level overrides', '"Organization settings" for inherited defaults']
+        }
+      ]
+    });
+  </script>
+</body>
+</html>

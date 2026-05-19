@@ -1,0 +1,611 @@
+/* =============================================================
+   Clients page
+   ============================================================= */
+
+/* Remove browser default orange/blue outline; replaced by explicit focus styles */
+.cl-page *:focus { outline: none; }
+
+.cl-page { padding: 32px; }
+
+/* ── Header ── */
+.cl-header { margin-bottom: 16px; }
+.cl-title { margin: 0; font-size: 22px; font-weight: 300; color: #111827; }
+
+/* ── Page tabs ── */
+.cl-tabs { display: flex; border-bottom: 1px solid #e5e7eb; margin-bottom: 24px; }
+
+.cl-tab {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  font: 500 13px/1 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 120ms ease;
+}
+.cl-tab:hover { color: #374151; }
+.cl-tab.is-active { color: #2aa7ff; border-bottom-color: #2aa7ff; }
+
+/* ── Toolbar ── */
+.cl-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.cl-search-wrap { position: relative; width: 280px; }
+
+.cl-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.cl-search {
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 12px 0 36px;
+  border: 1px solid #D6DBE6;
+  border-radius: 20px;
+  font: 400 14px/1 'Roboto', sans-serif;
+  color: #111827;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+.cl-search:focus { border-color: #2aa7ff; outline: none; }
+
+.cl-toolbar-actions { display: flex; gap: 8px; }
+
+/* ── Table ── */
+.cl-table-wrap { overflow-x: auto; }
+.cl-table { width: 100%; border-collapse: collapse; font: 400 14px/1.4 'Roboto', sans-serif; }
+
+.cl-th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.cl-th--check, .cl-td--check { width: 40px; padding: 10px 8px 10px 16px; }
+
+.cl-tr { border-bottom: 1px solid #f3f4f6; transition: background 80ms ease; }
+.cl-tr:hover { background: #f9fafb; }
+
+.cl-td { padding: 14px 16px; vertical-align: middle; color: #111827; }
+
+/* ── Checkbox ── */
+.cl-check-wrap { display: flex; align-items: center; cursor: pointer; }
+.cl-check-wrap input[type="checkbox"] { display: none; }
+.cl-check-box {
+  width: 16px; height: 16px;
+  border: 1.5px solid #D6DBE6;
+  border-radius: 4px;
+  display: block;
+  transition: border-color 120ms ease;
+}
+.cl-check-wrap:hover .cl-check-box { border-color: #2aa7ff; }
+.cl-check-wrap input:checked + .cl-check-box { background: #2aa7ff; border-color: #2aa7ff; }
+
+/* ── Client name ── */
+.cl-client-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #2aa7ff;
+  font-weight: 500;
+}
+.cl-client-link:hover { text-decoration: underline; }
+
+.cl-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ── Budget ── */
+.cl-budget { min-width: 160px; display: flex; flex-direction: column; gap: 4px; }
+
+.cl-budget-top { display: flex; align-items: center; gap: 4px; }
+
+.cl-budget-pct { font-size: 12px; font-weight: 500; color: #374151; }
+
+.cl-budget-info { font-size: 14px; color: #9ca3af; cursor: default; }
+
+.cl-progress {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.cl-progress-bar {
+  height: 100%;
+  background: #2aa7ff;
+  border-radius: 99px;
+  transition: width 300ms ease;
+  /* no min-width — 0% stays truly empty */
+}
+
+.cl-budget-scale { display: flex; justify-content: space-between; font-size: 11px; color: #9ca3af; }
+
+/* ── Auto-invoicing ── */
+.cl-autoinv { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.cl-autoinv .material-symbols-rounded { font-size: 16px; }
+
+.cl-autoinv--off { color: #6b7280; }
+.cl-autoinv--off .material-symbols-rounded { color: #9ca3af; }
+
+.cl-autoinv--custom { color: #374151; }
+.cl-autoinv--custom .material-symbols-rounded { color: #6b7280; }
+
+.cl-autoinv--org { color: #374151; }
+.cl-autoinv--org .material-symbols-rounded { color: #6b7280; }
+
+/* ── Currency (plain text) ── */
+.cl-curr {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cl-curr-primary {
+  font-size: 14px;
+  color: #374151;
+}
+
+.cl-curr-primary .cl-curr-label {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.cl-curr-primary .cl-curr-value {
+  font-weight: 700;
+  color: #111827;
+}
+
+.cl-curr-projects {
+  font-size: 12px;
+  color: #374151;
+}
+
+.cl-curr-projects .cl-curr-label {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.cl-curr-projects .cl-curr-value {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ── Actions dropdown ── */
+.cl-td--actions { text-align: right; white-space: nowrap; }
+
+
+.cl-actions-wrap { position: relative; display: inline-block; }
+
+.cl-actions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #D6DBE6;
+  border-radius: 6px;
+  background: #fff;
+  font: 400 13px/1 'Roboto', sans-serif;
+  color: #374151;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.cl-actions-btn:hover { background: #f9fafb; }
+.cl-actions-btn .material-symbols-rounded { font-size: 16px; color: #6b7280; }
+
+.cl-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.10);
+  z-index: 50;
+  overflow: hidden;
+  text-align: left;
+}
+.cl-dropdown.is-open { display: block; }
+
+.cl-dropdown-item {
+  display: block;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: #374151;
+  text-decoration: none;
+  transition: background 80ms ease;
+}
+.cl-dropdown-item:hover { background: #f9fafb; }
+
+/* ── Modal backdrop ── */
+.cl-modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+}
+.cl-modal-backdrop.is-open { display: flex; }
+
+/* ── Modal dialog ── */
+.cl-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 620px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 48px rgba(0,0,0,.18);
+}
+
+.cl-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  flex-shrink: 0;
+}
+
+.cl-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.cl-modal-close {
+  width: 32px; height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: background 120ms ease;
+}
+.cl-modal-close:hover { background: #f3f4f6; color: #374151; }
+.cl-modal-close .material-symbols-rounded { font-size: 20px; }
+
+/* ── Modal tabs ── */
+.cl-modal-tabs {
+  display: flex;
+  padding: 0 24px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.cl-modal-tab {
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  font: 500 11px/1 'Roboto', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 120ms ease;
+}
+.cl-modal-tab:hover { color: #374151; }
+.cl-modal-tab.is-active { color: #2aa7ff; border-bottom-color: #2aa7ff; }
+
+/* ── Modal body ── */
+.cl-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.cl-modal-panel { display: none; }
+.cl-modal-panel.is-active { display: block; }
+
+/* ── Modal footer ── */
+.cl-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+/* ── Invoicing tab fields ── */
+.cl-inv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.cl-inv-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cl-inv-label-sub {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.cl-inv-info {
+  font-size: 15px;
+  color: #9ca3af;
+  cursor: default;
+}
+
+.cl-inv-note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.cl-inv-note strong { font-weight: 600; color: #374151; }
+.cl-inv-note-link { color: #2aa7ff; text-decoration: underline; font-weight: 500; }
+.cl-inv-note-link:hover { color: #0168dd; }
+
+.cl-inv-field--half { max-width: 100%; }
+
+.cl-inv-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 20px 0;
+}
+
+.cl-inv-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #D6DBE6;
+  border-radius: 6px;
+  font: 400 14px/1.5 'Roboto', sans-serif;
+  color: #111827;
+  resize: vertical;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+.cl-inv-textarea:focus { border-color: #2aa7ff; box-shadow: 0 0 0 3px rgba(42,167,255,.15); }
+.cl-inv-textarea::placeholder { color: #9ca3af; }
+
+.cl-inv-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+.cl-inv-input-unit { display: flex; gap: 0; }
+
+.cl-inv-input {
+  flex: 1;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #D6DBE6;
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  font: 400 14px/1 'Roboto', sans-serif;
+  color: #111827;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+.cl-inv-input:focus { border-color: #2aa7ff; box-shadow: 0 0 0 3px rgba(42,167,255,.15); }
+
+.cl-inv-unit {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #f3f4f6;
+  border: 1px solid #D6DBE6;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+/* ── Toggle switch ── */
+.cl-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cl-toggle-input { display: none; }
+
+.cl-toggle-track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #d1d5db;
+  border-radius: 99px;
+  transition: background 160ms ease;
+  flex-shrink: 0;
+}
+
+.cl-toggle-input:checked ~ .cl-toggle-track { background: #2aa7ff; }
+
+.cl-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: left 160ms ease;
+}
+
+.cl-toggle-input:checked ~ .cl-toggle-track .cl-toggle-thumb { left: 18px; }
+
+.cl-toggle-text { font-size: 14px; color: #374151; font-weight: 500; }
+
+/* ── Auto invoicing section ── */
+.cl-inv-section-title { margin: 0 0 12px; font-size: 16px; font-weight: 500; color: #111827; }
+
+/* ── Segmented control ── */
+.cl-segmented {
+  align-self: flex-start;
+  display: inline-flex;
+  background: #f3f4f6;
+  border-radius: 99px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.cl-seg-btn {
+  padding: 7px 20px;
+  border: none;
+  background: transparent;
+  border-radius: 99px;
+  font: 400 14px/1 'Roboto', sans-serif;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+.cl-seg-btn:hover { color: #374151; }
+.cl-seg-btn.is-active { background: #fff; color: #111827; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+
+.cl-inv-autoinv-note { margin: 12px 0 0; font-size: 13px; color: #374151; }
+
+/* ── Select inside modal (settings-organization.css not loaded here) ── */
+.cl-modal .org-select-wrap {
+  position: relative;
+}
+
+.cl-modal .org-select {
+  width: 100%;
+  box-sizing: border-box;
+  font: 400 14px/1.4 'Roboto', sans-serif;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #D6DBE6;
+  border-radius: 6px;
+  padding: 0 36px 0 12px;
+  height: 36px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.cl-modal .org-select:focus {
+  border-color: #2aa7ff;
+  box-shadow: 0 0 0 3px rgba(1, 104, 221, 0.12);
+}
+
+.cl-modal .org-select-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+/* ── Currency filter ── */
+.cl-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.cl-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cl-filter-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+.cl-filter-select-wrap {
+  position: relative;
+  width: 200px;
+}
+.cl-filter-select {
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 32px 0 12px;
+  border: 1px solid #D6DBE6;
+  border-radius: 6px;
+  font: 400 14px/1 'Roboto', sans-serif;
+  color: #111827;
+  background: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+.cl-filter-select:focus { border-color: #2aa7ff; box-shadow: 0 0 0 3px rgba(42,167,255,.15); }
+.cl-filter-select-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #6b7280;
+  pointer-events: none;
+}
+.cl-apply-btn {
+  height: 36px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 6px;
+  background: #31C48D;
+  color: #fff;
+  font: 500 14px/1 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 120ms ease;
+  white-space: nowrap;
+}
+.cl-apply-btn:hover { background: #059669; }

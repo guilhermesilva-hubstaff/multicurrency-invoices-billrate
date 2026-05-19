@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hubstaff-shell",
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": ["/Users/guisilva/claude-prototype/serve.py"],
+      "port": 4000
+    }
+  ]
+}
