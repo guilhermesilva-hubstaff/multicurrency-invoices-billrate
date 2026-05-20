@@ -700,7 +700,7 @@
 
 .pb-field--narrow {
   flex: 0 0 auto;
-  width: 120px;
+  width: 100px;
   min-width: unset;
 }
 
@@ -915,7 +915,7 @@
   line-height: 1.3;
 }
 
-.pb-row--past td { color: #9ca3af; }
+.pb-row--past td { color: #777777; }
 
 .pb-td--truncate {
   overflow: hidden;
