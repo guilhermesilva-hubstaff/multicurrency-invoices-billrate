@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  <link rel="stylesheet" href="member-detail.css">
+  <link rel="stylesheet" href="member-detail.css?v=6">
 </head>
 <body>
 <script src="hubstaff-shell.js?v=8"></script>
@@ -186,7 +186,7 @@
                 <option>Twice per month</option>
                 <option>Weekly</option>
                 <option>Biweekly</option>
-                <option>Monthly</option>
+                <option selected>Monthly</option>
               </select>
               <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
             </div>
@@ -197,12 +197,38 @@
               <label class="pb-label">Period start</label>
               <p class="pb-hint">The day each timesheet period begins.</p>
             </div>
-            <div class="pb-chips-field">
-              <div class="pb-chips-inner" id="pb-period-chips">
-                <span class="pb-chip" data-day="1">1st <span class="pb-chip__x material-symbols-rounded">close</span></span>
-                <span class="pb-chip" data-day="16">16th <span class="pb-chip__x material-symbols-rounded">close</span></span>
-              </div>
-              <button class="pb-chips-clear" id="pb-chips-clear" type="button"><span class="material-symbols-rounded">close</span></button>
+            <div class="pb-select-wrap">
+              <select class="pb-select" id="pb-period-select">
+                <option selected>1st</option>
+                <option>2nd</option>
+                <option>3rd</option>
+                <option>4th</option>
+                <option>5th</option>
+                <option>6th</option>
+                <option>7th</option>
+                <option>8th</option>
+                <option>9th</option>
+                <option>10th</option>
+                <option>11th</option>
+                <option>12th</option>
+                <option>13th</option>
+                <option>14th</option>
+                <option>15th</option>
+                <option>16th</option>
+                <option>17th</option>
+                <option>18th</option>
+                <option>19th</option>
+                <option>20th</option>
+                <option>21st</option>
+                <option>22nd</option>
+                <option>23rd</option>
+                <option>24th</option>
+                <option>25th</option>
+                <option>26th</option>
+                <option>27th</option>
+                <option>28th</option>
+              </select>
+              <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
             </div>
           </div>
         </div>
@@ -210,7 +236,7 @@
         <div class="pb-banner">
           <span class="material-symbols-rounded pb-banner__icon">info</span>
           <p id="pb-banner-text" class="pb-banner__text">
-            When saved, timesheets will run <strong>twice per month</strong>, starting every <strong>1st and 16th</strong>. First period begins <strong id="pb-next-date">calculating…</strong>.
+            When saved, timesheets will run <strong>monthly</strong>, starting every <strong>1st</strong>. First period begins <strong id="pb-next-date">calculating…</strong>.
           </p>
         </div>
 
@@ -258,7 +284,7 @@
               <label class="pb-label">Pay type</label>
               <div class="pb-select-wrap">
                 <select class="pb-select" id="pb-pay-type-select">
-                  <option>Hourly</option>
+                  <option>Fixed</option>
                 </select>
                 <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
               </div>
@@ -277,12 +303,12 @@
             </div>
             <div class="pb-field pb-field--wide">
               <div class="pb-label-row">
-                <label class="pb-label">Fixed amount (per period)</label>
+                <label class="pb-label">Fixed amount</label>
                 <span class="material-symbols-rounded pb-info-icon">info</span>
               </div>
               <div class="pb-split-field">
                 <input type="text" class="pb-split-input" value="2500.00">
-                <span class="pb-split-suffix" id="pb-pay-suffix">USD/twice per month</span>
+                <span class="pb-split-suffix" id="pb-pay-suffix">USD/monthly</span>
               </div>
             </div>
             <div class="pb-field">
@@ -300,21 +326,23 @@
         <div id="pb-fields-bill" hidden>
           <div class="pb-fields-row">
             <div class="pb-field">
-              <label class="pb-label">Currency</label>
+              <label class="pb-label">Client</label>
               <div class="pb-select-wrap">
-                <select class="pb-select pb-currency-select" id="pb-currency-bill">
-                  <option value="USD">USD - American dollars</option>
-                  <option value="EUR">EUR - Euro</option>
-                  <option value="GBP">GBP - British Pound</option>
-                  <option value="BRL">BRL - Brazilian Real</option>
+                <select class="pb-select" id="pb-bill-client-select">
+                  <option value="USD" selected>Acme Corp (USD)</option>
+                  <option value="EUR">Ourselves (EUR)</option>
+                  <option value="GBP">Shawn Williams (GBP)</option>
+                  <option value="USD2">City of Chicago (USD)</option>
+                  <option value="BRL">Jorge (BRL)</option>
                 </select>
                 <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
               </div>
+              <p class="cl-inv-note" style="margin-top: 4px;">Currency follows <a href="#" class="cl-inv-note-link">client settings</a>, or defaults to <a href="#" class="cl-inv-note-link">organization</a> currency.</p>
             </div>
             <div class="pb-field">
               <label class="pb-label">Bill rate</label>
               <div class="pb-split-field">
-                <input type="text" class="pb-split-input" value="20.0">
+                <input type="text" class="pb-split-input" value="80.00">
                 <span class="pb-split-suffix" id="pb-bill-suffix">USD/hr</span>
               </div>
             </div>
@@ -346,8 +374,8 @@
             <th style="width:100px">Pay rate</th><th style="width:130px">Start date</th><th style="width:130px">End date</th><th>Note</th>
           </tr></thead>
           <tbody>
-            <tr><td>Current</td><td>Twice per month</td><td>Fixed</td><td>$2,500.00</td><td>Tue, Apr 28, 2026</td><td>Present</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
-            <tr class="pb-row--past"><td>Past</td><td>Twice per month</td><td>Fixed</td><td>$2,000.00</td><td>Mon, Apr 25, 2024</td><td>Mon, Apr 27, 2026</td><td>—</td></tr>
+            <tr><td>Current</td><td>Monthly</td><td>Fixed</td><td>$2,500.00</td><td>Tue, Apr 28, 2026</td><td>Present</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
+            <tr class="pb-row--past"><td>Past</td><td>Monthly</td><td>Fixed</td><td>$2,000.00</td><td>Mon, Apr 25, 2024</td><td>Mon, Apr 27, 2026</td><td>—</td></tr>
           </tbody>
         </table>
       </div>
@@ -355,22 +383,184 @@
       <!-- Bill rate history -->
       <div id="pb-history-bill" class="pb-history" hidden>
         <div class="pb-history__header">
-          <span class="pb-history__title">Bill rate history</span>
-          <div class="pb-people-badge"><div class="pb-people-badge__logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#2AA7FF"/><path d="M8 8h4a2 2 0 0 1 0 4H8V8zm0 6h5a2 2 0 0 1 0 4H8v-4z" fill="#fff"/></svg><span>Hubstaff People</span></div><span class="pb-people-badge__beta">BETA</span></div>
+          <div class="pb-history__title-group">
+            <span class="pb-history__title">Bill rate history</span>
+            <div class="pb-version-links">
+              <a href="#" class="pb-version-link is-active" data-version="1">v1</a>
+              <a href="#" class="pb-version-link" data-version="2">v2</a>
+              <a href="#" class="pb-version-link" data-version="3">v3</a>
+            </div>
+          </div>
+          <div id="pb-bill-history-badge" class="pb-people-badge"><div class="pb-people-badge__logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#2AA7FF"/><path d="M8 8h4a2 2 0 0 1 0 4H8V8zm0 6h5a2 2 0 0 1 0 4H8v-4z" fill="#fff"/></svg><span>Hubstaff People</span></div><span class="pb-people-badge__beta">BETA</span></div>
         </div>
-        <table class="pb-table">
-          <thead><tr>
-            <th style="width:70px">Status</th><th style="width:140px">Client</th><th style="width:110px">Bill rate</th><th style="width:80px">Pay type</th><th style="width:140px">Start date</th><th>Note</th>
-          </tr></thead>
-          <tbody>
-            <tr><td>Current</td><td>Acme Corp</td><td>$80.00</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
-            <tr class="pb-row--past"><td>Past</td><td>Acme Corp</td><td>$75.00</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
-            <tr class="pb-row--past"><td>Past</td><td>Meridian Health</td><td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td></tr>
-            <tr class="pb-row--past"><td>Past</td><td>Meridian Health</td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
-            <tr class="pb-row--past"><td>Past</td><td>Acme Corp</td><td>$70.00</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
-            <tr class="pb-row--past"><td>Past</td><td>Acme Corp</td><td>$65.00</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
-          </tbody>
-        </table>
+
+        <!-- ── V1: Flat table + pills + sort ───────────────────── -->
+        <div id="pb-bill-v1" class="pb-version-panel">
+          <div class="pb-bill-filter-row">
+            <div class="pb-select-wrap pb-bill-filter-wrap">
+              <select class="pb-select" id="pb-bill-client-filter">
+                <option value="">All clients</option>
+                <option value="Acme Corp">Acme Corp</option>
+                <option value="City of Chicago">City of Chicago</option>
+                <option value="Meridian Health">Meridian Health</option>
+              </select>
+              <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+            </div>
+          </div>
+          <table class="pb-table" id="pb-bill-v1-table">
+            <thead><tr>
+              <th class="pb-th-sort" data-col="client" style="width:160px">Client <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="status" style="width:100px">Status <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="billrate" style="width:110px">Bill rate <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="paytype" style="width:80px">Pay type <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="date" style="width:150px">Start date <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th>Note</th>
+            </tr></thead>
+            <tbody>
+              <tr data-client="Acme Corp" data-sort-status="0" data-sort-client="acme corp" data-sort-billrate="80" data-sort-paytype="hourly" data-sort-date="2026-04-27"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
+              <tr data-client="City of Chicago" data-sort-status="0" data-sort-client="city of chicago" data-sort-billrate="95" data-sort-paytype="hourly" data-sort-date="2026-03-01"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td><td class="pb-td--truncate">New engagement with city; rate approved by account director.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-client="acme corp" data-sort-billrate="75" data-sort-paytype="hourly" data-sort-date="2026-01-06"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
+              <tr class="pb-v1-past" data-client="City of Chicago" data-sort-status="1" data-sort-client="city of chicago" data-sort-billrate="85" data-sort-paytype="hourly" data-sort-date="2025-10-01"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
+              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-client="meridian health" data-sort-billrate="2500" data-sort-paytype="fixed" data-sort-date="2025-09-15"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td></tr>
+              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-client="meridian health" data-sort-billrate="2000" data-sort-paytype="fixed" data-sort-date="2025-06-02"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-client="acme corp" data-sort-billrate="70" data-sort-paytype="hourly" data-sort-date="2025-02-03"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-client="acme corp" data-sort-billrate="65" data-sort-paytype="hourly" data-sort-date="2024-08-12"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── V2: Accordion grouped by client ──────────────────── -->
+        <div id="pb-bill-v2" class="pb-version-panel" hidden>
+          <table class="pb-table pb-accordion-table">
+            <thead><tr>
+              <th style="width:190px">Client</th><th style="width:90px">Status</th><th style="width:95px">Bill rate</th><th style="width:70px">Pay type</th><th style="width:120px">Start date</th><th>Note</th>
+            </tr></thead>
+            <tbody>
+              <tr class="pb-accordion-header" data-client="acme">
+                <td>
+                  <strong>Acme Corp</strong>
+                  <br><a href="#" class="pb-view-history-link" data-client="acme">View history <span class="material-symbols-rounded pb-link-chevron">chevron_right</span></a>
+                </td>
+                <td><span class="pb-pill-status pb-pill-status--current">Current</span></td>
+                <td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td>
+                <td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td>
+              </tr>
+              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
+
+              <tr class="pb-accordion-header" data-client="chicago">
+                <td>
+                  <strong>City of Chicago</strong>
+                  <br><a href="#" class="pb-view-history-link" data-client="chicago">View history <span class="material-symbols-rounded pb-link-chevron">chevron_right</span></a>
+                </td>
+                <td><span class="pb-pill-status pb-pill-status--current">Current</span></td>
+                <td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td>
+                <td class="pb-td--truncate">New engagement with city; rate approved by account director.</td>
+              </tr>
+              <tr class="pb-accordion-sub-row" data-parent="chicago" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
+
+              <tr class="pb-accordion-header" data-client="meridian">
+                <td>
+                  <strong>Meridian Health</strong>
+                  <br><a href="#" class="pb-view-history-link" data-client="meridian">View history <span class="material-symbols-rounded pb-link-chevron">chevron_right</span></a>
+                </td>
+                <td><span class="pb-pill-status pb-pill-status--past">Past</span></td>
+                <td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td>
+                <td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td>
+              </tr>
+              <tr class="pb-accordion-sub-row" data-parent="meridian" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── V3: Client cards + dialog ────────────────────────── -->
+        <div id="pb-bill-v3" class="pb-version-panel" hidden>
+          <div class="pb-client-cards">
+            <div class="pb-client-card">
+              <div class="pb-client-card__header">
+                <span class="pb-client-card__name">Acme Corp</span>
+                <span class="pb-pill-status pb-pill-status--current">Current</span>
+              </div>
+              <div class="pb-client-card__rate">$80.00<span class="pb-client-card__unit">/hr</span></div>
+              <div class="pb-client-card__meta">USD · Hourly · Since Apr 27, 2026</div>
+              <button class="pb-view-history-btn" data-client="acme">View history</button>
+            </div>
+            <div class="pb-client-card">
+              <div class="pb-client-card__header">
+                <span class="pb-client-card__name">City of Chicago</span>
+                <span class="pb-pill-status pb-pill-status--current">Current</span>
+              </div>
+              <div class="pb-client-card__rate">$95.00<span class="pb-client-card__unit">/hr</span></div>
+              <div class="pb-client-card__meta">USD · Hourly · Since Mar 1, 2026</div>
+              <button class="pb-view-history-btn" data-client="chicago">View history</button>
+            </div>
+            <div class="pb-client-card">
+              <div class="pb-client-card__header">
+                <span class="pb-client-card__name">Meridian Health</span>
+                <span class="pb-pill-status pb-pill-status--past">Past</span>
+              </div>
+              <div class="pb-client-card__rate">$2,500.00</div>
+              <div class="pb-client-card__meta">GBP · Fixed · Last: Sep 15, 2025</div>
+              <button class="pb-view-history-btn" data-client="meridian">View history</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dialogs (V2 view history + V3 cards) -->
+      <div class="pb-history-dialog" id="pb-history-dialog-acme">
+        <div class="pb-history-dialog__panel">
+          <div class="pb-history-dialog__header">
+            <span class="pb-history-dialog__title">Bill rate history — Acme Corp</span>
+            <button class="pb-history-dialog__close" aria-label="Close"><span class="material-symbols-rounded">close</span></button>
+          </div>
+          <div class="pb-history-dialog__body">
+            <table class="pb-table">
+              <thead><tr><th style="width:90px">Status</th><th style="width:95px">Bill rate</th><th style="width:70px">Pay type</th><th style="width:120px">Start date</th><th>Note</th></tr></thead>
+              <tbody>
+                <tr><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td>Rate updated due to promotion; approved by Finance and HR.</td></tr>
+                <tr><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td>Annual rate review — 10% increase approved by Finance.</td></tr>
+                <tr><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td>Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
+                <tr><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td>Starting rate on onboarding; set by account manager.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="pb-history-dialog" id="pb-history-dialog-chicago">
+        <div class="pb-history-dialog__panel">
+          <div class="pb-history-dialog__header">
+            <span class="pb-history-dialog__title">Bill rate history — City of Chicago</span>
+            <button class="pb-history-dialog__close" aria-label="Close"><span class="material-symbols-rounded">close</span></button>
+          </div>
+          <div class="pb-history-dialog__body">
+            <table class="pb-table">
+              <thead><tr><th style="width:90px">Status</th><th style="width:95px">Bill rate</th><th style="width:70px">Pay type</th><th style="width:120px">Start date</th><th>Note</th></tr></thead>
+              <tbody>
+                <tr><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td><td>New engagement with city; rate approved by account director.</td></tr>
+                <tr><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td>Initial rate for City of Chicago engagement.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="pb-history-dialog" id="pb-history-dialog-meridian">
+        <div class="pb-history-dialog__panel">
+          <div class="pb-history-dialog__header">
+            <span class="pb-history-dialog__title">Bill rate history — Meridian Health</span>
+            <button class="pb-history-dialog__close" aria-label="Close"><span class="material-symbols-rounded">close</span></button>
+          </div>
+          <div class="pb-history-dialog__body">
+            <table class="pb-table">
+              <thead><tr><th style="width:90px">Status</th><th style="width:95px">Bill rate</th><th style="width:70px">Pay type</th><th style="width:120px">Start date</th><th>Note</th></tr></thead>
+              <tbody>
+                <tr><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td>Project-based engagement; fixed rate per contract terms.</td></tr>
+                <tr><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td>Initial rate for Meridian Health contract.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
     </div><!-- /md-tab-pay-bill -->
@@ -438,9 +628,8 @@
   }
 
   function getChipLabels() {
-    return Array.from(document.querySelectorAll('#pb-period-chips .pb-chip')).map(function(c) {
-      return c.firstChild.textContent.trim();
-    });
+    var sel = document.getElementById('pb-period-select');
+    return sel ? [sel.value] : ['1st'];
   }
 
   function getCurrencyCode() {
@@ -476,37 +665,40 @@
   function updateSuffixes(freq) {
     if (!freq) {
       var freqSel = document.getElementById('pb-freq-select');
-      freq = freqSel ? freqSel.value : 'Twice per month';
+      freq = freqSel ? freqSel.value : 'Monthly';
     }
-    var currency = getCurrencyCode();
+    var payCurrency  = getCurrencyCode();
+    var billClientSel = document.getElementById('pb-bill-client-select');
+    var billCurrency = billClientSel
+      ? billClientSel.options[billClientSel.selectedIndex].text.match(/\(([A-Z]+)\)/)?.[1] || 'USD'
+      : 'USD';
     var paySuffix  = document.getElementById('pb-pay-suffix');
     var billSuffix = document.getElementById('pb-bill-suffix');
-    if (paySuffix)  paySuffix.textContent  = currency + '/' + getFreqLabel(freq);
-    if (billSuffix) billSuffix.textContent = currency + '/hr';
+    if (paySuffix)  paySuffix.textContent  = payCurrency + '/' + getFreqLabel(freq);
+    if (billSuffix) billSuffix.textContent = billCurrency + '/hr';
   }
 
-  // ── Sync currency selects ─────────────────────────────────────
+  // ── Client select → update bill suffix + note ────────────────
+  var billClientSelect = document.getElementById('pb-bill-client-select');
+  if (billClientSelect) billClientSelect.addEventListener('change', function() {
+    updateSuffixes();
+    var noteName = document.getElementById('pb-bill-client-note-name');
+    if (noteName) {
+      var label = billClientSelect.options[billClientSelect.selectedIndex].text;
+      noteName.textContent = label.replace(/\s*\([^)]*\)$/, '');
+    }
+  });
+
+  // ── Sync pay currency select ──────────────────────────────────
   document.querySelectorAll('.pb-currency-select').forEach(function(sel) {
-    sel.addEventListener('change', function() {
-      var val = this.value;
-      document.querySelectorAll('.pb-currency-select').forEach(function(s) { s.value = val; });
-      updateSuffixes();
-    });
+    sel.addEventListener('change', function() { updateSuffixes(); });
   });
 
-  // ── Frequency change → update banner + suffix ─────────────────
-  var freqSelect = document.getElementById('pb-freq-select');
-  if (freqSelect) freqSelect.addEventListener('change', updateBanner);
-
-  // ── Chip removal ──────────────────────────────────────────────
-  document.getElementById('pb-period-chips').addEventListener('click', function(e) {
-    var x = e.target.closest('.pb-chip__x');
-    if (x) { x.closest('.pb-chip').remove(); updateBanner(); }
-  });
-  document.getElementById('pb-chips-clear').addEventListener('click', function() {
-    document.querySelectorAll('#pb-period-chips .pb-chip').forEach(function(c){ c.remove(); });
-    updateBanner();
-  });
+  // ── Frequency / period change → update banner + suffix ────────
+  var freqSelect   = document.getElementById('pb-freq-select');
+  var periodSelect = document.getElementById('pb-period-select');
+  if (freqSelect)   freqSelect.addEventListener('change', updateBanner);
+  if (periodSelect) periodSelect.addEventListener('change', updateBanner);
 
   // ── Pill toggle ───────────────────────────────────────────────
   var RATE_SUBTITLES = {
@@ -549,6 +741,115 @@
     var on = approvalToggle.classList.toggle('pb-toggle--on');
     approvalToggle.setAttribute('aria-checked', String(on));
     approvalLabel.textContent = on ? 'Yes' : 'No';
+  });
+
+  // ── Bill rate history version switcher ───────────────────────
+  document.querySelectorAll('.pb-version-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var v = this.dataset.version;
+      document.querySelectorAll('.pb-version-link').forEach(function(l) { l.classList.remove('is-active'); });
+      document.querySelectorAll('.pb-version-panel').forEach(function(p) { p.hidden = true; });
+      this.classList.add('is-active');
+      var panel = document.getElementById('pb-bill-v' + v);
+      if (panel) panel.hidden = false;
+      var badge = document.getElementById('pb-bill-history-badge');
+      if (badge) badge.hidden = (v === '3');
+    });
+  });
+
+  // ── V1: client filter ────────────────────────────────────────
+  var billClientFilter = document.getElementById('pb-bill-client-filter');
+  if (billClientFilter) {
+    billClientFilter.addEventListener('change', function() {
+      var val = this.value;
+      document.querySelectorAll('#pb-bill-v1-table tbody tr').forEach(function(row) {
+        row.style.display = (!val || row.getAttribute('data-client') === val) ? '' : 'none';
+      });
+    });
+  }
+
+  // ── V1: column header sort ────────────────────────────────────
+  var v1SortState = { col: null, dir: 1 };
+  document.querySelectorAll('#pb-bill-v1-table .pb-th-sort').forEach(function(th) {
+    th.addEventListener('click', function() {
+      var col = this.dataset.col;
+      if (v1SortState.col === col) {
+        v1SortState.dir *= -1;
+      } else {
+        v1SortState.col = col;
+        v1SortState.dir = 1;
+      }
+      var dir = v1SortState.dir;
+      // Update icons
+      document.querySelectorAll('#pb-bill-v1-table .pb-th-sort').forEach(function(h) {
+        var icon = h.querySelector('.pb-sort-icon');
+        h.classList.remove('pb-th-sort--asc', 'pb-th-sort--desc');
+        icon.textContent = 'unfold_more';
+        icon.classList.remove('pb-sort-icon--active');
+      });
+      var activeIcon = this.querySelector('.pb-sort-icon');
+      activeIcon.classList.add('pb-sort-icon--active');
+      if (dir === 1) {
+        this.classList.add('pb-th-sort--asc');
+        activeIcon.textContent = 'arrow_upward';
+      } else {
+        this.classList.add('pb-th-sort--desc');
+        activeIcon.textContent = 'arrow_downward';
+      }
+      // Sort rows
+      var tbody = document.querySelector('#pb-bill-v1-table tbody');
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort(function(a, b) {
+        var aVal = a.getAttribute('data-sort-' + col) || '';
+        var bVal = b.getAttribute('data-sort-' + col) || '';
+        var result = (col === 'billrate')
+          ? parseFloat(aVal) - parseFloat(bVal)
+          : aVal.localeCompare(bVal);
+        return result * dir;
+      });
+      rows.forEach(function(r) { tbody.appendChild(r); });
+    });
+  });
+
+  // ── V2: accordion — row click or "View history" link expands rows
+  function toggleAccordion(key) {
+    var subRows = document.querySelectorAll('[data-parent="' + key + '"]');
+    var isOpen  = subRows.length > 0 && !subRows[0].hidden;
+    document.querySelectorAll('.pb-accordion-sub-row').forEach(function(r) { r.hidden = true; });
+    if (!isOpen) { subRows.forEach(function(r) { r.hidden = false; }); }
+  }
+  document.querySelectorAll('.pb-accordion-header').forEach(function(row) {
+    row.addEventListener('click', function(e) {
+      if (e.target.closest('a')) e.preventDefault();
+      toggleAccordion(this.dataset.client);
+    });
+  });
+
+  // ── Dialogs: open (V3 cards button only) ──────────────────────
+  document.querySelectorAll('.pb-view-history-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      var dialog = document.getElementById('pb-history-dialog-' + this.dataset.client);
+      if (dialog) { dialog.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+    });
+  });
+  document.querySelectorAll('.pb-history-dialog__close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      this.closest('.pb-history-dialog').classList.remove('is-open');
+      document.body.style.overflow = '';
+    });
+  });
+  document.querySelectorAll('.pb-history-dialog').forEach(function(dialog) {
+    dialog.addEventListener('click', function(e) {
+      if (e.target === this) { this.classList.remove('is-open'); document.body.style.overflow = ''; }
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.pb-history-dialog.is-open').forEach(function(d) { d.classList.remove('is-open'); });
+      document.body.style.overflow = '';
+    }
   });
 
   // ── Init ──────────────────────────────────────────────────────

@@ -417,6 +417,22 @@
 
 .cl-inv-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
+.cl-gen-field { margin-bottom: 24px; }
+
+.cl-gen-input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #D6DBE6;
+  border-radius: 6px;
+  font: 400 14px/1 'Roboto', sans-serif;
+  color: #111827;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+.cl-gen-input:focus { border-color: #2aa7ff; box-shadow: 0 0 0 3px rgba(42,167,255,.15); }
+
 .cl-inv-input-unit { display: flex; gap: 0; }
 
 .cl-inv-input {

@@ -488,125 +488,107 @@
 }
 .iv-breakdown-panel.is-open { display: block; }
 
-/* Caret arrow pointing up */
-.iv-breakdown-panel::before,
-.iv-breakdown-panel::after {
-  content: '';
-  position: absolute;
-  right: 18px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-}
-.iv-breakdown-panel::before {
-  top: -8px;
-  border-width: 0 7px 8px 7px;
-  border-color: transparent transparent #e5e7eb transparent;
-}
-.iv-breakdown-panel::after {
-  top: -7px;
-  border-width: 0 6px 7px 6px;
-  border-color: transparent transparent #fff transparent;
+/* Panel header */
+.iv-breakdown-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 57px;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  flex-shrink: 0;
 }
 
-/* Popover title */
-.iv-breakdown-title {
-  padding: 9px 14px;
+.iv-breakdown-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #6b7280;
+  flex-shrink: 0;
+  transition: background 100ms, color 100ms;
+}
+.iv-breakdown-close:hover { background: #f3f4f6; color: #374151; }
+.iv-breakdown-close .material-symbols-rounded { font-size: 18px; line-height: 1; }
+
+/* Column header row */
+.iv-breakdown-header {
+  display: grid;
+  align-items: center;
+  padding: 7px 16px;
+  gap: 0 8px;
   background: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #9ca3af;
-}
-
-/* Shared 4-col grid: flag(36px) | amount(1fr) | rate(auto) | USD(90px) */
-.iv-breakdown-header,
-.iv-breakdown-row {
-  display: grid;
-  grid-template-columns: 30px 1fr auto 90px;
-  align-items: center;
-  padding: 0 14px;
-  gap: 0 8px;
-}
-
-/* Column-label header row */
-.iv-breakdown-header {
-  padding-top: 7px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid #f3f4f6;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #c4c9d4;
+  color: #374151;
 }
-.iv-breakdown-header-flag  { /* empty */ }
 .iv-breakdown-header-col   { text-align: left; }
 .iv-breakdown-header-col--usd { text-align: right; }
 
 /* Data rows */
 .iv-breakdown-row {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  display: grid;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 0 8px;
   border-bottom: 1px solid #f3f4f6;
   transition: background 80ms ease;
 }
 .iv-breakdown-row:hover { background: #fafafa; }
 .iv-breakdown-row:last-child { border-bottom: none; }
 
-.iv-breakdown-flag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  color: #374151;
-  background: #f3f4f6;
-  border-radius: 4px;
-  padding: 2px 5px;
-  white-space: nowrap;
-  width: fit-content;
-}
+/* Grid variants */
+.iv-breakdown-col3 { grid-template-columns: 1fr 100px 90px; }
+.iv-breakdown-col2 { grid-template-columns: 1fr 90px; }
 
 .iv-breakdown-native {
   font-size: 13px;
   font-weight: 500;
   color: #111827;
-  text-align: left;
 }
 
 .iv-breakdown-rate {
   font-size: 11px;
-  color: #9ca3af;
-  text-align: left;
+  font-weight: 400;
+  color: #4b5563;
   white-space: nowrap;
 }
 
 .iv-breakdown-usd {
   font-size: 12px;
-  color: #9ca3af;
+  font-weight: 400;
+  color: #4b5563;
   white-space: nowrap;
   text-align: right;
 }
 
-/* Footer: total row + rates metadata below */
+/* Footer */
 .iv-breakdown-footer {
   background: #f9fafb;
-  border-top: 2px solid #e5e7eb;
+  border-top: 1px solid #e5e7eb;
 }
 .iv-breakdown-footer-total {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 9px 14px 8px;
+  padding: 9px 16px 8px;
 }
 .iv-breakdown-footer-label {
   font-size: 11px;
   font-weight: 500;
-  color: #6b7280;
+  color: #4b5563;
 }
 .iv-breakdown-footer-value {
   font-size: 14px;
@@ -614,17 +596,15 @@
   color: #111827;
 }
 .iv-breakdown-footer-meta {
-  padding: 7px 14px 9px;
+  padding: 7px 16px 10px;
   font-size: 10px;
-  font-weight: 400;
-  font-style: normal;
-  color: #9ca3af;
   line-height: 1.6;
   border-top: 1px solid #e5e7eb;
+  color: #6b7280;
 }
 .iv-breakdown-footer-meta-title {
   font-weight: 500;
-  color: #6b7280;
+  color: #4b5563;
   display: block;
   margin-bottom: 2px;
 }

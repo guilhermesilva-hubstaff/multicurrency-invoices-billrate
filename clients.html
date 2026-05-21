@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@18,400,0,0;24,400,0,0&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="clients.css?v=4" />
+  <link rel="stylesheet" href="clients.css?v=5" />
 </head>
 <body>
   <div id="shell-content">
@@ -252,24 +252,32 @@
       </div>
 
       <div class="cl-modal-tabs">
-        <button class="cl-modal-tab" data-modal-tab="general">General</button>
+        <button class="cl-modal-tab is-active" data-modal-tab="general">General</button>
         <button class="cl-modal-tab" data-modal-tab="contact">Contact info</button>
         <button class="cl-modal-tab" data-modal-tab="projects">Projects / WO</button>
         <button class="cl-modal-tab" data-modal-tab="budget">Budget</button>
-        <button class="cl-modal-tab is-active" data-modal-tab="invoicing">Invoicing</button>
+        <button class="cl-modal-tab" data-modal-tab="invoicing">Invoicing</button>
       </div>
 
       <div class="cl-modal-body">
 
-        <div class="cl-modal-panel" id="modal-tab-general"></div>
-        <div class="cl-modal-panel" id="modal-tab-contact"></div>
-        <div class="cl-modal-panel" id="modal-tab-projects"></div>
-        <div class="cl-modal-panel" id="modal-tab-budget"></div>
+        <div class="cl-modal-panel is-active" id="modal-tab-general">
 
-        <div class="cl-modal-panel is-active" id="modal-tab-invoicing">
+          <!-- Name -->
+          <div class="cl-inv-field cl-gen-field">
+            <label class="cl-inv-label" for="cl-gen-name">Name <span style="color:#ef4444">*</span></label>
+            <input type="text" class="cl-gen-input" id="cl-gen-name" value="City of Chicago" />
+          </div>
+
+          <!-- Address -->
+          <div class="cl-inv-field cl-gen-field">
+            <label class="cl-inv-label" for="cl-gen-address">Address</label>
+            <textarea class="cl-inv-textarea" id="cl-gen-address" rows="3">1200 S Lake Shore Dr
+Chicago, IL 60605</textarea>
+          </div>
 
           <!-- Default currency -->
-          <div class="cl-inv-field cl-inv-field--half">
+          <div class="cl-inv-field cl-inv-field--half cl-gen-field">
             <label class="cl-inv-label" for="inv-currency">Client Default Currency</label>
             <div class="org-select-wrap">
               <select class="org-select" id="inv-currency">
@@ -289,7 +297,13 @@
             <p class="cl-inv-note">This currency will be used for the client invoices to <strong id="cl-inv-note-name">the client</strong>. If needed, project-specific currencies can be set at the <a href="#" class="cl-inv-note-link">project settings</a>.</p>
           </div>
 
-          <div class="cl-inv-divider"></div>
+        </div>
+
+        <div class="cl-modal-panel" id="modal-tab-contact"></div>
+        <div class="cl-modal-panel" id="modal-tab-projects"></div>
+        <div class="cl-modal-panel" id="modal-tab-budget"></div>
+
+        <div class="cl-modal-panel" id="modal-tab-invoicing">
 
           <!-- Notes -->
           <div class="cl-inv-field">

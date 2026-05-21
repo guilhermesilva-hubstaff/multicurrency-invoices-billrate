@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  <link rel="stylesheet" href="invoices.css?v=5">
+  <link rel="stylesheet" href="invoices.css?v=6">
 </head>
 <body>
 <script src="hubstaff-shell.js?v=8"></script>
@@ -138,8 +138,8 @@
             <li class="iv-col-menu-item is-on is-disabled">Client</li>
             <li class="iv-col-menu-item is-on" data-col="date">Issue date</li>
             <li class="iv-col-menu-item is-on" data-col="days">Days old</li>
-            <li class="iv-col-menu-item is-on" data-col="amount-orig">Original Amount</li>
-            <li class="iv-col-menu-item is-on" data-col="amount-org">Organization Currency Amount</li>
+            <li class="iv-col-menu-item is-on" data-col="amount-org">Organization Currency</li>
+            <li class="iv-col-menu-item is-on" data-col="amount-orig">Invoice Currency</li>
             <li class="iv-col-menu-item is-on" data-col="status">Status</li>
           </ul>
         </div>
@@ -161,8 +161,8 @@
             <th class="iv-th">Client</th>
             <th class="iv-th iv-col-date">Issue date</th>
             <th class="iv-th iv-col-days">Days old</th>
-            <th class="iv-th iv-col-amount-orig">Original Amount</th>
-            <th class="iv-th iv-col-amount-org">Organization Currency Amount <span class="material-symbols-rounded iv-th-info" data-tooltip="Converted to your organization currency (USD) using daily exchange rates from Open Exchange Rates. Amounts are indicative and may fluctuate day to day.">info</span></th>
+            <th class="iv-th iv-col-amount-org">Organization Currency <span class="material-symbols-rounded iv-th-info" data-tooltip="The converted equivalent in your organization's base currency, calculated using the exchange rate on the payment date. Amounts are indicative and may differ from amounts received.">info</span></th>
+            <th class="iv-th iv-col-amount-orig">Invoice Currency <span class="material-symbols-rounded iv-th-info" data-tooltip="The amount in the currency the invoice was created in. The invoice currency is set at the project, client, or organization level.">info</span></th>
             <th class="iv-th iv-col-status">Status</th>
             <th class="iv-th"></th>
           </tr>
@@ -700,15 +700,19 @@
       return toUSD(breakdown[b], b) - toUSD(breakdown[a], a);
     });
 
+    var isOutstanding = type === 'outstanding';
+    var gridClass = isOutstanding ? 'iv-breakdown-col3' : 'iv-breakdown-col2';
+
     var rows = sorted.map(function(currency) {
       var native = breakdown[currency];
       var usd = toUSD(native, currency);
       var isSameAsUSD = currency === 'USD';
-      var rateStr = isSameAsUSD ? '' : '1 ' + currency + ' = ' + FX[currency].toFixed(4);
-      return '<div class="iv-breakdown-row">'
-        + '<span class="iv-breakdown-flag">' + currency + '</span>'
+      var rateCell = isOutstanding
+        ? '<span class="iv-breakdown-rate">' + (isSameAsUSD ? '' : '1 ' + currency + ' = ' + FX[currency].toFixed(4)) + '</span>'
+        : '';
+      return '<div class="iv-breakdown-row ' + gridClass + '">'
         + '<span class="iv-breakdown-native">' + fmtCode(native, currency) + '</span>'
-        + '<span class="iv-breakdown-rate">' + rateStr + '</span>'
+        + rateCell
         + '<span class="iv-breakdown-usd">' + fmtUSD(usd) + '</span>'
         + '</div>';
     }).join('');
@@ -725,11 +729,15 @@
     }
 
     panelEl.innerHTML = ''
-      + '<div class="iv-breakdown-title">Breakdown by currency</div>'
-      + '<div class="iv-breakdown-header">'
-      +   '<span class="iv-breakdown-header-flag"></span>'
+      + '<div class="iv-breakdown-title">'
+      +   '<span>Breakdown by currency</span>'
+      +   '<button class="iv-breakdown-close" data-type="' + type + '" aria-label="Close">'
+      +     '<span class="material-symbols-rounded">close</span>'
+      +   '</button>'
+      + '</div>'
+      + '<div class="iv-breakdown-header ' + gridClass + '">'
       +   '<span class="iv-breakdown-header-col">Amount</span>'
-      +   '<span class="iv-breakdown-header-col">Rate</span>'
+      +   (isOutstanding ? '<span class="iv-breakdown-header-col">Rate</span>' : '')
       +   '<span class="iv-breakdown-header-col iv-breakdown-header-col--usd">USD</span>'
       + '</div>'
       + rows
@@ -766,10 +774,10 @@
           '<div class="iv-amount-main">' + fmtUSD(totalUSD) + '</div>'
         + '<div class="iv-amount-sub">' + fmtUSD(paidUSD) + ' (paid)</div>';
 
-      // Insert both before the status cell
+      // Insert org currency first, then invoice currency (org comes before orig in the column order)
       var statusTd = row.querySelector('.iv-col-status');
-      row.insertBefore(tdOrig, statusTd);
       row.insertBefore(tdOrg, statusTd);
+      row.insertBefore(tdOrig, statusTd);
     });
   }
 
@@ -825,6 +833,17 @@
         btn.classList.add('is-open');
       }
     });
+  });
+
+  // ── Breakdown close buttons (delegated, since HTML is injected) ──
+  document.addEventListener('click', function(e) {
+    var closeBtn = e.target.closest('.iv-breakdown-close');
+    if (!closeBtn) return;
+    var type = closeBtn.dataset.type;
+    var panel = document.getElementById('iv-' + type + '-breakdown');
+    var btn   = document.getElementById('iv-' + type + '-breakdown-btn');
+    if (panel) panel.classList.remove('is-open');
+    if (btn)   btn.classList.remove('is-open');
   });
 
   // ── Actions dropdowns ──
