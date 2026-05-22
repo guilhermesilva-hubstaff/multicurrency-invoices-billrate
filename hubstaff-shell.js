@@ -559,7 +559,7 @@
   }
 
   // ── Build nav item ────────────────────────────────────────────────
-  function buildNavItem(item, activeKey) {
+  function buildNavItem(item, activeKey, activeSubHref) {
     const isActive = item.key === activeKey ? ' active' : '';
     const hasSubs = (item.subs && item.subs.length) || (item.sections && item.sections.length);
     const chevron = hasSubs ? `<span class="hs-nav-chevron">chevron_right</span>` : '';
@@ -570,7 +570,8 @@
       if (item.subs) {
         rows = item.subs.map(s => {
           if (typeof s === 'object') {
-            return `<a class="hs-sub-item${s.activeKey ? ' is-active' : ''}" href="${s.href}">${s.label}</a>`;
+            const subActive = (activeSubHref && s.href === activeSubHref) ? ' active' : '';
+            return `<a class="hs-sub-item${subActive}" href="${s.href}">${s.label}</a>`;
           }
           return `<a class="hs-sub-item" href="#">${s}</a>`;
         }).join('');
@@ -578,7 +579,7 @@
         rows = item.sections.map(sec => {
           const items = sec.items.map(s =>
             typeof s === 'object'
-              ? `<a class="hs-sub-item" href="${s.href}">${s.label}</a>`
+              ? `<a class="hs-sub-item${(activeSubHref && s.href === activeSubHref) ? ' active' : ''}" href="${s.href}">${s.label}</a>`
               : `<a class="hs-sub-item" href="#">${s}</a>`
           ).join('');
           return `<div class="hs-sub-header"><span class="hs-sub-header-pill">${sec.header}</span></div>${items}`;
@@ -608,7 +609,7 @@
 
   // ── Build sidebar ─────────────────────────────────────────────────
   function buildSidebar(opts) {
-    const navHTML = NAV_ITEMS.map(i => buildNavItem(i, opts.activeItem)).join('');
+    const navHTML = NAV_ITEMS.map(i => buildNavItem(i, opts.activeItem, opts.activeSubHref)).join('');
     return `
     <nav id="hs-sidebar" class="hs-shell">
       <a class="hs-sidebar-logo" href="${opts.logoHref || '#'}" title="Home">
@@ -823,6 +824,25 @@
   const HubstaffShell = {
     init(opts) {
       opts = Object.assign({ activeItem: 'dashboard', logoHref: '#', expanded: false }, opts || {});
+
+      // Auto-detect active sub-item from current URL (skip if caller already provided one)
+      if (!opts.activeSubHref) {
+        const _page = window.location.pathname.split('/').pop() || '';
+        if (_page) {
+          outer: for (const item of NAV_ITEMS) {
+            const allSubs = [];
+            if (item.subs) allSubs.push(...item.subs);
+            if (item.sections) item.sections.forEach(sec => allSubs.push(...sec.items));
+            for (const sub of allSubs) {
+              if (typeof sub === 'object' && sub.href === _page) {
+                opts.activeSubHref = sub.href;
+                opts.activeItem    = item.key;
+                break outer;
+              }
+            }
+          }
+        }
+      }
 
       // Inject CSS
       const style = document.createElement('style');

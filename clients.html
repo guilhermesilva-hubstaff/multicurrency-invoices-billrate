@@ -380,10 +380,9 @@ Chicago, IL 60605</textarea>
     </div>
   </div>
 
-  <script src="hubstaff-shell.js?v=8"></script>
-  <script src="layout.js"></script>
+  <script src="hubstaff-shell.js?v=9"></script>
   <script>
-    HubstaffShell.setActiveItem('project_management');
+    HubstaffShell.init({ activeItem: 'project_management', expanded: true });
 
     // Page tabs
     document.querySelectorAll('.cl-tab').forEach(function(tab) {

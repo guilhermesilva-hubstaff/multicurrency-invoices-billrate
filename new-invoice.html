@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="new-invoice.css?v=3">
 </head>
 <body>
-<script src="hubstaff-shell.js?v=8"></script>
+<script src="hubstaff-shell.js?v=9"></script>
 
 <div id="shell-content">
   <div class="ni-page">
@@ -195,7 +195,7 @@
 </div>
 
 <script>
-  HubstaffShell.init({ activeItem: 'financials', expanded: true });
+  HubstaffShell.init({ activeItem: 'financials', expanded: true, activeSubHref: 'invoices.html' });
 
   // ── Static data ──
   var ORG_CURRENCY = { code: 'USD', name: 'US Dollar' };
