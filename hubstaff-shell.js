@@ -504,11 +504,11 @@
       height: 26px; display: flex; align-items: center;
       padding: 0 12px 0 58px;
       font-family: 'Roboto', sans-serif; font-size: 12px;
-      font-weight: 400; color: #111827; line-height: 1;
+      font-weight: 400; color: #0168DD; line-height: 1;
       cursor: pointer; border-radius: 6px; text-decoration: none;
     }
     #hs-sidebar .hs-sub-item:hover { background: #E5E7EB; }
-    #hs-sidebar .hs-sub-item.active { color: #0168DD; font-weight: 500; }
+    #hs-sidebar .hs-sub-item.active { color: #0168DD; font-weight: 600; }
 
     /* ── Collapse/expand toggle ── */
     #hs-sidebar-toggle {
