@@ -504,7 +504,7 @@
       height: 26px; display: flex; align-items: center;
       padding: 0 12px 0 58px;
       font-family: 'Roboto', sans-serif; font-size: 12px;
-      font-weight: 400; color: #0168DD; line-height: 1;
+      font-weight: 400; color: #1f2937; line-height: 1;
       cursor: pointer; border-radius: 6px; text-decoration: none;
     }
     #hs-sidebar .hs-sub-item:hover { background: #E5E7EB; }
