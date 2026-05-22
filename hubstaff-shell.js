@@ -491,12 +491,11 @@
 
     /* Section header pill (e.g. "Payroll" inside Financials) */
     #hs-sidebar .hs-sub-header {
-      height: 26px; display: flex; align-items: center; padding: 0 12px 0 50px;
+      height: 26px; display: flex; align-items: center; padding: 0 12px 0 58px;
     }
     #hs-sidebar .hs-sub-header-pill {
-      font-family: 'Roboto', sans-serif; font-size: 11px;
-      font-weight: 500; color: #6B7280; line-height: 1.3;
-      text-transform: uppercase; letter-spacing: 0.04em;
+      font-family: 'Roboto', sans-serif; font-size: 12px;
+      font-weight: 400; color: #1f2937; line-height: 1;
     }
 
     /* Submenu item */
