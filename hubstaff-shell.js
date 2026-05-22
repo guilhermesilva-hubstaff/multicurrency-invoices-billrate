@@ -494,10 +494,9 @@
       height: 26px; display: flex; align-items: center; padding: 0 12px 0 50px;
     }
     #hs-sidebar .hs-sub-header-pill {
-      background: #E5E7EB; border-radius: 41px; padding: 2px 8px;
-      font-family: 'Roboto', sans-serif; font-size: 12px;
-      font-weight: 500; color: #0168DD; line-height: 1.3;
-      flex: 1;
+      font-family: 'Roboto', sans-serif; font-size: 11px;
+      font-weight: 500; color: #6B7280; line-height: 1.3;
+      text-transform: uppercase; letter-spacing: 0.04em;
     }
 
     /* Submenu item */
