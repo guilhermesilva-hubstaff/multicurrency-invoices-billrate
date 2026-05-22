@@ -1043,9 +1043,8 @@
   </div>
 
   <script src="hubstaff-shell.js?v=13"></script>
-  <script src="layout.js"></script>
   <script>
-    HubstaffShell.setActiveItem('project_management');
+    HubstaffShell.init({ activeItem: 'project_management', expanded: true });
 
     // Page tabs
     document.querySelectorAll('.pr-tab').forEach(function(tab) {

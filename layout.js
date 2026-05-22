@@ -9,6 +9,7 @@
 HubstaffShell.init({
   activeItem: 'settings',
   logoHref:   '#',
+  expanded:   true,
 });
 
 /* Programmatic control of the sidebar, if you ever need it:
