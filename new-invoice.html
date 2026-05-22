@@ -73,7 +73,7 @@
             </select>
             <span class="material-symbols-rounded ni-select-icon">expand_more</span>
           </div>
-          <p class="ni-currency-note" id="ni-currency-note">All line items on this invoice will use this currency. Currency defaults can be changed individually for <a href="settings.html" class="ni-currency-link">organization</a>, <a href="clients.html" class="ni-currency-link">clients</a>, or <a href="projects.html" class="ni-currency-link">projects</a>.</p>
+          <p class="ni-currency-note" id="ni-currency-note">All line items on this invoice will use this currency. Currency defaults can be changed individually for <a href="settings.html" class="ni-currency-link">organization</a> or <a href="clients.html" class="ni-currency-link">clients</a>.</p>
         </div>
 
         <div class="ni-two-col ni-field">
@@ -195,7 +195,7 @@
 </div>
 
 <script>
-  HubstaffShell.init({ activeItem: 'financials' });
+  HubstaffShell.init({ activeItem: 'financials', expanded: true });
 
   // ── Static data ──
   var ORG_CURRENCY = { code: 'USD', name: 'US Dollar' };
