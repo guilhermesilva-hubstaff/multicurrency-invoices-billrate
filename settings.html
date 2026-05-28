@@ -156,14 +156,20 @@
 </script>
 
 <!-- Design annotations -->
-<script src="design-annotations.js"></script>
+<script src="design-annotations.js?v=5"></script>
 <script>
   DesignAnnotations.init({
     page: 'Settings — All settings',
-    required: [],
-    suggestions: [
-      'Search settings input could filter cards and links in real time',
-      'Card hover state could navigate to the first link in each section'
+    required: [
+      {
+        text: 'Organization currency — review and update on the Company information page',
+        target: 'a[href="index.html"]',
+        sub: [
+          'Label must read "Organization currency" (not "Default currency" or similar)',
+          'Helper text must explain that this value is the fallback for clients and projects with no currency set',
+          'This currency cascades to: client default → project rate → invoice currency'
+        ]
+      }
     ]
   });
 </script>

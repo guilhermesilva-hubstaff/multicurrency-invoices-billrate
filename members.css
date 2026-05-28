@@ -609,8 +609,10 @@
 .mem-link:hover { text-decoration: underline; }
 .mem-muted { color: #9ca3af; font-size: 13px; }
 
-/* Payment */
-.mem-col--payment { min-width: 190px; }
+/* Pay rate / Bill rate */
+.mem-col--payrate  { min-width: 160px; }
+.mem-col--billrate { min-width: 130px; }
+.mem-td--billrate  { vertical-align: top; }
 .mem-pay { display: flex; flex-direction: column; gap: 3px; }
 .mem-pay__row {
   display: flex;

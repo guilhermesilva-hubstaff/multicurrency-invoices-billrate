@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  <link rel="stylesheet" href="new-invoice.css?v=3">
+  <link rel="stylesheet" href="new-invoice.css?v=6">
 </head>
 <body>
 <script src="hubstaff-shell.js?v=13"></script>
@@ -21,7 +21,7 @@
       <div class="ni-header-actions">
         <a href="invoices.html" class="ni-btn-cancel">Cancel</a>
         <button class="ni-btn-draft">Save as draft</button>
-        <button class="ni-btn-send">Save and send</button>
+        <button class="ni-btn-send" disabled>Save and send</button>
       </div>
     </div>
 
@@ -64,23 +64,31 @@
           </div>
         </div>
 
+        <!-- No-currency alert — shown when selected client has no currency set -->
+        <div class="ni-no-currency-alert" id="ni-no-currency-alert" hidden>
+          <span class="material-symbols-rounded">info</span>
+          <span>No currency is set for this client, so the organization's currency is being used. <a href="clients.html" class="ni-currency-link">Update client currency here</a>.</span>
+        </div>
+
         <!-- Currency — always visible, grouped by hierarchy -->
         <div class="ni-field">
           <div class="ni-label">Invoice Currency <abbr title="required">*</abbr></div>
-          <div class="ni-select-wrap">
+          <div class="ni-select-wrap" id="ni-currency-select-wrap">
             <select class="ni-select" id="ni-currency-select">
               <!-- Built dynamically by buildCurrencySelect() -->
             </select>
             <span class="material-symbols-rounded ni-select-icon">expand_more</span>
           </div>
-          <p class="ni-currency-note" id="ni-currency-note">All line items on this invoice will use this currency. Currency defaults can be changed individually for <a href="settings.html" class="ni-currency-link">organization</a> or <a href="clients.html" class="ni-currency-link">clients</a>.</p>
+          <!-- Readonly display — shown when client has no currency set -->
+          <div class="ni-currency-readonly" id="ni-currency-readonly" hidden></div>
+          <p class="ni-currency-note" id="ni-currency-note">We support single-currency invoices only. Adjust the currency in the <a href="clients.html" class="ni-currency-link">client</a> or <a href="settings.html" class="ni-currency-link">organization settings</a>.</p>
         </div>
 
         <div class="ni-two-col ni-field">
           <div>
             <div class="ni-label">Issue date <abbr title="required">*</abbr></div>
             <div class="ni-input-wrap">
-              <input type="text" class="ni-input" value="Tue, May 12, 2026" readonly>
+              <input type="text" class="ni-input" id="ni-issue-date" value="Tue, May 12, 2026" readonly>
               <span class="material-symbols-rounded ni-input-icon">calendar_today</span>
             </div>
           </div>
@@ -96,7 +104,7 @@
         <div class="ni-two-col ni-field">
           <div>
             <div class="ni-label">Invoice number <abbr title="required">*</abbr></div>
-            <input type="text" class="ni-input" value="DA1032">
+            <input type="text" class="ni-input" id="ni-invoice-number" value="DA1032">
           </div>
           <div>
             <div class="ni-label">PO number</div>
@@ -113,7 +121,6 @@
         <thead>
           <tr>
             <th class="ni-th ni-th--handle"></th>
-            <th class="ni-th ni-th--project">Project</th>
             <th class="ni-th ni-th--desc">Description</th>
             <th class="ni-th ni-th--note"></th>
             <th class="ni-th ni-th--narrow">Total hours (qty)</th>
@@ -128,15 +135,7 @@
         <tbody id="ni-line-items">
           <tr class="ni-line-item-row" data-amount="0">
             <td class="ni-td ni-td--handle"><span class="material-symbols-rounded">drag_indicator</span></td>
-            <td class="ni-td ni-td--project">
-              <div class="ni-project-wrap">
-                <select class="ni-project-select js-ni-project-select" disabled>
-                  <option value="">— Select client first —</option>
-                </select>
-                <span class="material-symbols-rounded ni-project-icon">expand_more</span>
-              </div>
-            </td>
-            <td class="ni-td"><input type="text" class="ni-li-input" placeholder="Description"></td>
+            <td class="ni-td"><input type="text" class="ni-li-input js-ni-desc" placeholder="Description"></td>
             <td class="ni-td"><button class="ni-add-note-btn">+ Note</button></td>
             <td class="ni-td"><input type="text" class="ni-li-input js-qty" placeholder="0:00:00" value="0:00:00"></td>
             <td class="ni-td"><input type="text" class="ni-li-input js-unit-price" placeholder="0.00"></td>
@@ -209,7 +208,7 @@
 
   var CLIENTS_DATA = [
     { id: 1,  name: 'City of Chicago',    currency: 'USD' },
-    { id: 2,  name: 'Shawn Williams',     currency: 'USD' },
+    { id: 2,  name: 'Shawn Williams'                      },
     { id: 3,  name: 'Ourselves',          currency: 'USD' },
     { id: 4,  name: 'Jorge',              currency: 'USD' },
     { id: 5,  name: 'Microsoft',          currency: 'CAD' },
@@ -217,7 +216,7 @@
     { id: 7,  name: 'TechBrasil',         currency: 'BRL' },
     { id: 8,  name: 'Global Trading Ltd', currency: 'GBP' },
     { id: 9,  name: 'Sakura Digital',     currency: 'JPY' },
-    { id: 10, name: 'Nordic Solutions',   currency: 'SEK' },
+    { id: 10, name: 'Nordic Solutions'                    },
   ];
 
   var PROJECTS_DATA = {
@@ -308,77 +307,118 @@
     return currentCurrencyCode + ' ' + fmt(value);
   }
 
-  // ── Build the grouped currency <select> ──
+  // ── Build the currency <select> ──
+  // Three states:
+  //   No client      → one option "Organization currency", dropdown disabled
+  //   Same currency  → one option "Client currency" (relabelled), dropdown disabled
+  //   Diff currency  → two options: client (default) + org, dropdown enabled
+  // Project-level currency options are hidden for now — see commented-out PROJECTS_DATA above.
   function buildCurrencySelect(clientId) {
-    var sel = document.getElementById('ni-currency-select');
-    var prevCode = currentCurrencyCode;
+    var sel      = document.getElementById('ni-currency-select');
+    var selWrap  = document.getElementById('ni-currency-select-wrap');
+    var readOnly = document.getElementById('ni-currency-readonly');
     sel.innerHTML = '';
 
     var client = CLIENTS_DATA.find(function(c) { return c.id === clientId; });
 
-    // 1 — Organization currency
-    var orgGroup = document.createElement('optgroup');
-    orgGroup.label = 'Organization currency';
-    var orgOpt = document.createElement('option');
-    orgOpt.value = ORG_CURRENCY.code;
-    orgOpt.textContent = 'Organization currency · ' + ORG_CURRENCY.code + ' — ' + ORG_CURRENCY.name;
-    orgGroup.appendChild(orgOpt);
-    sel.appendChild(orgGroup);
+    if (!client) {
+      // No client selected — show read-only field, no dropdown
+      readOnly.textContent = 'Organization currency · ' + ORG_CURRENCY.code + ' — ' + ORG_CURRENCY.name;
+      readOnly.setAttribute('data-tooltip', 'Select a client to configure the invoice currency.');
+      selWrap.hidden  = true;
+      readOnly.hidden = false;
+      // Sync hidden select for calculations
+      var orgOpt = document.createElement('option');
+      orgOpt.value = ORG_CURRENCY.code;
+      orgOpt.textContent = ORG_CURRENCY.code;
+      sel.appendChild(orgOpt);
+      sel.value = ORG_CURRENCY.code;
 
-    // 2 — Client currency (only if different from org)
-    if (client && client.currency !== ORG_CURRENCY.code) {
-      var clientGroup = document.createElement('optgroup');
-      clientGroup.label = 'Client currency';
+    } else if (!client.currency) {
+      // No client currency — show read-only field with tooltip, no dropdown
+      readOnly.textContent = 'Organization currency · ' + ORG_CURRENCY.code + ' — ' + ORG_CURRENCY.name;
+      readOnly.setAttribute('data-tooltip', 'Organization currency is applied because this client has no currency set.');
+      selWrap.hidden  = true;
+      readOnly.hidden = false;
+      // Still sync the value for line-item calculations
+      sel.innerHTML = '';
+      var orgOpt2 = document.createElement('option');
+      orgOpt2.value = ORG_CURRENCY.code;
+      orgOpt2.textContent = ORG_CURRENCY.code;
+      sel.appendChild(orgOpt2);
+      sel.value = ORG_CURRENCY.code;
+
+    } else if (client.currency === ORG_CURRENCY.code) {
+      // Client currency equals org currency — show both options, enabled
       var clientOpt = document.createElement('option');
       clientOpt.value = client.currency;
       clientOpt.textContent = 'Client currency · ' + client.currency + ' — ' + (CURRENCY_NAMES[client.currency] || client.currency);
-      clientGroup.appendChild(clientOpt);
-      sel.appendChild(clientGroup);
-    }
+      sel.appendChild(clientOpt);
 
-    // 3 — Project currencies (distinct, excluding org + client already shown)
-    var projects = PROJECTS_DATA[clientId] || [];
-    if (projects.length > 0) {
-      var countByCurrency = {};
-      projects.forEach(function(p) {
-        var code = p.currency || (client ? client.currency : ORG_CURRENCY.code);
-        countByCurrency[code] = (countByCurrency[code] || 0) + 1;
-      });
+      var orgOpt = document.createElement('option');
+      orgOpt.value = ORG_CURRENCY.code;
+      orgOpt.textContent = 'Organization currency · ' + ORG_CURRENCY.code + ' — ' + ORG_CURRENCY.name;
+      sel.appendChild(orgOpt);
 
-      // Filter out what's already shown
-      var shownCodes = [ORG_CURRENCY.code];
-      if (client && client.currency !== ORG_CURRENCY.code) shownCodes.push(client.currency);
-
-      var projCodes = Object.keys(countByCurrency).filter(function(code) {
-        return shownCodes.indexOf(code) === -1;
-      }).sort();
-
-      if (projCodes.length > 0) {
-        var projGroup = document.createElement('optgroup');
-        projGroup.label = 'Project currencies';
-        projCodes.forEach(function(code) {
-          var opt = document.createElement('option');
-          opt.value = code;
-          var count = countByCurrency[code];
-          opt.textContent = 'Project currencies · ' + code + ' — ' + (CURRENCY_NAMES[code] || code)
-            + ' · ' + count + (count === 1 ? ' project' : ' projects');
-          projGroup.appendChild(opt);
-        });
-        sel.appendChild(projGroup);
-      }
-    }
-
-    // Restore previous selection if still available, else pick client currency, else org
-    var available = Array.from(sel.options).map(function(o) { return o.value; });
-    if (available.indexOf(prevCode) !== -1) {
-      sel.value = prevCode;
-    } else if (client && available.indexOf(client.currency) !== -1) {
       sel.value = client.currency;
+      sel.disabled = false;
+      selWrap.hidden  = false;
+      readOnly.hidden = true;
+
     } else {
-      sel.value = ORG_CURRENCY.code;
+      // Different currencies — show both, client selected by default
+      var clientOpt = document.createElement('option');
+      clientOpt.value = client.currency;
+      clientOpt.textContent = 'Client currency · ' + client.currency + ' — ' + (CURRENCY_NAMES[client.currency] || client.currency);
+      sel.appendChild(clientOpt);
+
+      var orgOpt = document.createElement('option');
+      orgOpt.value = ORG_CURRENCY.code;
+      orgOpt.textContent = 'Organization currency · ' + ORG_CURRENCY.code + ' — ' + ORG_CURRENCY.name;
+      sel.appendChild(orgOpt);
+
+      sel.value = client.currency;
+      sel.disabled = false;
+      selWrap.hidden  = false;
+      readOnly.hidden = true;
     }
 
     applyCurrencyFromSelect();
+  }
+
+  // ── Project select refresh ───────────────────────────────────
+  function refreshProjectSelects() {
+    var clientId = parseInt(document.getElementById('ni-client-select').value) || null;
+    var projects = clientId ? (PROJECTS_DATA[clientId] || []) : [];
+
+    document.querySelectorAll('.js-ni-project-select').forEach(function(sel) {
+      var prevVal = sel.value;
+      sel.innerHTML = '';
+
+      if (!clientId) {
+        sel.disabled = true;
+        var ph = document.createElement('option');
+        ph.value = ''; ph.textContent = '— Select client first —';
+        sel.appendChild(ph);
+        return;
+      }
+
+      sel.disabled = false;
+      var ph = document.createElement('option');
+      ph.value = ''; ph.textContent = '— Select project —';
+      sel.appendChild(ph);
+
+      projects.forEach(function(p) {
+        var opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
+      });
+
+      if (prevVal && sel.querySelector('option[value="' + prevVal + '"]')) {
+        sel.value = prevVal;
+      }
+    });
   }
 
   // ── Apply currency from select value ──
@@ -389,10 +429,10 @@
     var hdr = document.getElementById('ni-unit-price-currency');
     if (hdr) hdr.textContent = '(' + code + ')';
     recalcAll();
-    refreshProjectSelects();
+    // refreshProjectSelects() — hidden for now (project-level currency filtering not active)
   }
 
-  // ── Refresh project selects — filter by selected currency ──
+  /* PROJECT SELECT REFRESH — hidden for now (project-level currency filtering not active)
   function getProjectEffectiveCurrency(p, client) {
     return p.currency || (client ? client.currency : ORG_CURRENCY.code);
   }
@@ -440,12 +480,12 @@
         sel.appendChild(opt);
       });
 
-      // Restore previous selection if still in the list
       if (prevVal && sel.querySelector('option[value="' + prevVal + '"]')) {
         sel.value = prevVal;
       }
     });
   }
+  END PROJECT SELECT REFRESH */
 
   // ── Time mask ──
   function getTimeBuf(val) {
@@ -553,17 +593,22 @@
 
   // ── Client change — rebuild currency select, auto-select client currency ──
   document.getElementById('ni-client-select').addEventListener('change', function() {
-    var clientId = parseInt(this.value);
-    var client   = CLIENTS_DATA.find(function(c) { return c.id === clientId; });
+    var clientId = parseInt(this.value) || null;
+    var client   = clientId ? CLIENTS_DATA.find(function(c) { return c.id === clientId; }) : null;
+    var noCurrency = client && !client.currency;
 
-    // Auto-select client currency when client is picked; fall back to org
-    if (client) {
-      currentCurrencyCode = client.currency;
-    } else {
-      currentCurrencyCode = ORG_CURRENCY.code;
+    // Show / hide the no-currency alert
+    document.getElementById('ni-no-currency-alert').hidden = !noCurrency;
+
+    // Currency note always shows the same text regardless of client currency state
+    var noteEl = document.getElementById('ni-currency-note');
+    if (noteEl) {
+      noteEl.innerHTML = 'We support single-currency invoices only. Adjust the currency in the <a href="clients.html" class="ni-currency-link">client</a> or <a href="settings.html" class="ni-currency-link">organization settings</a>.';
     }
 
     buildCurrencySelect(clientId);
+    refreshProjectSelects();
+    checkSendReady();
   });
 
   // ── Currency change ──
@@ -589,6 +634,7 @@
     document.getElementById('ni-line-items').appendChild(row);
     refreshProjectSelects();
     wireDeleteButtons();
+    checkSendReady();
   });
 
   function wireDeleteButtons() {
@@ -597,6 +643,7 @@
         if (document.querySelectorAll('.ni-line-item-row').length > 1) {
           this.closest('.ni-line-item-row').remove();
           recalcAll();
+          checkSendReady();
         }
       };
     });
@@ -604,56 +651,111 @@
 
   wireDeleteButtons();
 
+  // ── Save and send — enable/disable based on required fields ──
+  function checkSendReady() {
+    var hasClient      = document.getElementById('ni-client-select').value !== '';
+    var hasIssueDate   = (document.getElementById('ni-issue-date').value   || '').trim() !== '';
+    var hasInvoiceNum  = (document.getElementById('ni-invoice-number').value || '').trim() !== '';
+    var hasDescription = Array.from(document.querySelectorAll('.js-ni-desc')).some(function(inp) {
+      return inp.value.trim() !== '';
+    });
+    document.querySelector('.ni-btn-send').disabled = !(hasClient && hasIssueDate && hasInvoiceNum && hasDescription);
+  }
+
+  // Wire invoice number changes
+  document.getElementById('ni-invoice-number').addEventListener('input', checkSendReady);
+
+  // Wire description inputs via event delegation (covers existing + dynamically added rows)
+  document.getElementById('ni-line-items').addEventListener('input', function(e) {
+    if (e.target.classList.contains('js-ni-desc')) checkSendReady();
+  });
+
   // ── Init ──
   buildCurrencySelect(null); // no client selected, org currency only
   recalcAll();
+  checkSendReady();
 </script>
 
 <!-- Design annotations -->
-<script src="design-annotations.js"></script>
+<script src="design-annotations.js?v=5"></script>
 <script>
   DesignAnnotations.init({
     page: 'Invoicing — New / Edit invoice',
     required: [
       {
-        text: 'Currency field with hierarchy-based grouped dropdown',
+        text: 'Move Cancel / Save as draft / Save and send to the page header (top)',
+        target: '.ni-header-actions',
         sub: [
-          'Organization currency — always present as fallback (USD)',
-          'Client currency — shown when client has a different currency from org',
-          'Project currencies — all distinct currencies found in client projects, excluding org and client currencies already shown; each option shows project count',
-          'Selecting a currency filters the Project dropdown in line items to only matching projects'
+          'Action buttons must live in the sticky page header, not at the bottom of the form',
+          'Order: Cancel (ghost) · Save as draft (outlined blue) · Save and send (primary blue)'
         ]
       },
       {
-        text: 'Client selection auto-updates Currency field',
+        text: 'Save as draft — change to outlined blue style',
+        target: '.ni-btn-draft',
         sub: [
-          'When a client is selected, Currency auto-switches to the client\'s currency',
-          'If the client uses org currency, Currency stays on org currency',
-          'If no client is selected, only Organization currency is available'
+          'Border: 1px solid #2aa7ff · background: transparent · text: #2aa7ff',
+          'Currently renders as filled green — incorrect for a secondary / draft action'
         ]
       },
       {
-        text: 'Project field is now organizational only — currency is driven by the top-level Currency field',
+        text: 'Client ↔ Invoice Currency relationship — 4 states',
+        target: '#ni-client-select, #ni-currency-select-wrap, #ni-currency-readonly, #ni-no-currency-alert',
         sub: [
-          'Project selection does not change the invoice currency',
-          'Projects in line items are filtered to only show those matching the selected currency',
-          'One invoice = one currency throughout'
+          'State 1 — No client selected: Invoice Currency is read-only, shows "Organization currency · USD — US Dollar". No dropdown.',
+          'State 2 — Client currency equals org currency (e.g. City of Chicago = USD = org): Invoice Currency becomes a dropdown. User can pick "Client currency · USD" or "Organization currency · USD" — both are the same value but the selection must be stored.',
+          'State 3 — Client currency differs from org (e.g. Microsoft = CAD, org = USD): Invoice Currency becomes a dropdown with both options. Selecting one updates the unit price column header and filters line item projects to matching currency.',
+          'State 4 — Client has no currency set (e.g. Shawn Williams): Invoice Currency is read-only showing org currency, AND the info alert fires: "No currency is set for this client, so the organization\'s currency is being used. Update client currency here." — with a link to the client settings page.'
         ]
       },
       {
-        text: '"Unit price" column header must include the active currency in parentheses',
-        sub: ['Example: "Unit price (USD)", "Unit price (CAD)"']
+        text: 'Unit price column header must show the active invoice currency',
+        target: '#ni-th-unit-price',
+        sub: [
+          'Label format: "Unit price (USD)", "Unit price (CAD)", etc.',
+          'Must update dynamically when the Invoice Currency field changes'
+        ]
+      },
+      {
+        text: 'Add item — outlined blue button',
+        target: '.ni-add-btn',
+        sub: [
+          'Border: 1px solid #2aa7ff · background: transparent · text: #2aa7ff',
+          'Currently filled blue — should be outlined to match secondary action hierarchy'
+        ]
+      },
+      {
+        text: 'Generate line items — icon inside button + update tooltip',
+        target: '.ni-gen-btn',
+        sub: [
+          'Place the info icon inside the button label, not after it',
+          'Update tooltip text to clearly describe what the feature does and that it pulls from Hubstaff time entries for the selected client\'s projects'
+        ]
+      },
+      {
+        text: 'Add note button — ghost style, show "+ Note" label',
+        target: '.ni-add-note-btn',
+        sub: [
+          'Label must read "+ Note" (not "Add note")',
+          'Style: ghost (no border, no background) with accent blue text (#2aa7ff)'
+        ]
+      },
+      {
+        text: 'Total hours (qty) placeholder — use time format',
+        target: '.js-qty',
+        sub: [
+          'Placeholder should be "0:00" or "0:00:00" instead of a generic number',
+          'Signals to users this is a time field, consistent with Hubstaff\'s time-tracking context'
+        ]
+      },
+      {
+        text: 'Divider between line items and Notes / Total section',
+        target: '.ni-actions-row, .ni-actions-divider',
+        sub: [
+          'Add a 1px solid #e5e7eb horizontal divider below the Add item / Generate line items row',
+          'Increase spacing above the Notes / Total section to 24px for visual separation'
+        ]
       }
-    ],
-    suggestions: [
-      'Consider locking the currency once line items have been added — warn the user if they try to switch currencies after adding items with values',
-      'When a currency is selected that has no matching projects, show a helper message in the project dropdown explaining why it is empty',
-      'Save as draft and Add item buttons should use outlined style (border: 1px solid #2aa7ff, background: transparent, text: #2aa7ff) — they are secondary actions relative to Save invoice',
-      'A divider (1px solid #e5e7eb) should separate the line items table from the Notes / Totals section below for visual grouping',
-      'Increase the bottom margin above the Notes / Totals section to 24px for better visual separation from line items',
-      '"Qty" placeholder in the hours/quantity column should show a time-format hint (e.g. "0:00") rather than a generic number, since this is a time-tracking product',
-      'Unit price column header should display the active invoice currency in parentheses — e.g. "Unit price (USD)" — so users know which currency they are entering',
-      'Project dropdown in line items filters to only projects matching the selected invoice currency — communicate this filtering to the user (e.g. helper text or empty-state label)'
     ]
   });
 </script>

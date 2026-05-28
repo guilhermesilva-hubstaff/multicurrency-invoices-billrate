@@ -8,10 +8,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  <link rel="stylesheet" href="member-detail.css?v=6">
+  <link rel="stylesheet" href="member-detail.css?v=19">
 </head>
 <body>
 <script src="hubstaff-shell.js?v=13"></script>
+<script src="design-annotations.js?v=5"></script>
 
 <div id="shell-content">
   <div class="md-page">
@@ -35,7 +36,7 @@
             <div class="md-dropdown__item"><span class="material-symbols-rounded">mail</span>Send invite</div>
             <div class="md-dropdown__item"><span class="material-symbols-rounded">lock_reset</span>Reset password</div>
             <div class="md-dropdown__divider"></div>
-            <div class="md-dropdown__item md-dropdown__item--danger"><span class="material-symbols-rounded">person_remove</span>Remove member</div>
+            <div class="md-dropdown__item md-dropdown__item--danger"><span class="material-symbols-rounded">delete</span>Remove member</div>
           </div>
         </div>
         <button class="md-btn md-btn--primary" id="md-save-btn">Save Changes</button>
@@ -324,36 +325,99 @@
 
         <!-- Bill rate fields -->
         <div id="pb-fields-bill" hidden>
-          <div class="pb-fields-row">
+
+          <div class="pb-bill-section-head">
+            <span class="pb-history__title">Current bill rates</span>
+            <p class="pb-section__sub">Currency follows <a href="#" class="cl-inv-note-link">client settings</a>, or defaults to <a href="#" class="cl-inv-note-link">organization</a> currency.</p>
+          </div>
+
+          <!-- Row 1: Acme Corp — with column labels, active since Apr 27 2026 -->
+          <div class="pb-fields-row pb-fields-row--bill">
             <div class="pb-field">
               <label class="pb-label">Client</label>
-              <div class="pb-select-wrap">
-                <select class="pb-select" id="pb-bill-client-select">
-                  <option value="USD" selected>Acme Corp (USD)</option>
-                  <option value="EUR">Ourselves (EUR)</option>
-                  <option value="GBP">Shawn Williams (GBP)</option>
-                  <option value="USD2">City of Chicago (USD)</option>
-                  <option value="BRL">Jorge (BRL)</option>
-                </select>
-                <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
-              </div>
-              <p class="cl-inv-note" style="margin-top: 4px;">Currency follows <a href="#" class="cl-inv-note-link">client settings</a>, or defaults to <a href="#" class="cl-inv-note-link">organization</a> currency.</p>
+              <a href="clients.html" class="pb-client-chip" data-client-name="Acme Corp">
+                <div class="pb-client-chip__avatar" style="background:#1d4ed8;">A</div>
+                Acme Corp
+              </a>
             </div>
             <div class="pb-field">
               <label class="pb-label">Bill rate</label>
               <div class="pb-split-field">
                 <input type="text" class="pb-split-input" value="80.00">
-                <span class="pb-split-suffix" id="pb-bill-suffix">USD/hr</span>
+                <span class="pb-split-suffix">USD/hr</span>
               </div>
             </div>
             <div class="pb-field">
               <label class="pb-label">Effective date</label>
               <div class="pb-date-input-wrap">
-                <input type="date" class="pb-date-input" value="2025-05-07">
+                <input type="date" class="pb-date-input" value="2026-04-27">
+              </div>
+            </div>
+            <div class="pb-field pb-field--action">
+              <div class="pb-icon-btn-group">
+                <button class="pb-icon-btn pb-icon-btn--note" type="button" title="Add note"><span class="material-symbols-rounded">edit_square</span>Add note</button>
+                <button class="pb-icon-btn pb-icon-btn--remove pb-remove-client-btn" type="button" title="Remove" data-client="Acme Corp" data-since="Apr 27, 2026" data-active="true"><span class="material-symbols-rounded">delete</span></button>
               </div>
             </div>
           </div>
-          <button class="pb-add-note" type="button"><span class="material-symbols-rounded">edit_square</span>Add note</button>
+
+          <!-- Row 2: City of Chicago — no labels, active since Mar 1 2026 -->
+          <div class="pb-fields-row pb-fields-row--bill">
+            <div class="pb-field">
+              <a href="clients.html" class="pb-client-chip" data-client-name="City of Chicago">
+                <div class="pb-client-chip__avatar" style="background:#4e4302;">C</div>
+                City of Chicago
+              </a>
+            </div>
+            <div class="pb-field">
+              <div class="pb-split-field">
+                <input type="text" class="pb-split-input" value="95.00">
+                <span class="pb-split-suffix">USD/hr</span>
+              </div>
+            </div>
+            <div class="pb-field">
+              <div class="pb-date-input-wrap">
+                <input type="date" class="pb-date-input" value="2026-03-01">
+              </div>
+            </div>
+            <div class="pb-field pb-field--action">
+              <div class="pb-icon-btn-group">
+                <button class="pb-icon-btn pb-icon-btn--note" type="button" title="Add note"><span class="material-symbols-rounded">edit_square</span>Add note</button>
+                <button class="pb-icon-btn pb-icon-btn--remove pb-remove-client-btn" type="button" title="Remove" data-client="City of Chicago" data-since="Mar 1, 2026" data-active="true"><span class="material-symbols-rounded">delete</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Meridian Health — no labels, no active period (Past) -->
+          <div class="pb-fields-row pb-fields-row--bill">
+            <div class="pb-field">
+              <a href="clients.html" class="pb-client-chip" data-client-name="Meridian Health">
+                <div class="pb-client-chip__avatar" style="background:#0f766e;">M</div>
+                Meridian Health
+              </a>
+            </div>
+            <div class="pb-field">
+              <div class="pb-split-field">
+                <input type="text" class="pb-split-input" value="2,500.00">
+                <span class="pb-split-suffix">GBP/fixed</span>
+              </div>
+            </div>
+            <div class="pb-field">
+              <div class="pb-date-input-wrap">
+                <input type="date" class="pb-date-input" value="2025-05-01">
+              </div>
+            </div>
+            <div class="pb-field pb-field--action">
+              <div class="pb-icon-btn-group">
+                <button class="pb-icon-btn pb-icon-btn--note" type="button" title="Add note"><span class="material-symbols-rounded">edit_square</span>Add note</button>
+                <button class="pb-icon-btn pb-icon-btn--remove pb-remove-client-btn" type="button" title="Remove" data-client="Meridian Health" data-active="false"><span class="material-symbols-rounded">delete</span></button>
+              </div>
+            </div>
+          </div>
+
+          <button class="pb-bill-row-add-btn" id="pb-bill-add-row-btn" type="button">
+            <span class="material-symbols-rounded">add</span>Add bill rate
+          </button>
         </div>
 
         <!-- Project rate placeholder -->
@@ -385,8 +449,9 @@
         <div class="pb-history__header">
           <div class="pb-history__title-group">
             <span class="pb-history__title">Bill rate history</span>
-            <div class="pb-version-links">
+            <div class="pb-version-links" hidden>
               <a href="#" class="pb-version-link is-active" data-version="1">v1</a>
+              <a href="#" class="pb-version-link" data-version="1b">v1b</a>
               <a href="#" class="pb-version-link" data-version="2">v2</a>
               <a href="#" class="pb-version-link" data-version="3">v3</a>
             </div>
@@ -414,17 +479,57 @@
               <th class="pb-th-sort" data-col="billrate" style="width:110px">Bill rate <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
               <th class="pb-th-sort" data-col="paytype" style="width:80px">Pay type <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
               <th class="pb-th-sort" data-col="date" style="width:150px">Start date <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="enddate" style="width:150px">End date <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
               <th>Note</th>
             </tr></thead>
             <tbody>
-              <tr data-client="Acme Corp" data-sort-status="0" data-sort-client="acme corp" data-sort-billrate="80" data-sort-paytype="hourly" data-sort-date="2026-04-27"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
-              <tr data-client="City of Chicago" data-sort-status="0" data-sort-client="city of chicago" data-sort-billrate="95" data-sort-paytype="hourly" data-sort-date="2026-03-01"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td><td class="pb-td--truncate">New engagement with city; rate approved by account director.</td></tr>
-              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-client="acme corp" data-sort-billrate="75" data-sort-paytype="hourly" data-sort-date="2026-01-06"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
-              <tr class="pb-v1-past" data-client="City of Chicago" data-sort-status="1" data-sort-client="city of chicago" data-sort-billrate="85" data-sort-paytype="hourly" data-sort-date="2025-10-01"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
-              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-client="meridian health" data-sort-billrate="2500" data-sort-paytype="fixed" data-sort-date="2025-09-15"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td></tr>
-              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-client="meridian health" data-sort-billrate="2000" data-sort-paytype="fixed" data-sort-date="2025-06-02"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
-              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-client="acme corp" data-sort-billrate="70" data-sort-paytype="hourly" data-sort-date="2025-02-03"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
-              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-client="acme corp" data-sort-billrate="65" data-sort-paytype="hourly" data-sort-date="2024-08-12"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
+              <tr data-client="Acme Corp" data-sort-status="0" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="80" data-sort-paytype="hourly" data-sort-date="2026-04-27" data-sort-enddate="9999-12-31"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td>Present</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
+              <tr data-client="City of Chicago" data-sort-status="0" data-sort-clientorder="1" data-sort-client="city of chicago" data-sort-billrate="95" data-sort-paytype="hourly" data-sort-date="2026-03-01" data-sort-enddate="9999-12-31"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td><td>Present</td><td class="pb-td--truncate">New engagement with city; rate approved by account director.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="75" data-sort-paytype="hourly" data-sort-date="2026-01-06" data-sort-enddate="2026-04-26"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td>Sun, Apr 26, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
+              <tr class="pb-v1-past" data-client="City of Chicago" data-sort-status="1" data-sort-clientorder="1" data-sort-client="city of chicago" data-sort-billrate="85" data-sort-paytype="hourly" data-sort-date="2025-10-01" data-sort-enddate="2026-02-28"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td>Sat, Feb 28, 2026</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
+              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-clientorder="2" data-sort-client="meridian health" data-sort-billrate="2500" data-sort-paytype="fixed" data-sort-date="2025-09-15" data-sort-enddate="2025-12-31"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td>Wed, Dec 31, 2025</td><td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td></tr>
+              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-clientorder="2" data-sort-client="meridian health" data-sort-billrate="2000" data-sort-paytype="fixed" data-sort-date="2025-06-02" data-sort-enddate="2025-09-14"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td>Sun, Sep 14, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="70" data-sort-paytype="hourly" data-sort-date="2025-02-03" data-sort-enddate="2026-01-05"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td>Sun, Jan 5, 2026</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="65" data-sort-paytype="hourly" data-sort-date="2024-08-12" data-sort-enddate="2025-02-02"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td>Sun, Feb 2, 2025</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── V1b: Same table + Add bill rate dialog ──────────── -->
+        <div id="pb-bill-v1b" class="pb-version-panel" hidden>
+          <div class="pb-bill-filter-row">
+            <div class="pb-select-wrap pb-bill-filter-wrap">
+              <select class="pb-select" id="pb-bill-client-filter-v1b">
+                <option value="">All clients</option>
+                <option value="Acme Corp">Acme Corp</option>
+                <option value="City of Chicago">City of Chicago</option>
+                <option value="Meridian Health">Meridian Health</option>
+              </select>
+              <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+            </div>
+            <button class="pb-add-rate-btn" id="pb-add-rate-btn">
+              <span class="material-symbols-rounded">add</span>Add bill rate
+            </button>
+          </div>
+          <table class="pb-table" id="pb-bill-v1b-table">
+            <thead><tr>
+              <th class="pb-th-sort" data-col="client" style="width:160px">Client <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="status" style="width:100px">Status <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="billrate" style="width:110px">Bill rate <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="paytype" style="width:80px">Pay type <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="date" style="width:150px">Start date <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th class="pb-th-sort" data-col="enddate" style="width:150px">End date <span class="material-symbols-rounded pb-sort-icon">unfold_more</span></th>
+              <th>Note</th>
+            </tr></thead>
+            <tbody>
+              <tr data-client="Acme Corp" data-sort-status="0" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="80" data-sort-paytype="hourly" data-sort-date="2026-04-27" data-sort-enddate="9999-12-31"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td>Present</td><td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td></tr>
+              <tr data-client="City of Chicago" data-sort-status="0" data-sort-clientorder="1" data-sort-client="city of chicago" data-sort-billrate="95" data-sort-paytype="hourly" data-sort-date="2026-03-01" data-sort-enddate="9999-12-31"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--current">Current</span></td><td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td><td>Present</td><td class="pb-td--truncate">New engagement with city; rate approved by account director.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="75" data-sort-paytype="hourly" data-sort-date="2026-01-06" data-sort-enddate="2026-04-26"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td>Sun, Apr 26, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
+              <tr class="pb-v1-past" data-client="City of Chicago" data-sort-status="1" data-sort-clientorder="1" data-sort-client="city of chicago" data-sort-billrate="85" data-sort-paytype="hourly" data-sort-date="2025-10-01" data-sort-enddate="2026-02-28"><td>City of Chicago</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td>Sat, Feb 28, 2026</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
+              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-clientorder="2" data-sort-client="meridian health" data-sort-billrate="2500" data-sort-paytype="fixed" data-sort-date="2025-09-15" data-sort-enddate="2025-12-31"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td>Wed, Dec 31, 2025</td><td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td></tr>
+              <tr class="pb-v1-past" data-client="Meridian Health" data-sort-status="1" data-sort-clientorder="2" data-sort-client="meridian health" data-sort-billrate="2000" data-sort-paytype="fixed" data-sort-date="2025-06-02" data-sort-enddate="2025-09-14"><td>Meridian Health</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td>Sun, Sep 14, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="70" data-sort-paytype="hourly" data-sort-date="2025-02-03" data-sort-enddate="2026-01-05"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td>Sun, Jan 5, 2026</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
+              <tr class="pb-v1-past" data-client="Acme Corp" data-sort-status="1" data-sort-clientorder="0" data-sort-client="acme corp" data-sort-billrate="65" data-sort-paytype="hourly" data-sort-date="2024-08-12" data-sort-enddate="2025-02-02"><td>Acme Corp</td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td>Sun, Feb 2, 2025</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
             </tbody>
           </table>
         </div>
@@ -433,7 +538,7 @@
         <div id="pb-bill-v2" class="pb-version-panel" hidden>
           <table class="pb-table pb-accordion-table">
             <thead><tr>
-              <th style="width:190px">Client</th><th style="width:90px">Status</th><th style="width:95px">Bill rate</th><th style="width:70px">Pay type</th><th style="width:120px">Start date</th><th>Note</th>
+              <th style="width:190px">Client</th><th style="width:90px">Status</th><th style="width:95px">Bill rate</th><th style="width:70px">Pay type</th><th style="width:120px">Start date</th><th style="width:120px">End date</th><th>Note</th>
             </tr></thead>
             <tbody>
               <tr class="pb-accordion-header" data-client="acme">
@@ -442,12 +547,12 @@
                   <br><a href="#" class="pb-view-history-link" data-client="acme">View history <span class="material-symbols-rounded pb-link-chevron">chevron_right</span></a>
                 </td>
                 <td><span class="pb-pill-status pb-pill-status--current">Current</span></td>
-                <td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td>
+                <td>$80.00/hr</td><td>Hourly</td><td>Mon, Apr 27, 2026</td><td>Present</td>
                 <td class="pb-td--truncate">Rate updated due to promotion; approved by Finance and HR.</td>
               </tr>
-              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
-              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
-              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$75.00/hr</td><td>Hourly</td><td>Mon, Jan 6, 2026</td><td>Sun, Apr 26, 2026</td><td class="pb-td--truncate">Annual rate review — 10% increase approved by Finance.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$70.00/hr</td><td>Hourly</td><td>Mon, Feb 3, 2025</td><td>Sun, Jan 5, 2026</td><td class="pb-td--truncate">Rate adjusted following scope expansion on Q1 deliverables.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="acme" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$65.00/hr</td><td>Hourly</td><td>Mon, Aug 12, 2024</td><td>Sun, Feb 2, 2025</td><td class="pb-td--truncate">Starting rate on onboarding; set by account manager.</td></tr>
 
               <tr class="pb-accordion-header" data-client="chicago">
                 <td>
@@ -455,10 +560,10 @@
                   <br><a href="#" class="pb-view-history-link" data-client="chicago">View history <span class="material-symbols-rounded pb-link-chevron">chevron_right</span></a>
                 </td>
                 <td><span class="pb-pill-status pb-pill-status--current">Current</span></td>
-                <td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td>
+                <td>$95.00/hr</td><td>Hourly</td><td>Mon, Mar 1, 2026</td><td>Present</td>
                 <td class="pb-td--truncate">New engagement with city; rate approved by account director.</td>
               </tr>
-              <tr class="pb-accordion-sub-row" data-parent="chicago" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="chicago" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$85.00/hr</td><td>Hourly</td><td>Wed, Oct 1, 2025</td><td>Sat, Feb 28, 2026</td><td class="pb-td--truncate">Initial rate for City of Chicago engagement.</td></tr>
 
               <tr class="pb-accordion-header" data-client="meridian">
                 <td>
@@ -466,10 +571,10 @@
                   <br><a href="#" class="pb-view-history-link" data-client="meridian">View history <span class="material-symbols-rounded pb-link-chevron">chevron_right</span></a>
                 </td>
                 <td><span class="pb-pill-status pb-pill-status--past">Past</span></td>
-                <td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td>
+                <td>$2,500.00</td><td>Fixed</td><td>Mon, Sep 15, 2025</td><td>Wed, Dec 31, 2025</td>
                 <td class="pb-td--truncate">Project-based engagement; fixed rate per contract terms.</td>
               </tr>
-              <tr class="pb-accordion-sub-row" data-parent="meridian" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
+              <tr class="pb-accordion-sub-row" data-parent="meridian" hidden><td></td><td><span class="pb-pill-status pb-pill-status--past">Past</span></td><td>$2,000.00</td><td>Fixed</td><td>Mon, Jun 2, 2025</td><td>Sun, Sep 14, 2025</td><td class="pb-td--truncate">Initial rate for Meridian Health contract.</td></tr>
             </tbody>
           </table>
         </div>
@@ -503,6 +608,117 @@
               <div class="pb-client-card__rate">$2,500.00</div>
               <div class="pb-client-card__meta">GBP · Fixed · Last: Sep 15, 2025</div>
               <button class="pb-view-history-btn" data-client="meridian">View history</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Remove bill rate confirmation dialog — Figma matched -->
+      <div class="pb-history-dialog" id="pb-remove-client-dialog">
+        <div class="pb-remove-dialog__panel">
+          <div class="pb-remove-dialog__header">
+            <span class="pb-remove-dialog__title">Remove bill rate</span>
+            <button class="pb-remove-dialog__x pb-history-dialog__close" aria-label="Close">
+              <span class="material-symbols-rounded">close</span>
+            </button>
+          </div>
+          <div class="pb-remove-dialog__body">
+            <div class="pb-remove-dialog__icon">
+              <span class="material-symbols-rounded">warning</span>
+            </div>
+            <p id="pb-remove-client-msg"></p>
+          </div>
+          <div class="pb-remove-dialog__footer">
+            <button class="pb-remove-dialog__cancel pb-history-dialog__close">Cancel</button>
+            <button class="pb-remove-dialog__confirm pb-remove-client-confirm">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add / Edit note dialog -->
+      <div class="pb-history-dialog" id="pb-add-note-dialog">
+        <div class="pb-remove-dialog__panel">
+          <div class="pb-remove-dialog__header">
+            <span class="pb-remove-dialog__title" id="pb-add-note-dialog-title">Add note</span>
+            <button class="pb-remove-dialog__x pb-history-dialog__close" aria-label="Close">
+              <span class="material-symbols-rounded">close</span>
+            </button>
+          </div>
+
+          <!-- Phase 1: add / edit textarea -->
+          <div id="pb-note-form-phase">
+            <div class="pb-history-dialog__body pb-history-dialog__body--form" style="padding-bottom:0">
+              <div class="pb-field">
+                <label class="pb-label">Note</label>
+                <textarea class="pb-add-rate-note" id="pb-note-textarea" rows="4" placeholder="Add a note about this bill rate…"></textarea>
+              </div>
+            </div>
+            <div class="pb-add-rate-actions" style="padding:20px 24px;margin:0">
+              <button class="pb-note-remove-link" id="pb-note-remove-trigger" hidden>Remove note</button>
+              <button class="pb-remove-dialog__cancel pb-history-dialog__close">Cancel</button>
+              <button class="md-btn md-btn--primary pb-note-save-btn">Save note</button>
+            </div>
+          </div>
+
+          <!-- Phase 2: confirm remove -->
+          <div id="pb-note-confirm-phase" hidden>
+            <div class="pb-history-dialog__body pb-history-dialog__body--form" style="padding-bottom:0">
+              <div class="pb-note-confirm-content">
+                <div class="pb-remove-dialog__icon"><span class="material-symbols-rounded">delete_forever</span></div>
+                <p class="pb-note-confirm-msg">Remove the note from this bill rate? This can't be undone.</p>
+              </div>
+            </div>
+            <div class="pb-add-rate-actions" style="padding:20px 24px;margin:0">
+              <button class="pb-note-keep-btn" id="pb-note-keep-btn">Keep note</button>
+              <button class="pb-remove-dialog__confirm" id="pb-note-confirm-remove-btn">Remove note</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Add bill rate dialog (V1b) -->
+      <div class="pb-history-dialog" id="pb-add-rate-dialog">
+        <div class="pb-history-dialog__panel">
+          <div class="pb-history-dialog__header">
+            <span class="pb-history-dialog__title">Add bill rate</span>
+            <button class="pb-history-dialog__close pb-add-rate-dialog-close" aria-label="Close"><span class="material-symbols-rounded">close</span></button>
+          </div>
+          <div class="pb-history-dialog__body pb-history-dialog__body--form">
+            <div class="pb-field">
+              <label class="pb-label">Client <abbr title="required" style="color:#dc2626;text-decoration:none">*</abbr></label>
+              <div class="pb-select-wrap">
+                <select class="pb-select" id="pb-add-rate-client">
+                  <option value="">Select a client</option>
+                  <option value="acme">Acme Corp</option>
+                  <option value="chicago">City of Chicago</option>
+                  <option value="meridian">Meridian Health</option>
+                </select>
+                <span class="material-symbols-rounded pb-select-arrow">expand_more</span>
+              </div>
+            </div>
+            <div class="pb-add-rate-form-row">
+              <div class="pb-field">
+                <label class="pb-label">Bill rate <abbr title="required" style="color:#dc2626;text-decoration:none">*</abbr></label>
+                <div class="pb-split-field">
+                  <input type="text" class="pb-split-input" id="pb-add-rate-amount" placeholder="0.00">
+                  <span class="pb-split-suffix" id="pb-add-rate-suffix">USD/hr</span>
+                </div>
+              </div>
+              <div class="pb-field">
+                <label class="pb-label">Effective date <abbr title="required" style="color:#dc2626;text-decoration:none">*</abbr></label>
+                <div class="pb-date-input-wrap">
+                  <input type="date" class="pb-date-input" id="pb-add-rate-date">
+                </div>
+              </div>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">Note</label>
+              <textarea class="pb-add-rate-note" rows="3" placeholder="Add a note about this rate change…"></textarea>
+            </div>
+            <div class="pb-add-rate-actions">
+              <button class="md-btn pb-add-rate-dialog-close">Cancel</button>
+              <button class="md-btn md-btn--primary pb-add-rate-save">Save</button>
             </div>
           </div>
         </div>
@@ -667,27 +883,11 @@
       var freqSel = document.getElementById('pb-freq-select');
       freq = freqSel ? freqSel.value : 'Monthly';
     }
-    var payCurrency  = getCurrencyCode();
-    var billClientSel = document.getElementById('pb-bill-client-select');
-    var billCurrency = billClientSel
-      ? billClientSel.options[billClientSel.selectedIndex].text.match(/\(([A-Z]+)\)/)?.[1] || 'USD'
-      : 'USD';
-    var paySuffix  = document.getElementById('pb-pay-suffix');
-    var billSuffix = document.getElementById('pb-bill-suffix');
-    if (paySuffix)  paySuffix.textContent  = payCurrency + '/' + getFreqLabel(freq);
-    if (billSuffix) billSuffix.textContent = billCurrency + '/hr';
+    var payCurrency = getCurrencyCode();
+    var paySuffix   = document.getElementById('pb-pay-suffix');
+    if (paySuffix) paySuffix.textContent = payCurrency + '/' + getFreqLabel(freq);
+    // Bill suffixes are now static per-client row and don't need dynamic updates
   }
-
-  // ── Client select → update bill suffix + note ────────────────
-  var billClientSelect = document.getElementById('pb-bill-client-select');
-  if (billClientSelect) billClientSelect.addEventListener('change', function() {
-    updateSuffixes();
-    var noteName = document.getElementById('pb-bill-client-note-name');
-    if (noteName) {
-      var label = billClientSelect.options[billClientSelect.selectedIndex].text;
-      noteName.textContent = label.replace(/\s*\([^)]*\)$/, '');
-    }
-  });
 
   // ── Sync pay currency select ──────────────────────────────────
   document.querySelectorAll('.pb-currency-select').forEach(function(sel) {
@@ -755,6 +955,9 @@
       if (panel) panel.hidden = false;
       var badge = document.getElementById('pb-bill-history-badge');
       if (badge) badge.hidden = (v === '3');
+      // V1b manages rates via dialog — hide the per-client edit rows above the table
+      var billFields = document.getElementById('pb-fields-bill');
+      if (billFields) billFields.hidden = (v === '1b');
     });
   });
 
@@ -769,48 +972,76 @@
     });
   }
 
-  // ── V1: column header sort ────────────────────────────────────
-  var v1SortState = { col: null, dir: 1 };
-  document.querySelectorAll('#pb-bill-v1-table .pb-th-sort').forEach(function(th) {
-    th.addEventListener('click', function() {
-      var col = this.dataset.col;
-      if (v1SortState.col === col) {
-        v1SortState.dir *= -1;
-      } else {
-        v1SortState.col = col;
-        v1SortState.dir = 1;
-      }
-      var dir = v1SortState.dir;
-      // Update icons
-      document.querySelectorAll('#pb-bill-v1-table .pb-th-sort').forEach(function(h) {
-        var icon = h.querySelector('.pb-sort-icon');
-        h.classList.remove('pb-th-sort--asc', 'pb-th-sort--desc');
-        icon.textContent = 'unfold_more';
-        icon.classList.remove('pb-sort-icon--active');
+  // ── Shared: generic table sort helper ────────────────────────
+  function makeSortHandler(tableId) {
+    var sortState = { col: null, dir: 1 };
+    document.querySelectorAll('#' + tableId + ' .pb-th-sort').forEach(function(th) {
+      th.addEventListener('click', function() {
+        var col = this.dataset.col;
+        if (sortState.col === col) {
+          sortState.dir *= -1;
+        } else {
+          sortState.col = col;
+          sortState.dir = 1;
+        }
+        var dir = sortState.dir;
+        // Reset all icons
+        document.querySelectorAll('#' + tableId + ' .pb-th-sort').forEach(function(h) {
+          var icon = h.querySelector('.pb-sort-icon');
+          h.classList.remove('pb-th-sort--asc', 'pb-th-sort--desc');
+          icon.textContent = 'unfold_more';
+          icon.classList.remove('pb-sort-icon--active');
+        });
+        var activeIcon = this.querySelector('.pb-sort-icon');
+        activeIcon.classList.add('pb-sort-icon--active');
+        if (dir === 1) {
+          this.classList.add('pb-th-sort--asc');
+          activeIcon.textContent = 'arrow_upward';
+        } else {
+          this.classList.add('pb-th-sort--desc');
+          activeIcon.textContent = 'arrow_downward';
+        }
+        // Sort rows
+        var tbody = document.querySelector('#' + tableId + ' tbody');
+        var rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort(function(a, b) {
+          var aVal = a.getAttribute('data-sort-' + col) || '';
+          var bVal = b.getAttribute('data-sort-' + col) || '';
+          var result = (col === 'billrate')
+            ? parseFloat(aVal) - parseFloat(bVal)
+            : aVal.localeCompare(bVal);
+          return result * dir;
+        });
+        rows.forEach(function(r) { tbody.appendChild(r); });
       });
-      var activeIcon = this.querySelector('.pb-sort-icon');
-      activeIcon.classList.add('pb-sort-icon--active');
-      if (dir === 1) {
-        this.classList.add('pb-th-sort--asc');
-        activeIcon.textContent = 'arrow_upward';
-      } else {
-        this.classList.add('pb-th-sort--desc');
-        activeIcon.textContent = 'arrow_downward';
-      }
-      // Sort rows
-      var tbody = document.querySelector('#pb-bill-v1-table tbody');
-      var rows = Array.from(tbody.querySelectorAll('tr'));
-      rows.sort(function(a, b) {
-        var aVal = a.getAttribute('data-sort-' + col) || '';
-        var bVal = b.getAttribute('data-sort-' + col) || '';
-        var result = (col === 'billrate')
-          ? parseFloat(aVal) - parseFloat(bVal)
-          : aVal.localeCompare(bVal);
-        return result * dir;
-      });
-      rows.forEach(function(r) { tbody.appendChild(r); });
     });
-  });
+  }
+
+  // ── V1 & V1b column sort ──────────────────────────────────────
+  makeSortHandler('pb-bill-v1-table');
+  makeSortHandler('pb-bill-v1b-table');
+
+  // ── Default sort: status ASC → clientorder ASC → date DESC ───
+  function applyDefaultSort(tableId) {
+    var tbody = document.querySelector('#' + tableId + ' tbody');
+    if (!tbody) return;
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(function(a, b) {
+      var aStatus = parseInt(a.getAttribute('data-sort-status') || '0', 10);
+      var bStatus = parseInt(b.getAttribute('data-sort-status') || '0', 10);
+      if (aStatus !== bStatus) return aStatus - bStatus;
+      var aOrder = parseInt(a.getAttribute('data-sort-clientorder') || '99', 10);
+      var bOrder = parseInt(b.getAttribute('data-sort-clientorder') || '99', 10);
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      // Same client — most recent start date first
+      var aDate = a.getAttribute('data-sort-date') || '';
+      var bDate = b.getAttribute('data-sort-date') || '';
+      return bDate.localeCompare(aDate);
+    });
+    rows.forEach(function(r) { tbody.appendChild(r); });
+  }
+  applyDefaultSort('pb-bill-v1-table');
+  applyDefaultSort('pb-bill-v1b-table');
 
   // ── V2: accordion — row click or "View history" link expands rows
   function toggleAccordion(key) {
@@ -852,8 +1083,480 @@
     }
   });
 
+  // ── V1: bill rate rows — client data ─────────────────────────
+  var ALL_BILL_CLIENTS = [
+    { name: 'Acme Corp',          suffix: 'USD/hr',    initial: 'A', color: '#1d4ed8' },
+    { name: 'City of Chicago',    suffix: 'USD/hr',    initial: 'C', color: '#4e4302' },
+    { name: 'Meridian Health',    suffix: 'GBP/fixed', initial: 'M', color: '#0f766e' },
+    { name: 'Microsoft',          suffix: 'CAD/hr',    initial: 'M', color: '#7c3aed' },
+    { name: 'Shawn Williams',     suffix: 'USD/hr',    initial: 'S', color: '#a4793e' },
+    { name: 'Jorge',              suffix: 'USD/hr',    initial: 'J', color: '#c381a0' },
+    { name: 'TechBrasil',         suffix: 'BRL/hr',    initial: 'T', color: '#b45309' },
+    { name: 'Global Trading Ltd', suffix: 'GBP/hr',    initial: 'G', color: '#047857' },
+  ];
+
+  function getSelectedBillClients() {
+    var names = [];
+    document.querySelectorAll('#pb-fields-bill .pb-client-chip').forEach(function(el) {
+      names.push(el.dataset.clientName);
+    });
+    document.querySelectorAll('#pb-fields-bill .pb-bill-new-client-sel').forEach(function(sel) {
+      if (sel.value) names.push(sel.value);
+    });
+    return names;
+  }
+
+  function refreshBillClientDropdowns() {
+    var selected = getSelectedBillClients();
+    document.querySelectorAll('#pb-fields-bill .pb-bill-new-client-sel').forEach(function(sel) {
+      var current = sel.value;
+      sel.innerHTML = '<option value="">— Select client —</option>';
+      ALL_BILL_CLIENTS.forEach(function(c) {
+        // Show if not selected elsewhere, or it's this select's own current value
+        var takenByOther = selected.indexOf(c.name) !== -1 && c.name !== current;
+        if (!takenByOther) {
+          var opt = document.createElement('option');
+          opt.value = c.name;
+          opt.textContent = c.name;
+          if (c.name === current) opt.selected = true;
+          sel.appendChild(opt);
+        }
+      });
+    });
+  }
+
+  function addBillRow() {
+    var selected = getSelectedBillClients();
+    var row = document.createElement('div');
+    row.className = 'pb-fields-row pb-fields-row--bill pb-bill-row--new';
+
+    // Client select
+    var selWrap = '<div class="pb-field"><div class="pb-select-wrap">'
+      + '<select class="pb-select pb-bill-new-client-sel"><option value="">— Select client —</option>';
+    ALL_BILL_CLIENTS.forEach(function(c) {
+      if (selected.indexOf(c.name) === -1) {
+        selWrap += '<option value="' + c.name + '">' + c.name + '</option>';
+      }
+    });
+    selWrap += '</select><span class="material-symbols-rounded pb-select-arrow">expand_more</span></div></div>';
+
+    row.innerHTML = selWrap
+      + '<div class="pb-field"><div class="pb-split-field">'
+      + '<input type="text" class="pb-split-input" placeholder="0.00">'
+      + '<span class="pb-split-suffix pb-bill-new-suffix">—</span>'
+      + '</div></div>'
+      + '<div class="pb-field"><div class="pb-date-input-wrap">'
+      + '<input type="date" class="pb-date-input">'
+      + '</div></div>'
+      + '<div class="pb-field pb-field--action">'
+      + '<div class="pb-icon-btn-group">'
+      + '<button class="pb-icon-btn pb-icon-btn--note" type="button" title="Add note"><span class="material-symbols-rounded">edit_square</span>Add note</button>'
+      + '<button class="pb-icon-btn pb-icon-btn--remove pb-remove-new-row-btn" type="button" title="Remove"><span class="material-symbols-rounded">delete</span></button>'
+      + '</div>'
+      + '</div>';
+
+    // Wire client select → update suffix + refresh all dropdowns
+    var newSel = row.querySelector('.pb-bill-new-client-sel');
+    newSel.addEventListener('change', function() {
+      var clientData = ALL_BILL_CLIENTS.find(function(c) { return c.name === newSel.value; });
+      var suffix = row.querySelector('.pb-bill-new-suffix');
+      if (suffix) suffix.textContent = clientData ? clientData.suffix : '—';
+      refreshBillClientDropdowns();
+      checkBillRowLimit();
+    });
+
+    // Wire remove → discard new row
+    row.querySelector('.pb-remove-new-row-btn').addEventListener('click', function() {
+      row.remove();
+      refreshBillClientDropdowns();
+      checkBillRowLimit();
+    });
+
+    var addBtn = document.getElementById('pb-bill-add-row-btn');
+    addBtn.parentNode.insertBefore(row, addBtn);
+    refreshBillClientDropdowns();
+  }
+
+  // ── checkBillRowLimit: disable "Add bill rate" when all clients used ──
+  function checkBillRowLimit() {
+    var btn = document.getElementById('pb-bill-add-row-btn');
+    if (!btn) return;
+    var selected = getSelectedBillClients();
+    var allUsed = selected.length >= ALL_BILL_CLIENTS.length;
+    if (allUsed) {
+      btn.classList.add('is-disabled');
+      btn.setAttribute('data-tooltip', 'All available clients already have a bill rate.');
+    } else {
+      btn.classList.remove('is-disabled');
+      btn.removeAttribute('data-tooltip');
+    }
+  }
+
+  // "Add bill rate" row button
+  var billAddRowBtn = document.getElementById('pb-bill-add-row-btn');
+  if (billAddRowBtn) {
+    billAddRowBtn.addEventListener('click', function() {
+      if (this.classList.contains('is-disabled')) return;
+      addBillRow();
+      checkBillRowLimit();
+    });
+  }
+
+  // ── V1: remove client confirmation dialog ─────────────────────
+  var removeClientDialog = document.getElementById('pb-remove-client-dialog');
+  var removeTargetRow    = null;
+
+  document.querySelectorAll('.pb-remove-client-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var row      = this.closest('.pb-fields-row');
+      var isActive = this.dataset.active === 'true';
+      if (!isActive) {
+        row.remove();
+        return;
+      }
+      // Active client — show confirmation
+      removeTargetRow = row;
+      var since   = this.dataset.since;
+      var msgEl   = document.getElementById('pb-remove-client-msg');
+      if (msgEl) {
+        msgEl.innerHTML = 'The bill rate for <strong>' + this.dataset.client
+          + '</strong> ends effective today. This change doesn\'t impact the client settings.';
+      }
+      removeClientDialog.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  var removeConfirmBtn = document.querySelector('.pb-remove-client-confirm');
+  if (removeConfirmBtn) {
+    removeConfirmBtn.addEventListener('click', function() {
+      if (removeTargetRow) { removeTargetRow.remove(); removeTargetRow = null; }
+      removeClientDialog.classList.remove('is-open');
+      document.body.style.overflow = '';
+      checkBillRowLimit();
+    });
+  }
+
+  // ── Success toast ─────────────────────────────────────────────
+  var successToast  = document.getElementById('pb-success-toast');
+  var toastCloseBtn = document.getElementById('pb-success-toast-close');
+  var _toastTimer   = null;
+
+  function showSuccessToast() {
+    if (!successToast) return;
+    successToast.classList.add('is-visible');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(function() {
+      successToast.classList.remove('is-visible');
+    }, 4000);
+  }
+  if (toastCloseBtn) {
+    toastCloseBtn.addEventListener('click', function() {
+      successToast.classList.remove('is-visible');
+      clearTimeout(_toastTimer);
+    });
+  }
+
+  // ── Save Changes → lock new bill rows + toast + rewire remove ──
+  var mdSaveBtn = document.getElementById('md-save-btn');
+  if (mdSaveBtn) {
+    mdSaveBtn.addEventListener('click', function() {
+      var today = new Date();
+      var todayStr = MONTHS_SHORT[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear();
+
+      document.querySelectorAll('#pb-fields-bill .pb-bill-row--new').forEach(function(row) {
+        var sel = row.querySelector('.pb-bill-new-client-sel');
+        if (!sel || !sel.value) return;
+        var clientName = sel.value;
+
+        // Lock client field to read-only label
+        var field = sel.closest('.pb-field');
+        field.innerHTML = '<div class="pb-date-readonly">' + clientName + '</div>';
+
+        // Remove new-row class markers
+        var suffix = row.querySelector('.pb-bill-new-suffix');
+        if (suffix) suffix.classList.remove('pb-bill-new-suffix');
+        row.classList.remove('pb-bill-row--new');
+
+        // Upgrade remove button: was "discard unsaved row" → now "active client, requires dialog"
+        var removeBtn = row.querySelector('.pb-remove-new-row-btn');
+        if (removeBtn) {
+          removeBtn.classList.remove('pb-remove-new-row-btn');
+          removeBtn.classList.add('pb-remove-client-btn');
+          removeBtn.dataset.active = 'true';
+          removeBtn.dataset.since  = todayStr;
+          removeBtn.dataset.client = clientName;
+          removeBtn.addEventListener('click', function() {
+            removeTargetRow = this.closest('.pb-fields-row');
+            var msgEl = document.getElementById('pb-remove-client-msg');
+            if (msgEl) {
+              msgEl.innerHTML = 'The bill rate for <strong>' + clientName
+                + '</strong> ends effective today. This change doesn\'t impact the client settings.';
+            }
+            removeClientDialog.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+          });
+        }
+      });
+
+      showSuccessToast();
+    });
+  }
+
+  // ── V1b: dialog client → currency suffix ─────────────────────
+  var CLIENT_BILL_SUFFIXES = {
+    'acme':     'USD/hr',
+    'chicago':  'USD/hr',
+    'meridian': 'GBP/fixed'
+  };
+  var addRateClientSel = document.getElementById('pb-add-rate-client');
+  var addRateSuffixEl  = document.getElementById('pb-add-rate-suffix');
+  if (addRateClientSel && addRateSuffixEl) {
+    addRateClientSel.addEventListener('change', function() {
+      addRateSuffixEl.textContent = CLIENT_BILL_SUFFIXES[this.value] || 'USD/hr';
+    });
+  }
+
+  // ── V1b: Add bill rate dialog ─────────────────────────────────
+  var addRateDialog = document.getElementById('pb-add-rate-dialog');
+  var addRateBtn    = document.getElementById('pb-add-rate-btn');
+
+  if (addRateBtn) {
+    addRateBtn.addEventListener('click', function() {
+      addRateDialog.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  // Cancel button closes the dialog (X is already handled by pb-history-dialog__close wiring above)
+  document.querySelectorAll('.pb-add-rate-dialog-close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      addRateDialog.classList.remove('is-open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Save — prototype: just close
+  var saveBtn = addRateDialog && addRateDialog.querySelector('.pb-add-rate-save');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function() {
+      addRateDialog.classList.remove('is-open');
+      document.body.style.overflow = '';
+    });
+  }
+
+  // ── V1b: client filter ────────────────────────────────────────
+  var billClientFilterV1b = document.getElementById('pb-bill-client-filter-v1b');
+  if (billClientFilterV1b) {
+    billClientFilterV1b.addEventListener('change', function() {
+      var val = this.value;
+      document.querySelectorAll('#pb-bill-v1b-table tbody tr').forEach(function(row) {
+        row.style.display = (!val || row.getAttribute('data-client') === val) ? '' : 'none';
+      });
+    });
+  }
+
+  // ── Add / Edit note dialog ────────────────────────────────────
+  var addNoteDialog        = document.getElementById('pb-add-note-dialog');
+  var noteDialogTitle      = document.getElementById('pb-add-note-dialog-title');
+  var noteTextarea         = document.getElementById('pb-note-textarea');
+  var noteFormPhase        = document.getElementById('pb-note-form-phase');
+  var noteConfirmPhase     = document.getElementById('pb-note-confirm-phase');
+  var noteRemoveTrigger    = document.getElementById('pb-note-remove-trigger');
+  var noteKeepBtn          = document.getElementById('pb-note-keep-btn');
+  var noteConfirmRemoveBtn = document.getElementById('pb-note-confirm-remove-btn');
+  var noteTargetBtn        = null;
+
+  function noteDialogReset() {
+    // Always open in phase 1
+    noteFormPhase.hidden    = false;
+    noteConfirmPhase.hidden = true;
+    noteDialogTitle.textContent = 'Add note';
+  }
+
+  function applyNoteToBtn(btn, text) {
+    btn.dataset.note = text;
+    btn.childNodes.forEach(function(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent = text ? 'Edit note' : 'Add note';
+      }
+    });
+    if (text) {
+      btn.classList.add('pb-icon-btn--has-note');
+    } else {
+      btn.classList.remove('pb-icon-btn--has-note');
+    }
+  }
+
+  // Event delegation: works for existing rows + dynamically added rows
+  var billFieldsEl = document.getElementById('pb-fields-bill');
+  if (billFieldsEl) {
+    billFieldsEl.addEventListener('click', function(e) {
+      var btn = e.target.closest('.pb-icon-btn--note');
+      if (!btn) return;
+      noteTargetBtn = btn;
+      var existing = btn.dataset.note || '';
+      noteTextarea.value = existing;
+      noteDialogReset();
+      noteDialogTitle.textContent = existing ? 'Edit note' : 'Add note';
+      // Show "Remove note" link only when there's already a saved note
+      if (noteRemoveTrigger) noteRemoveTrigger.hidden = !existing;
+      addNoteDialog.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() { noteTextarea.focus(); }, 80);
+    });
+  }
+
+  // Save note
+  var noteSaveBtn = document.querySelector('.pb-note-save-btn');
+  if (noteSaveBtn) {
+    noteSaveBtn.addEventListener('click', function() {
+      if (noteTargetBtn) {
+        applyNoteToBtn(noteTargetBtn, noteTextarea.value.trim());
+      }
+      addNoteDialog.classList.remove('is-open');
+      document.body.style.overflow = '';
+      noteTargetBtn = null;
+    });
+  }
+
+  // "Remove note" link → switch to confirm phase
+  if (noteRemoveTrigger) {
+    noteRemoveTrigger.addEventListener('click', function() {
+      noteFormPhase.hidden    = true;
+      noteConfirmPhase.hidden = false;
+      noteDialogTitle.textContent = 'Remove note';
+    });
+  }
+
+  // "Keep note" → back to edit phase
+  if (noteKeepBtn) {
+    noteKeepBtn.addEventListener('click', function() {
+      noteFormPhase.hidden    = false;
+      noteConfirmPhase.hidden = true;
+      noteDialogTitle.textContent = noteTargetBtn && noteTargetBtn.dataset.note ? 'Edit note' : 'Add note';
+    });
+  }
+
+  // Confirm remove → clear note
+  if (noteConfirmRemoveBtn) {
+    noteConfirmRemoveBtn.addEventListener('click', function() {
+      if (noteTargetBtn) applyNoteToBtn(noteTargetBtn, '');
+      addNoteDialog.classList.remove('is-open');
+      document.body.style.overflow = '';
+      noteDialogReset();
+      noteTargetBtn = null;
+    });
+  }
+
+  // ── Design annotations (right-click anywhere) ────────────────
+  DesignAnnotations.init({
+    page: 'Member detail — Pay / Bill tab · Bill rate (V1)',
+    required: [
+      {
+        text: 'Current bill rates section',
+        target: '#pb-fields-bill',
+        sub: [
+          'Section title "Current bill rates" + subtitle above client rows',
+          'One row per client — client name is read-only label, not a dropdown',
+          'Bill rate split field: amount input + contextual suffix (USD/hr, GBP/fixed…)',
+          'Effective date: editable date picker per row',
+          'All suffix widths normalised to widest value (GBP/fixed) so columns align',
+        ]
+      },
+      {
+        text: 'Per-row action buttons (ghost style)',
+        target: '.pb-icon-btn-group',
+        sub: [
+          '"Add note" / "Edit note": edit_square icon + label, accent blue (#2aa7ff), no border',
+          '"Edit note" turns primary blue (#0168DD) when a note is saved on that row',
+          '"Delete": trash icon only, muted gray → red on hover',
+          'Buttons paired side by side inside .pb-icon-btn-group',
+        ]
+      },
+      {
+        text: 'Add / Edit note dialog',
+        target: '.pb-icon-btn--note',
+        sub: [
+          'Opens on "Add note" or "Edit note" click — shows textarea with saved note pre-filled',
+          'Title is "Add note" or "Edit note" depending on whether a note already exists',
+          '"Remove note" link (red, left side of footer) — only visible when a note is saved',
+          'Clicking "Remove note" transitions to confirm phase: warning icon + confirmation message',
+          'Confirm phase footer: "Keep note" (secondary) + "Remove note" (red destructive)',
+          'Confirming clears the note and resets the row button to "Add note"',
+        ]
+      },
+      {
+        text: '"Add bill rate" outlined button',
+        target: '#pb-bill-add-row-btn',
+        sub: [
+          'Accent blue (#2aa7ff) outline button — below the last client row',
+          'Adds a new empty row with a filtered client dropdown',
+          'Dropdown excludes clients already selected in other rows',
+          'Suffix updates dynamically when a client is selected',
+          'Disabled (opacity 0.45, cursor not-allowed) when all 8 available clients are already used',
+          'Tooltip on hover explains: "All available clients already have a bill rate."',
+        ]
+      },
+      {
+        text: 'Save Changes behaviour',
+        target: '#md-save-btn',
+        sub: [
+          'Locks new rows: client dropdown → read-only label',
+          'Rewires the delete button on newly saved rows to require the Remove dialog',
+          'Shows success toast: green alert ("Changes saved") auto-dismisses after 4 s',
+        ]
+      },
+      {
+        text: 'Add a "Remove bill rate" dialog',
+        target: '.pb-icon-btn--remove',
+        sub: [
+          'Header: 18px semibold title + X close button',
+          'Body: red warning circle (32px, #fde8e8 bg) + dynamic message',
+          'Dynamic message: "active since [date], status changes from Current to Past"',
+          'Info note (gray bg, border): "Your client won\'t be removed, only the bill rate"',
+          'Footer: Cancel (gray outline, 20px h-padding) + Remove (#c81e1e)',
+        ]
+      },
+      {
+        text: 'Delete behaviour — two distinct flows',
+        target: '.pb-icon-btn--remove',
+        sub: [
+          'Unsaved rows (added via "Add bill rate", not yet saved): trash removes the row immediately — no dialog, no confirmation',
+          'Saved rows (existing clients, active bill rate): trash always triggers the Remove dialog before anything is deleted',
+          'After Save Changes, newly saved rows are promoted to "saved" status and also require the dialog on delete',
+          'Inactive clients (data-active="false") bypass the dialog — they have no active period, so removing is low-risk',
+        ]
+      },
+      {
+        text: 'Bill rate history table',
+        target: '#pb-history-bill',
+        sub: [
+          'Sortable columns: Client, Status, Bill rate, Pay type, Start date, End date',
+          'End date: "Present" displayed for active rows; sorts as 9999-12-31 (always last when ASC)',
+          'Default view: Current rows first (status ASC), then by client order matching the bill rates section (Acme → City of Chicago → Meridian Health), then most recent start date within each client',
+          'Client filter dropdown above the table; filters rows in-place',
+        ]
+      },
+    ]
+  });
+
   // ── Init ──────────────────────────────────────────────────────
   updateBanner();
+  checkBillRowLimit();
 </script>
+  <!-- Success toast -->
+  <div class="pb-success-toast" id="pb-success-toast" role="status" aria-live="polite">
+    <div class="pb-success-toast__body">
+      <div class="pb-success-toast__header">
+        <span class="material-symbols-rounded pb-success-toast__icon">check_circle</span>
+        <span class="pb-success-toast__title">Changes saved</span>
+      </div>
+      <p class="pb-success-toast__msg">Bill rates updated successfully.</p>
+    </div>
+    <button class="pb-success-toast__close" id="pb-success-toast-close" aria-label="Dismiss">
+      <span class="material-symbols-rounded">close</span>
+    </button>
+  </div>
 </body>
 </html>

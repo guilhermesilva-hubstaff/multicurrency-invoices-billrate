@@ -230,13 +230,20 @@
   <script src="layout.js"></script>
 
   <!-- Design annotations -->
-  <script src="design-annotations.js"></script>
+  <script src="design-annotations.js?v=5"></script>
   <script>
     DesignAnnotations.init({
-      page: 'Organizations',
+      page: 'Company information',
       required: [
-        'Change the label name to "Organization currency"',
-        'Add helper text explaining what the organization currency means and how it applies across clients and projects'
+        {
+          text: 'Organization currency field — label and helper text',
+          target: '#org-currency, [for="org-currency"], .org-hint--note',
+          sub: [
+            'Label must read "Organization currency" (not "Default currency" or similar)',
+            'Helper text must explain that this is the fallback currency for clients and projects that have no currency set',
+            'This value cascades to: client default currency → project rate currency → invoice currency'
+          ]
+        }
       ],
       suggestions: []
     });

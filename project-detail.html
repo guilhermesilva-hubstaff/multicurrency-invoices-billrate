@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0969 Ocean View Road — Hubstaff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@18,400,0,0;24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="project-detail.css?v=2" />
+</head>
+<body>
+  <div id="shell-content">
+    <div class="md-page pd-page">
+
+      <!-- Back link -->
+      <a href="projects.html" class="pd-back-link">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Projects
+      </a>
+
+      <!-- Page header -->
+      <div class="pd-page-header">
+        <h1 class="pd-project-name">0969 Ocean View Road</h1>
+        <div class="pd-actions">
+          <button type="button" class="pd-action-btn" title="Edit project">
+            <span class="material-symbols-rounded">edit</span>
+            Edit
+          </button>
+          <button type="button" class="pd-action-btn" title="Duplicate project">
+            <span class="material-symbols-rounded">content_copy</span>
+            Duplicate
+          </button>
+          <div class="pd-action-divider"></div>
+          <button type="button" class="pd-action-btn pd-action-btn--disabled" disabled title="Transfer not available">
+            <span class="material-symbols-rounded">swap_horiz</span>
+            Transfer
+          </button>
+          <button type="button" class="pd-action-btn" title="Archive project">
+            <span class="material-symbols-rounded">inventory_2</span>
+            Archive
+          </button>
+          <button type="button" class="pd-action-btn pd-action-btn--danger" title="Delete project">
+            <span class="material-symbols-rounded">delete</span>
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Meta section -->
+      <div class="pd-meta">
+        <!-- Left group -->
+        <div class="pd-meta-group">
+          <div class="pd-meta-row">
+            <span class="pd-meta-label">Client</span>
+            <span class="pd-meta-value">Microsoft</span>
+          </div>
+          <div class="pd-meta-row">
+            <span class="pd-meta-label">Status</span>
+            <span class="pd-meta-value">
+              <span class="pd-status-badge">Active</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right group -->
+        <div class="pd-meta-group">
+          <div class="pd-meta-row">
+            <span class="pd-meta-label">Last active</span>
+            <span class="pd-meta-value">Wed, Feb 11, 2026 1:00 pm</span>
+          </div>
+          <div class="pd-meta-row">
+            <span class="pd-meta-label">Billable</span>
+            <span class="pd-meta-value">Yes</span>
+          </div>
+          <div class="pd-meta-row">
+            <span class="pd-meta-label">Budget</span>
+            <span class="pd-meta-value">
+              <div class="pd-budget-inline">
+                <div class="pd-budget-top-row">
+                  <span class="pd-budget-pct">42%</span>
+                  <span class="pd-budget-amount">$850.00</span>
+                  <button type="button" class="pd-edit-budget-btn">Edit budget</button>
+                </div>
+                <div class="pd-progress">
+                  <div class="pd-progress-bar" style="width:42%"></div>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div class="pd-meta-row">
+            <span class="pd-meta-label">To-dos</span>
+            <span class="pd-meta-value pd-no-todos">No to-dos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="pd-tabs">
+        <button type="button" class="pd-tab is-active" data-tab="members">MEMBERS</button>
+        <button type="button" class="pd-tab" data-tab="teams">TEAMS</button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="pd-toolbar">
+        <div class="pd-toolbar-left">
+          <div class="pd-batch-wrap">
+            <button type="button" class="pd-batch-btn" disabled>
+              Batch actions <span class="material-symbols-rounded">expand_more</span>
+            </button>
+          </div>
+          <span class="pd-selected-label">0/8 selected</span>
+        </div>
+        <button type="button" class="btn btn--primary">Edit members</button>
+      </div>
+
+      <!-- Members table -->
+      <div class="pd-table-wrap">
+        <table class="pd-table">
+          <thead>
+            <tr>
+              <th class="pd-th pd-th--check">
+                <label class="pd-check-wrap">
+                  <input type="checkbox" id="pd-check-all" />
+                  <span class="pd-check-box"></span>
+                </label>
+              </th>
+              <th class="pd-th">Name</th>
+              <th class="pd-th">Role</th>
+              <th class="pd-th">
+                <span class="pd-th-rate">
+                  Pay rate / Bill rate
+                  <span class="material-symbols-rounded" title="Pay rate is the amount you pay this member. Bill rate is the amount you charge your client.">info</span>
+                </span>
+              </th>
+              <th class="pd-th pd-th--actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- 1. Adam Wilson -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#5b21b6;">A</div>
+                  <span class="pd-member-name">
+                    Adam Wilson
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Adam Wilson">
+                    <option selected>User - via team</option>
+                    <option>User</option>
+                    <option>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Adam Wilson">
+                  <span class="pd-rate-text pd-rate-none">No pay rate / No bill rate</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Adam Wilson">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 2. Claire Bell -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#0f766e;">C</div>
+                  <span class="pd-member-name">
+                    Claire Bell
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Claire Bell">
+                    <option selected>User - via team</option>
+                    <option>User</option>
+                    <option>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Claire Bell">
+                  <span class="pd-rate-text">CAD 65.00/hr / CAD 80.00/hr</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Claire Bell">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 3. David Ramirez -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#b45309;">D</div>
+                  <span class="pd-member-name">
+                    David Ramirez
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for David Ramirez">
+                    <option>User - via team</option>
+                    <option>User</option>
+                    <option selected>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="David Ramirez">
+                  <span class="pd-rate-text">CAD 85.00/hr <span class="pd-rate-none">/ No bill rate</span></span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="David Ramirez">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 4. Emily Torres -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#be185d;">E</div>
+                  <span class="pd-member-name">
+                    Emily Torres
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Emily Torres">
+                    <option>User - via team</option>
+                    <option selected>User</option>
+                    <option>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Emily Torres">
+                  <span class="pd-rate-text"><span class="pd-rate-none">No pay rate /</span> CAD 70.00/hr</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Emily Torres">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 5. Jorge García -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#0369a1;">J</div>
+                  <span class="pd-member-name">
+                    Jorge García
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Jorge García">
+                    <option selected>User - via team</option>
+                    <option>User</option>
+                    <option>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Jorge García">
+                  <span class="pd-rate-text">CAD 72.50/hr / CAD 90.00/hr</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Jorge García">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 6. Kate Mitchell -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#047857;">K</div>
+                  <span class="pd-member-name">
+                    Kate Mitchell
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Kate Mitchell">
+                    <option>User - via team</option>
+                    <option>User</option>
+                    <option selected>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Kate Mitchell">
+                  <span class="pd-rate-text">CAD 95.00/hr / CAD 120.00/hr</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Kate Mitchell">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 7. Lena Park -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#7c3aed;">L</div>
+                  <span class="pd-member-name">
+                    Lena Park
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Lena Park">
+                    <option>User - via team</option>
+                    <option selected>User</option>
+                    <option>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Lena Park">
+                  <span class="pd-rate-text pd-rate-none">No pay rate / No bill rate</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Lena Park">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- 8. Michael Chen -->
+            <tr class="pd-tr">
+              <td class="pd-td pd-td--check">
+                <label class="pd-check-wrap"><input type="checkbox" /><span class="pd-check-box"></span></label>
+              </td>
+              <td class="pd-td">
+                <div class="pd-name-cell">
+                  <div class="pd-avatar" style="background:#c2410c;">M</div>
+                  <span class="pd-member-name">
+                    Michael Chen
+                    <span class="material-symbols-rounded pd-member-info-icon" title="Member details">info</span>
+                  </span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-role-select-wrap">
+                  <select class="pd-role-select" aria-label="Role for Michael Chen">
+                    <option selected>User - via team</option>
+                    <option>User</option>
+                    <option>Manager</option>
+                  </select>
+                  <span class="material-symbols-rounded pd-role-select-icon">expand_more</span>
+                </div>
+              </td>
+              <td class="pd-td">
+                <div class="pd-rate-cell js-rate-cell" data-member="Michael Chen">
+                  <span class="pd-rate-text">CAD 68.00/hr / CAD 85.00/hr</span>
+                  <span class="material-symbols-rounded pd-rate-pencil">edit</span>
+                </div>
+              </td>
+              <td class="pd-td pd-td--actions">
+                <div class="pd-actions-dropdown js-pd-actions-wrap">
+                  <button type="button" class="pd-actions-btn js-pd-actions-btn">
+                    Actions <span class="material-symbols-rounded">expand_more</span>
+                  </button>
+                  <div class="pd-dropdown js-pd-dropdown">
+                    <a href="#" class="pd-dropdown-item js-edit-rate" data-member="Michael Chen">Edit pay/bill rate</a>
+                    <a href="#" class="pd-dropdown-item pd-dropdown-item--danger">Remove member</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table footer -->
+      <div class="pd-table-footer">Showing 8 of 8 members</div>
+
+
+    </div>
+  </div>
+
+  <!-- ── Edit project rates modal ── -->
+  <div class="pd-modal-backdrop" id="pd-rate-modal" hidden>
+    <div class="pd-modal" role="dialog" aria-modal="true" aria-labelledby="pd-modal-title">
+      <div class="pd-modal-header">
+        <h4 class="pd-modal-title" id="pd-modal-title">Edit project rates</h4>
+        <button type="button" class="pd-modal-close" id="pd-modal-close" aria-label="Close">×</button>
+      </div>
+      <p class="pd-modal-desc">
+        View and edit <span id="pd-modal-member-first">Adam</span>'s project hourly rates for 0969 Ocean View Road.
+        If no project rates are entered, the organization level rates listed on <span id="pd-modal-member-full">Adam Wilson</span>'s profile will apply.
+        <a href="https://support.hubstaff.com/set-separate-pay-rates-bill-rates-user-different-projects/" target="_blank" rel="noopener noreferrer" class="pd-modal-link">Learn more</a>
+      </p>
+      <div class="pd-modal-body">
+        <div class="pd-modal-field-row">
+          <span class="pd-modal-field-label">MEMBER</span>
+          <span class="pd-modal-field-value" id="pd-modal-member-name">Adam Wilson</span>
+        </div>
+
+        <div class="pd-modal-section">
+          <label class="pd-modal-section-label" for="pd-modal-pay-rate">PAY RATE</label>
+          <p class="pd-modal-section-desc">The amount used to pay <span id="pd-modal-pay-name">Adam Wilson</span> for their work on the project.</p>
+          <div class="pd-modal-input-group">
+            <input type="text" class="pd-modal-input" id="pd-modal-pay-rate" placeholder="Enter amount" />
+            <span class="pd-modal-input-addon">CAD/hr</span>
+          </div>
+        </div>
+
+        <div class="pd-modal-section">
+          <label class="pd-modal-section-label" for="pd-modal-bill-rate">BILL RATE</label>
+          <p class="pd-modal-section-desc">The amount used to bill clients for <span id="pd-modal-bill-name">Adam Wilson</span>'s work on the project.</p>
+          <div class="pd-modal-input-group">
+            <input type="text" class="pd-modal-input" id="pd-modal-bill-rate" placeholder="Enter amount" />
+            <span class="pd-modal-input-addon">CAD/hr</span>
+          </div>
+        </div>
+      </div>
+      <div class="pd-modal-footer">
+        <button type="button" class="pd-modal-cancel" id="pd-modal-cancel">Cancel</button>
+        <button type="button" class="pd-modal-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="hubstaff-shell.js?v=13"></script>
+  <script src="layout.js"></script>
+  <script src="design-annotations.js?v=5"></script>
+  <script>
+    HubstaffShell.init({ activeItem: 'project_management', expanded: true });
+
+    DesignAnnotations.init({
+      page: 'Project Management — Project Detail',
+      required: [
+        {
+          text: 'Pay rate / Bill rate column: display currency code before the amount',
+          target: '.pd-th-rate, .pd-rate-cell',
+          sub: [
+            'Format: "CAD 65.00/hr", not "$65.00/hr" or "65.00 CAD/hr"',
+            'Currency code must be derived from the client\'s currency setting for this project',
+            'Rows with no rate set should continue to read "No pay rate" / "No bill rate" with no currency prefix'
+          ]
+        }
+      ]
+    });
+
+    // Page tabs
+    document.querySelectorAll('.pd-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.pd-tab').forEach(function(t) { t.classList.remove('is-active'); });
+        this.classList.add('is-active');
+      });
+    });
+
+    // Actions dropdowns — click to open/close, click outside closes all
+    document.querySelectorAll('.js-pd-actions-wrap').forEach(function(wrap) {
+      var btn = wrap.querySelector('.js-pd-actions-btn');
+      var dd  = wrap.querySelector('.js-pd-dropdown');
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = dd.classList.contains('is-open');
+        document.querySelectorAll('.js-pd-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+        if (!isOpen) dd.classList.add('is-open');
+      });
+    });
+
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.js-pd-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+    });
+
+    // ── Edit rates modal ──
+    var rateModal        = document.getElementById('pd-rate-modal');
+    var elMemberFirst    = document.getElementById('pd-modal-member-first');
+    var elMemberFull     = document.getElementById('pd-modal-member-full');
+    var elMemberName     = document.getElementById('pd-modal-member-name');
+    var elPayName        = document.getElementById('pd-modal-pay-name');
+    var elBillName       = document.getElementById('pd-modal-bill-name');
+
+    function openRateModal(memberName) {
+      var firstName = memberName.split(' ')[0];
+      elMemberFirst.textContent = firstName;
+      elMemberFull.textContent  = memberName;
+      elMemberName.textContent  = memberName;
+      elPayName.textContent     = memberName;
+      elBillName.textContent    = memberName;
+      document.getElementById('pd-modal-pay-rate').value  = '';
+      document.getElementById('pd-modal-bill-rate').value = '';
+      rateModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      DesignAnnotations.setContext({
+        page: 'Edit project rates — modal',
+        required: [
+          {
+            text: 'Rate input suffixes must be dynamic, not hardcoded',
+            target: '.pd-modal-input-addon',
+            sub: [
+              'Currently hardcoded as "USD/hr" in production',
+              'Must be derived from the project\'s client currency (e.g. if the client uses CAD, show "CAD/hr")',
+              'Both pay rate and bill rate inputs must use the same currency',
+              'If no client currency is set, fall back to the organization\'s default currency'
+            ]
+          }
+        ]
+      });
+    }
+
+    function closeRateModal() {
+      rateModal.hidden = true;
+      document.body.style.overflow = '';
+      DesignAnnotations.clearContext();
+    }
+
+    // Rate cells — click anywhere to open modal
+    document.querySelectorAll('.js-rate-cell').forEach(function(cell) {
+      cell.addEventListener('click', function() {
+        openRateModal(this.dataset.member);
+      });
+    });
+
+    // "Edit pay/bill rate" in Actions dropdown
+    document.querySelectorAll('.js-edit-rate').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelectorAll('.js-pd-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+        openRateModal(this.dataset.member);
+      });
+    });
+
+    // Close modal
+    document.getElementById('pd-modal-close').addEventListener('click', closeRateModal);
+    document.getElementById('pd-modal-cancel').addEventListener('click', closeRateModal);
+    rateModal.addEventListener('click', function(e) {
+      if (e.target === rateModal) closeRateModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (!rateModal.hidden) { closeRateModal(); return; }
+        document.querySelectorAll('.js-pd-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
+      }
+    });
+
+    // Prevent dropdown item clicks from closing before action
+    document.querySelectorAll('.js-pd-dropdown').forEach(function(dd) {
+      dd.addEventListener('click', function(e) { e.stopPropagation(); });
+    });
+  </script>
+</body>
+</html>

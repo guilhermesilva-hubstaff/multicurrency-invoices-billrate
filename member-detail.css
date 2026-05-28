@@ -56,17 +56,18 @@
   align-items: center;
   gap: 6px;
   height: 36px;
-  padding: 0 16px;
+  padding: 0 18px;
   border: 1px solid #D6DBE6;
   border-radius: 6px;
   background: #fff;
   font: 500 14px/1 'Roboto', sans-serif;
   color: #374151;
   cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
   white-space: nowrap;
+  letter-spacing: 0.01em;
 }
-.md-btn:hover { background: #f9fafb; }
+.md-btn:hover { background: #f3f4f6; border-color: #c5ccd8; }
 .md-btn .material-symbols-rounded { font-size: 17px; }
 
 .md-btn--primary {
@@ -81,7 +82,7 @@
   color: #374151;
   border-color: #D6DBE6;
 }
-.md-btn--outline:hover { background: #f9fafb; }
+.md-btn--outline:hover { background: #f3f4f6; border-color: #c5ccd8; }
 .md-btn--outline.is-open { border-color: #2aa7ff; }
 
 /* ── Tabs ────────────────────────────────────────────────────── */
@@ -528,6 +529,140 @@
 }
 .pb-fields-row .pb-field { flex: 1; min-width: 140px; }
 
+/* Bill rate multi-client rows — align bottoms so buttons sit level with inputs */
+.pb-fields-row--bill {
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+/* Section head: title + subtitle above the client rows */
+.pb-bill-section-head {
+  margin-bottom: 16px;
+}
+.pb-bill-section-head .pb-history__title {
+  display: block;
+  margin-bottom: 4px;
+}
+.pb-bill-section-head .pb-section__sub {
+  margin: 0;
+}
+
+/* Last client row sits tight above the add button */
+#pb-fields-bill .pb-fields-row--bill:last-of-type {
+  margin-bottom: 0;
+}
+/* Action cell — explicit flex so buttons are always side by side */
+.pb-fields-row--bill .pb-field--action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  min-width: 0;
+  padding-bottom: 2px; /* optical align with input bottoms */
+}
+
+/* Wrapper keeps the two ghost buttons together */
+.pb-icon-btn-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ── Row ghost action buttons (note + remove) ─────────────── */
+.pb-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: 500 13px/1 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.pb-icon-btn .material-symbols-rounded { font-size: 17px !important; }
+
+/* Note button — blue ghost */
+.pb-icon-btn--note {
+  color: #2aa7ff;
+}
+.pb-icon-btn--note:hover { background: rgba(42,167,255,0.08); color: #0168DD; }
+
+/* Note saved state — darker blue, dot indicator */
+.pb-icon-btn--note.pb-icon-btn--has-note {
+  color: #0168DD;
+  font-weight: 500;
+}
+.pb-icon-btn--note.pb-icon-btn--has-note:hover { background: rgba(1,104,221,0.08); }
+
+/* Remove button — muted ghost, red on hover */
+.pb-icon-btn--remove {
+  color: #9ca3af;
+}
+.pb-icon-btn--remove:hover { background: #fef2f2; color: #dc2626; }
+
+/* ── "Add bill rate" row button (below the client rows) ─── */
+.pb-bill-row-add-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  margin-top: 14px;
+  background: transparent;
+  color: #2aa7ff;
+  border: 1px solid #2aa7ff;
+  border-radius: 6px;
+  font: 500 14px/1 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 120ms, box-shadow 120ms;
+  white-space: nowrap;
+}
+.pb-bill-row-add-btn:hover { background: rgba(42,167,255,0.08); box-shadow: 0 0 0 3px rgba(42,167,255,0.12); }
+.pb-bill-row-add-btn .material-symbols-rounded { font-size: 17px !important; }
+
+/* Disabled state — all clients already selected */
+.pb-bill-row-add-btn.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+/* Tooltip via data-tooltip attribute */
+.pb-bill-row-add-btn[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.45;
+  padding: 7px 11px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 9999;
+}
+.pb-bill-row-add-btn[data-tooltip]:hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #111827;
+  pointer-events: none;
+  z-index: 9999;
+}
+
 /* ── Selects ─────────────────────────────────────────────────── */
 .pb-select-wrap {
   position: relative;
@@ -695,7 +830,7 @@
 
 /* ── Type row ────────────────────────────────────────────────── */
 .pb-type-row {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .pb-field--narrow {
@@ -770,6 +905,38 @@
   font-size: 13px;
   color: #4b5563;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* All bill-row suffixes share the same width (sized to the widest: GBP/fixed) */
+#pb-fields-bill .pb-split-suffix {
+  min-width: 88px;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+/* ── Client chip (avatar + name link) ───────────────────────── */
+.pb-client-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  text-decoration: none;
+  color: #2aa7ff;
+  font-size: 14px;
+  font-weight: 500;
+}
+.pb-client-chip:hover { text-decoration: underline; }
+.pb-client-chip__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
   flex-shrink: 0;
 }
 
@@ -1095,6 +1262,238 @@
 .pb-history-dialog__close:hover { background: #f3f4f6; color: #374151; }
 .pb-history-dialog__close .material-symbols-rounded { font-size: 20px; }
 .pb-history-dialog__body { padding: 0; }
+.pb-history-dialog__panel--sm { width: 480px; }
+
+/* ── Remove bill rate dialog — Figma-matched ─────────────── */
+.pb-remove-dialog__panel {
+  width: 440px;
+  max-width: 90vw;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+.pb-remove-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 10px;
+}
+.pb-remove-dialog__title {
+  font: 600 18px/26px 'Roboto', sans-serif;
+  color: #111928;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 12px;
+}
+.pb-remove-dialog__x {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+  border-radius: 9999px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 120ms;
+}
+.pb-remove-dialog__x:hover { color: #374151; }
+.pb-remove-dialog__x .material-symbols-rounded { font-size: 18px !important; }
+.pb-remove-dialog__body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 12px 20px 4px;
+}
+.pb-remove-dialog__icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 9999px;
+  background: #fde8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pb-remove-dialog__icon .material-symbols-rounded { font-size: 18px !important; color: #e02424; }
+#pb-remove-client-msg {
+  font: 400 16px/24px 'Roboto', sans-serif;
+  color: #374151;
+  margin: 0;
+  flex: 1;
+}
+/* Figma: gray/50 bg, gray/600 border inline note */
+.pb-remove-dialog__note {
+  margin: 4px 20px 0;
+  padding: 12px;
+  background: #f9fafb;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  font: 400 14px/20px 'Roboto', sans-serif;
+  color: #1f2937;
+}
+
+.pb-remove-dialog__footer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+}
+.pb-remove-dialog__cancel {
+  height: 40px;
+  padding: 0 20px;
+  width: fit-content;
+  flex-shrink: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font: 400 14px/20px 'Roboto', sans-serif;
+  color: #4b5563;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background 120ms;
+}
+.pb-remove-dialog__cancel:hover { background: #f9fafb; }
+.pb-remove-dialog__confirm {
+  height: 40px;
+  padding: 0 28px;
+  width: fit-content;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 6px;
+  background: #c81e1e;
+  font: 400 14px/20px 'Roboto', sans-serif;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: background 120ms, box-shadow 120ms;
+}
+.pb-remove-dialog__confirm:hover { background: #a61717; box-shadow: 0 0 0 3px rgba(200,30,30,0.18); }
+
+/* ── Success toast (Figma green/alert) ───────────────────── */
+.pb-success-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 380px;
+  max-width: calc(100vw - 64px);
+  background: #f3faf7;
+  border: 1px solid #057a55;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  z-index: 2000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 240ms ease, transform 240ms ease;
+  pointer-events: none;
+}
+.pb-success-toast.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.pb-success-toast__body { flex: 1; min-width: 0; }
+.pb-success-toast__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.pb-success-toast__icon { font-size: 18px !important; color: #03543f; flex-shrink: 0; }
+.pb-success-toast__title { font: 600 16px/24px 'Roboto', sans-serif; color: #03543f; }
+.pb-success-toast__msg { font: 400 14px/20px 'Roboto', sans-serif; color: #03543f; margin: 0; }
+.pb-success-toast__close {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #057a55;
+  border-radius: 9999px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 120ms;
+}
+.pb-success-toast__close:hover { background: rgba(5,122,85,0.1); }
+.pb-success-toast__close .material-symbols-rounded { font-size: 18px !important; }
+
+/* Form body variant (Add bill rate dialog) */
+.pb-history-dialog__body--form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Two-col row: bill rate + effective date */
+.pb-add-rate-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Note textarea */
+.pb-add-rate-note {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #ccd5e5;
+  border-radius: 6px;
+  font: 400 14px/1.5 'Roboto', sans-serif;
+  color: #111827;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 120ms;
+}
+.pb-add-rate-note:focus { border-color: #2aa7ff; }
+.pb-add-rate-note::placeholder { color: #9ca3af; }
+
+/* Dialog footer actions */
+.pb-add-rate-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 4px;
+}
+
+/* Cancel and Save use md-btn / md-btn--primary from the page button system */
+
+/* ── Add bill rate button (V1b filter bar) ───────────────── */
+.pb-add-rate-btn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  background: transparent;
+  color: #0168DD;
+  border: 1px solid #0168DD;
+  border-radius: 6px;
+  font: 500 14px/1 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 120ms, box-shadow 120ms;
+  white-space: nowrap;
+}
+.pb-add-rate-btn:hover { background: rgba(1,104,221,0.06); box-shadow: 0 0 0 3px rgba(1,104,221,0.10); }
+.pb-add-rate-btn .material-symbols-rounded { font-size: 17px !important; }
 
 /* ── V1 sortable headers ──────────────────────────────────── */
 .pb-th-sort {
@@ -1134,3 +1533,47 @@
   vertical-align: middle;
   line-height: 1;
 }
+
+/* ── Note dialog — remove-note phase ──────────────────────── */
+/* "Remove note" text link in phase-1 footer */
+.pb-note-remove-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: auto; /* push Cancel + Save to the right */
+  font: 500 13px/1 'Roboto', sans-serif;
+  color: #dc2626;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 120ms;
+}
+.pb-note-remove-link:hover { color: #b91c1c; }
+
+/* Phase-2 confirm content — icon left, message right */
+.pb-note-confirm-content {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.pb-note-confirm-msg {
+  font: 400 14px/22px 'Roboto', sans-serif;
+  color: #374151;
+  margin: 0;
+}
+
+/* "Keep note" button in phase-2 footer — secondary style */
+.pb-note-keep-btn {
+  height: 40px;
+  padding: 0 20px;
+  width: fit-content;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font: 500 14px/1 'Roboto', sans-serif;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms;
+}
+.pb-note-keep-btn:hover { background: #f9fafb; border-color: #9ca3af; }

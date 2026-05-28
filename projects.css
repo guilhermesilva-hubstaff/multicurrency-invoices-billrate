@@ -590,13 +590,13 @@
 .pr-apply-btn {
   height: 36px;
   padding: 0 20px;
-  border: none;
+  border: 1px solid #2aa7ff;
   border-radius: 6px;
-  background: #31C48D;
-  color: #fff;
+  background: transparent;
+  color: #2aa7ff;
   font: 500 14px/1 'Roboto', sans-serif;
   cursor: pointer;
-  transition: background 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease;
   white-space: nowrap;
 }
-.pr-apply-btn:hover { background: #059669; }
+.pr-apply-btn:hover { background: #eff6ff; }

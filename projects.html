@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@18,400,0,0;24,400,0,0&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="projects.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="projects.css?v=4" />
 </head>
 <body>
   <div id="shell-content">
@@ -97,7 +97,7 @@
             <tr class="pr-tr" data-currency="CAD">
               <td class="pr-td pr-td--check"><label class="pr-check-wrap"><input type="checkbox" /><span class="pr-check-box"></span></label></td>
               <td class="pr-td">
-                <a href="#" class="pr-project-link">
+                <a href="project-detail.html" class="pr-project-link">
                   <div class="pr-avatar" style="background:#189a0b;">0</div>
                   0969 Ocean View Road
                 </a>
@@ -985,6 +985,7 @@
         <span class="pr-page-info">Showing <strong>1</strong> – <strong>50</strong> of <strong>132</strong> projects</span>
       </div>
 
+
     </div>
   </div>
 
@@ -1159,22 +1160,43 @@
   </script>
 
   <!-- Design annotations -->
-  <script src="design-annotations.js"></script>
+  <script src="design-annotations.js?v=5"></script>
   <script>
     DesignAnnotations.init({
       page: 'Projects',
       required: [
         {
-          text: 'New / Edit project dialog — Add a "Project default currency" field',
+          text: 'Currency filter — options must be populated from real data',
+          target: '.pr-filters',
           sub: [
-            'Include helper text explaining that this currency overrides the client default on invoices',
-            'When no project currency is set, the client currency should be used as fallback'
+            'List should only include currencies that are actually in use across the organisation\'s projects',
+            'Selecting a currency and clicking Apply should filter the table to matching projects only',
+            'Filter state should be reflected in the URL so it can be shared or bookmarked'
+          ]
+        },
+        {
+          text: 'Apply button — use blue outlined style, not green filled',
+          target: '.pr-apply-btn',
+          sub: [
+            'Correct style: transparent background, #2aa7ff border and text, hover fills light blue (#eff6ff)',
+            'Green filled is incorrect and inconsistent with the filter Apply button on other pages (e.g. Invoices, Clients)',
+            'This applies to all filter Apply buttons across the product'
+          ]
+        },
+        {
+          text: 'Currency column — value must be derived from the client\'s currency setting',
+          target: '.pr-curr',
+          sub: [
+            'Default: inherit the client\'s currency ("Use client default" in the Edit project → Invoicing tab)',
+            'When a project overrides the currency, show that value instead',
+            'This currency drives rate formatting on the project detail page and in the Edit project rates modal — all three surfaces must stay in sync'
           ]
         }
       ],
       suggestions: [
         {
           text: 'Improve the budget progress bar — it currently looks like a loading state',
+          target: '.pr-budget',
           sub: ['Add clear 0% (empty) and 100% (full) visual markers', 'Consider a label showing the percentage or amount filled']
         }
       ]

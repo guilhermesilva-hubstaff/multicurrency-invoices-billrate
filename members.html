@@ -189,9 +189,13 @@
                 Date added
               </div>
               <div class="mem-cols__subgroup-header">Accounting</div>
-              <div class="mem-cols__item mem-cols__item--sub" data-col="payment">
+              <div class="mem-cols__item mem-cols__item--sub" data-col="payrate">
                 <span class="mem-cols__check material-symbols-rounded">check_box</span>
-                Payment
+                Pay rate
+              </div>
+              <div class="mem-cols__item mem-cols__item--sub" data-col="billrate">
+                <span class="mem-cols__check material-symbols-rounded">check_box</span>
+                Bill rate
               </div>
               <div class="mem-cols__item mem-cols__item--sub" data-col="limits">
                 <span class="mem-cols__check material-symbols-rounded">check_box</span>
@@ -267,7 +271,8 @@
               </th>
               <th class="mem-col--projects">Projects</th>
               <th class="mem-col--workorders">Work orders</th>
-              <th class="mem-col--payment">Payment</th>
+              <th class="mem-col--payrate">Pay rate</th>
+              <th class="mem-col--billrate">Bill rate</th>
               <th class="mem-col--limits">Limits</th>
               <th class="mem-col--tracking">Time tracking</th>
               <th class="is-sortable mem-col--date" data-sort="date">
@@ -385,9 +390,24 @@
             </div>
           </div>
 
-          <!-- Currency -->
-          <div class="mem-filter-group">
-            <div class="mem-filter-group__label">Currency</div>
+          <!-- Pay rate currency -->
+          <div class="mem-filter-group mem-filter-group--payrate-currency">
+            <div class="mem-filter-group__label">Pay rate currency</div>
+            <div class="mem-filter-select-wrap">
+              <select class="mem-filter-select">
+                <option value="">All currencies</option>
+                <option>USD</option>
+                <option>EUR</option>
+                <option>GBP</option>
+                <option>BRL</option>
+                <option>INR</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bill rate currency -->
+          <div class="mem-filter-group mem-filter-group--billrate-currency">
+            <div class="mem-filter-group__label">Bill rate currency</div>
             <div class="mem-filter-select-wrap">
               <select class="mem-filter-select">
                 <option value="">All currencies</option>
@@ -496,6 +516,7 @@
   var STATUSES    = ['active','active','active','active','inactive','pending'];
   var PAY_PERIODS = ['Hourly','Weekly','Biweekly','Monthly'];
   var PAY_TYPES   = ['Fixed salary','Hourly rate'];
+  var CURRENCIES  = ['USD','USD','USD','EUR','GBP','CAD','BRL','AUD'];
   var NAMES = [
     'Alice Johnson','Bob Martínez','Carol Chen','David Kim',
     'Emma Wilson','Frank Okafor','Grace Liu','Henry Patel',
@@ -519,6 +540,10 @@
     return M[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
   }
   function fmtMoney(n) { return '$' + n.toFixed(2); }
+  function fmtRate(n, curr, payType) {
+    var suffix = (payType === 'Fixed salary') ? '/fixed' : '/hr';
+    return curr + ' ' + n.toFixed(2) + suffix;
+  }
   function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -549,6 +574,7 @@
     var billRate  = hasPay ? payRate+si(5,60) : null;
     var period    = hasPay ? sr(PAY_PERIODS) : null;
     var payType   = hasPay ? sr(PAY_TYPES)   : null;
+    var currency  = hasPay ? sr(CURRENCIES)  : null;
     var wkLim     = sf()>0.4 ? si(20,60) : null;
     var dayLim    = sf()>0.6 ? si(4,12)  : null;
     var added     = new Date(2022+si(0,2),si(0,11),si(1,28));
@@ -558,7 +584,7 @@
     ALL_MEMBERS.push({
       id:i+1, name:fullName, email:email, status:status, role:role,
       projects:projects, workOrders:numWO,
-      payRate:payRate, billRate:billRate, period:period, payType:payType,
+      payRate:payRate, billRate:billRate, period:period, payType:payType, currency:currency,
       weeklyLimit:wkLim, dailyLimit:dayLim,
       dateAdded:added, trackingOn:tracking, approvals:approvals,
       color:avatarColor(i)
@@ -599,7 +625,7 @@
 
     if (!page.length) {
       $tbody.innerHTML =
-        '<tr><td colspan="12"><div class="mem-empty">' +
+        '<tr><td colspan="13"><div class="mem-empty">' +
         '<span class="material-symbols-rounded mem-empty__icon">search_off</span>' +
         '<p class="mem-empty__title">No members found</p>' +
         '<p class="mem-empty__sub">Try adjusting your search or filters.</p>' +
@@ -623,27 +649,29 @@
         ? '<a href="#" class="mem-link">'+m.workOrders+' order'+(m.workOrders!==1?'s':'')+'</a>'
         : '<span class="mem-muted">—</span>';
 
-      /* Payment */
-      var payCell;
+      /* Pay rate */
+      var payRateCell, billRateCell;
       if (m.payRate) {
-        payCell =
+        payRateCell =
           '<div class="mem-pay">' +
             '<div class="mem-pay__row">' +
-              '<span class="mem-pay__label">Pay rate:</span>' +
-              '<span class="mem-pay__val">'+fmtMoney(m.payRate)+'/hr</span>' +
-              '<button class="mem-inline-edit" title="Edit"><span class="material-symbols-rounded">edit</span></button>' +
-            '</div>' +
-            '<div class="mem-pay__row mem-pay__row--muted">' +
-              '<span class="mem-pay__label">Bill rate:</span>' +
-              '<span class="mem-pay__val">'+fmtMoney(m.billRate)+'/hr</span>' +
+              '<span class="mem-pay__val">'+fmtRate(m.payRate, m.currency, m.payType)+'</span>' +
               '<button class="mem-inline-edit" title="Edit"><span class="material-symbols-rounded">edit</span></button>' +
             '</div>' +
             '<div class="mem-pay__row mem-pay__row--meta">' +
               m.period+' &nbsp;·&nbsp; Approvals: <a href="#">'+(m.approvals?'On':'Off')+'</a>' +
             '</div>' +
           '</div>';
+        billRateCell =
+          '<div class="mem-pay">' +
+            '<div class="mem-pay__row">' +
+              '<span class="mem-pay__val">'+fmtRate(m.billRate, m.currency, m.payType)+'</span>' +
+              '<button class="mem-inline-edit" title="Edit"><span class="material-symbols-rounded">edit</span></button>' +
+            '</div>' +
+          '</div>';
       } else {
-        payCell = '<span class="mem-muted">Not set</span>';
+        payRateCell = '<span class="mem-muted">Not set</span>';
+        billRateCell = '<span class="mem-muted">—</span>';
       }
 
       /* Limits */
@@ -682,7 +710,8 @@
           '</td>',
           '<td class="mem-col--projects">'+projCell+'</td>',
           '<td class="mem-col--workorders">'+woCell+'</td>',
-          '<td class="mem-td--payment mem-col--payment">'+payCell+'</td>',
+          '<td class="mem-td--payrate mem-col--payrate">'+payRateCell+'</td>',
+          '<td class="mem-td--billrate mem-col--billrate">'+billRateCell+'</td>',
           '<td class="mem-td--limits mem-col--limits">'+limCell+'</td>',
           '<td class="mem-td--tracking mem-col--tracking">'+trackCell+'</td>',
           '<td class="mem-td--date mem-col--date">'+fmtDate(m.dateAdded)+'</td>',
@@ -788,7 +817,7 @@
   var COL_MAP = {
     email:'.mem-col--email', status:'.mem-col--status',
     role:'.mem-col--role', projects:'.mem-col--projects',
-    workorders:'.mem-col--workorders', payment:'.mem-col--payment',
+    workorders:'.mem-col--workorders', payrate:'.mem-col--payrate', billrate:'.mem-col--billrate',
     limits:'.mem-col--limits', tracking:'.mem-col--tracking',
     date:'.mem-col--date'
   };
@@ -984,29 +1013,38 @@
 }());
 </script>
 
-<script src="design-annotations.js"></script>
+<script src="design-annotations.js?v=5"></script>
 <script>
   DesignAnnotations.init({
     page: 'People → Members',
     required: [
-      'Member name should navigate to the member detail/profile page',
-      'Real pagination should be server-driven (currently client-side with 184 generated members)',
       {
-        text: 'Payment column must reflect actual rates from the database',
+        text: 'Split Payment column into two — Pay rate and Bill rate',
+        target: '.mem-col--payrate, .mem-col--billrate',
         sub: [
-          'Pay rate (what the member earns)',
-          'Bill rate (what the client is charged)',
-          'Pay period & type (Hourly / Weekly / Biweekly / Monthly)',
-          'Timesheet approvals toggle state'
+          'Currently a single "Payment" column — must be replaced by two separate columns: Pay rate and Bill rate',
+          'Each column shows the rate value with its currency code (e.g. GBP 83.00/hr)',
+          'Pay rate column also shows pay period & type (Hourly / Biweekly / Monthly) and Approvals state',
+          'Currency code must be derived from the member\'s actual currency setting, not hardcoded'
         ]
       },
-      'Filter panel: Role, Status, Projects, Date range — all filters should be server-driven',
-      'Export To CSV must honour currently visible columns and applied filters'
-    ],
-    suggestions: [
-      'Add "Last active" column — useful for identifying dormant members',
-      'Bulk "Assign to projects" would reduce repetitive row-by-row edits',
-      'Amount in org currency column for Payment — with exchange-rate note explaining daily rate source'
+      {
+        text: 'Two currency filters required — Pay rate currency and Bill rate currency',
+        target: '.mem-filter-group--payrate-currency, .mem-filter-group--billrate-currency, #mem-filter-btn',
+        sub: [
+          'Each filter operates independently: one scopes members by their pay rate currency, the other by bill rate currency',
+          'Both dropdowns must be populated from real data — only currencies actually used by members in the org',
+          'Filtering must be server-driven, not applied client-side to the current dataset'
+        ]
+      },
+      {
+        text: 'Export to CSV must honour currencies',
+        target: '#mem-export-btn',
+        sub: [
+          'Exported pay rate and bill rate values must include the correct currency code per member',
+          'Must also respect currently visible columns and applied filters'
+        ]
+      }
     ]
   });
 </script>

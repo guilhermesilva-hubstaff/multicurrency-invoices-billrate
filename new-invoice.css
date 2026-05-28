@@ -157,7 +157,51 @@
   transition: border-color 120ms ease;
 }
 .ni-select:focus { border-color: #2aa7ff; box-shadow: 0 0 0 3px rgba(42,167,255,.15); }
+.ni-select:disabled { background: #f9fafb; color: #6b7280; cursor: default; }
+.ni-select:disabled + .ni-select-icon { color: #d1d5db; }
 .ni-select option[value=""] { color: #9ca3af; }
+
+/* ── Currency readonly (no-currency state) ──────────────────── */
+.ni-currency-readonly {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: default;
+}
+.ni-currency-readonly[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+.ni-currency-readonly[data-tooltip]:hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #111827;
+  pointer-events: none;
+  z-index: 10;
+}
 
 .ni-select-icon {
   position: absolute;
@@ -529,7 +573,12 @@
   cursor: pointer;
   transition: background 120ms ease;
 }
-.ni-btn-send:hover { background: #1a96ee; }
+.ni-btn-send:hover:not(:disabled) { background: #1a96ee; }
+.ni-btn-send:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
 
 /* ── Version switcher ── */
 .ni-title-group {
@@ -576,6 +625,36 @@
   text-decoration: none;
 }
 .ni-currency-link:hover { text-decoration: underline; }
+
+/* ── No-currency client alert ── */
+.ni-no-currency-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+  margin-top: -12px;
+  margin-bottom: 16px;
+}
+.ni-no-currency-alert .material-symbols-rounded {
+  font-size: 18px !important;
+  color: #4b5563;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.ni-no-currency-alert .ni-currency-link {
+  color: #374151;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ni-no-currency-alert .ni-currency-link:hover {
+  color: #111827;
+}
 
 /* ── Version switcher (kept for reference, unused) ── */
 .ni-title-group {

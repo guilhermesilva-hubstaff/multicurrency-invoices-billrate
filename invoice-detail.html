@@ -390,11 +390,34 @@
     calcNewSide();
 
     editBackdrop.classList.add('is-open');
+    DesignAnnotations.setContext({
+      page: 'Edit payment date — dialog',
+      required: [
+        {
+          text: 'Side-by-side comparison: Current vs. New date',
+          target: '.id-modal-compare',
+          sub: [
+            'Left column shows current payment date, exchange rate, and converted amount (read-only)',
+            'Right column shows the new date picker, and updates rate + amount in real time as the user picks a date',
+            'This comparison is critical — users must see the impact of the date change before confirming'
+          ]
+        },
+        {
+          text: 'Exchange rate recalculates from Open Exchange Rates for the selected date',
+          target: '#idCompareNewRate',
+          sub: [
+            'Production must query historical rates by date — never use today\'s live rate',
+            'If no rate is available for a given date, show a fallback message and disable the Update button'
+          ]
+        }
+      ]
+    });
     setTimeout(function() { editDateInput.focus(); }, 60);
   }
 
   function closeEditModal() {
     editBackdrop.classList.remove('is-open');
+    DesignAnnotations.clearContext();
     activeEntry = null;
   }
 
@@ -446,33 +469,41 @@
 </script>
 
 <!-- Design annotations -->
-<script src="design-annotations.js?v=2"></script>
+<script src="design-annotations.js?v=5"></script>
 <script>
   DesignAnnotations.init({
     page: 'Invoicing — Invoice detail',
     required: [
       {
-        text: 'Conversion history section is internal-only',
+        text: 'Conversion history — stacked cards, one per payment',
+        target: '#id-conversion-section',
         sub: [
-          'Must not appear in "View as client" mode',
-          'Shows per-payment conversion entries with amount, exchange rate, and source',
-          'Partially paid invoices show one entry per payment'
+          'Each payment recorded generates one card: "Payment recorded on [date]" header + Amount / Exchange rate / Source rows',
+          'Cards stack vertically and scroll if there are multiple payments (e.g. partially paid invoices)',
+          'Section is internal-only — must not appear in "View as client" mode',
+          'Lock icon + "Only visible to you — not shown to clients" label must sit in the section header'
         ]
       },
       {
-        text: 'Exchange rate is locked to the payment date',
+        text: 'Exchange rate is locked to the payment date — "Edit date" recalculates',
+        target: '.id-conv-edit-btn',
         sub: [
-          'Rate used reflects Open Exchange Rates data for the date of payment',
-          'Editing the payment date recalculates the conversion using the rate from the new date',
-          'Prototype uses a static rate — production should query historical rate by date'
+          'Each card has an "Edit date" button (pencil icon) that opens the Edit payment date dialog',
+          'Changing the date fetches the historical rate from Open Exchange Rates for the new date',
+          'The card updates in place: new date, recalculated amount, new exchange rate',
+          'Right-click while the dialog is open to see the dialog-specific annotation'
         ]
       },
       {
         text: 'Currency codes only — no symbols',
-        sub: ['All amounts display as "GBP 250.00", never "£250.00"']
+        target: '.id-conv-val, .id-conv-source',
+        sub: [
+          'All amounts display as "GBP 250.00 → USD 317.50", never "£250.00"',
+          'Exchange rate format: "1 GBP = 1.2700 USD"',
+          'Source must always read "Open Exchange Rates"'
+        ]
       }
-    ],
-    suggestions: []
+    ]
   });
 </script>
 </body>

@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@18,400,0,0;24,400,0,0&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="clients.css?v=5" />
+  <link rel="stylesheet" href="clients.css?v=7" />
 </head>
 <body>
   <div id="shell-content">
@@ -94,7 +94,8 @@
               </td>
               <td class="cl-td">
                 <div class="cl-curr">
-                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">USD</span></span>
+                  <span class="cl-curr-code">USD</span>
+                  <span class="cl-curr-name">American dollar</span>
                 </div>
               </td>
               <td class="cl-td cl-td--actions">
@@ -135,8 +136,8 @@
               </td>
               <td class="cl-td">
                 <div class="cl-curr">
-                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">EUR</span></span>
-                  <span class="cl-curr-projects"><span class="cl-curr-label">Projects (1): </span><span class="cl-curr-value">USD</span></span>
+                  <span class="cl-curr-code">EUR</span>
+                  <span class="cl-curr-name">Euro</span>
                 </div>
               </td>
               <td class="cl-td cl-td--actions">
@@ -177,8 +178,8 @@
               </td>
               <td class="cl-td">
                 <div class="cl-curr">
-                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">USD</span></span>
-                  <span class="cl-curr-projects"><span class="cl-curr-label">Projects (2): </span><span class="cl-curr-value">CAD, PHP</span></span>
+                  <span class="cl-curr-code">USD</span>
+                  <span class="cl-curr-name">American dollar</span>
                 </div>
               </td>
               <td class="cl-td cl-td--actions">
@@ -219,7 +220,8 @@
               </td>
               <td class="cl-td">
                 <div class="cl-curr">
-                  <span class="cl-curr-primary"><span class="cl-curr-label">Client: </span><span class="cl-curr-value">BRL</span></span>
+                  <span class="cl-curr-code">BRL</span>
+                  <span class="cl-curr-name">Brazilian real</span>
                 </div>
               </td>
               <td class="cl-td cl-td--actions">
@@ -281,7 +283,7 @@ Chicago, IL 60605</textarea>
             <label class="cl-inv-label" for="inv-currency">Client Default Currency</label>
             <div class="org-select-wrap">
               <select class="org-select" id="inv-currency">
-                <option value="">Use organization default (USD)</option>
+                <option value="">None</option>
                 <option value="USD" selected>USD - United States Dollar</option>
                 <option value="EUR">EUR - Euro</option>
                 <option value="GBP">GBP - British Pound</option>
@@ -294,7 +296,7 @@ Chicago, IL 60605</textarea>
               </select>
               <span class="material-symbols-rounded org-select-icon">expand_more</span>
             </div>
-            <p class="cl-inv-note">This currency will be used for the client invoices to <strong id="cl-inv-note-name">the client</strong>. If needed, project-specific currencies can be set at the <a href="#" class="cl-inv-note-link">project settings</a>.</p>
+            <p class="cl-inv-note">This currency will be used for the client invoices from <strong id="cl-inv-note-name">the client</strong>. If this currency is not set, the organization's currency will apply.</p>
           </div>
 
         </div>
@@ -427,18 +429,19 @@ Chicago, IL 60605</textarea>
         modal.classList.add('is-open');
         document.body.style.overflow = 'hidden';
         DesignAnnotations.setContext({
-          page: 'Edit client → Invoicing tab',
+          page: 'Edit client — General tab',
           required: [
             {
-              text: 'Add a "Client default currency" dropdown',
+              text: 'Client Default Currency dropdown — verify it is wired to the backend',
+              target: '.cl-inv-field--half',
               sub: [
-                'Use the organization currency as the default selected value',
-                'Add helper text explaining that this currency is used as the default for new invoices to this client',
+                'Field already exists in the UI — confirm it saves to and reads from the server',
+                'Use the organisation currency as the default when no client currency is set',
+                'Helper text below the field should explain the cascade: client invoices → project rates',
                 'Projects can override this currency at the project level'
               ]
             }
-          ],
-          suggestions: []
+          ]
         });
       });
     });
@@ -499,27 +502,51 @@ Chicago, IL 60605</textarea>
   </script>
 
   <!-- Design annotations -->
-  <script src="design-annotations.js"></script>
+  <script src="design-annotations.js?v=5"></script>
   <script>
     DesignAnnotations.init({
       page: 'Clients',
       required: [
         {
+          text: 'Currency filter — options must reflect currencies actually in use',
+          target: '.cl-filters',
+          sub: [
+            'List should only include currencies assigned to at least one client',
+            'Selecting a currency and clicking Apply should filter the table to matching clients only'
+          ]
+        },
+        {
+          text: 'Apply button — use blue outlined style, not green filled',
+          target: '.cl-apply-btn',
+          sub: [
+            'Correct style: transparent background, #2aa7ff border and text, hover fills light blue (#eff6ff)',
+            'Must be consistent with the Apply button on the Projects and Invoices filter bars'
+          ]
+        },
+        {
           text: 'Clients list — Add a new "Currencies" column to the table',
+          target: '.cl-curr',
           sub: ['Display the client\'s default currency', 'Display the distinct currencies used across that client\'s projects']
         },
         {
-          text: 'Edit client → Invoicing tab — Add a "Client default currency" dropdown',
-          sub: ['Include helper text explaining what this currency means and how it cascades to invoices and projects']
+          text: 'Edit client → General tab — Add a "Client default currency" field (open Edit to configure)',
+          target: '.cl-actions-wrap',
+          sub: [
+            'A "Client Default Currency" dropdown already exists in the General tab — verify it is wired to the backend',
+            'Include helper text explaining that this currency cascades to new invoices and project rates',
+            'When no client currency is set, fall back to the organisation\'s default currency'
+          ]
         }
       ],
       suggestions: [
         {
           text: 'Improve the budget progress bar — it currently looks like a loading state',
+          target: '.cl-budget',
           sub: ['Add clear 0% (empty) and 100% (full) visual markers', 'Consider a label showing the percentage or amount filled']
         },
         {
           text: 'Auto invoicing column uses icons only — add visible labels',
+          target: '.cl-autoinv',
           sub: ['"Custom settings" for client-level overrides', '"Organization settings" for inherited defaults']
         }
       ]

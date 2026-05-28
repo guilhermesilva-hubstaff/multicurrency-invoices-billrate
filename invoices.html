@@ -93,7 +93,7 @@
           <span class="material-symbols-rounded iv-select-icon">expand_more</span>
         </div>
       </div>
-      <div class="iv-filter-group">
+      <div class="iv-filter-group iv-filter-group--currency">
         <label class="iv-filter-label">Currency</label>
         <div class="iv-select-wrap">
           <select class="iv-select" id="iv-currency-filter">
@@ -730,7 +730,7 @@
 
     panelEl.innerHTML = ''
       + '<div class="iv-breakdown-title">'
-      +   '<span>Breakdown by currency</span>'
+      +   '<span>Breakdown by invoice currency</span>'
       +   '<button class="iv-breakdown-close" data-type="' + type + '" aria-label="Close">'
       +     '<span class="material-symbols-rounded">close</span>'
       +   '</button>'
@@ -887,10 +887,26 @@
     document.querySelectorAll('.iv-dropdown').forEach(function(d) { d.classList.remove('is-open'); });
     rpBackdrop.classList.add('is-open');
     setTimeout(function() { rpAmountEl.focus(); }, 60);
+    DesignAnnotations.setContext({
+      page: 'Record payment — dialog',
+      required: [
+        {
+          text: 'Add helper note below the Payment date field',
+          target: '.iv-modal-helper',
+          sub: [
+            'Text: "The payment date determines the exchange rate used to convert this payment into your organization currency."',
+            'Must be visible at all times — not behind a tooltip or info icon',
+            'Style: muted gray (#6b7280), font-size 12px',
+            'This note is critical — the selected date locks the FX rate used for the conversion entry in the invoice\'s Conversion history'
+          ]
+        }
+      ]
+    });
   }
 
   function closeRecordPayment() {
     rpBackdrop.classList.remove('is-open');
+    DesignAnnotations.clearContext();
   }
 
   document.getElementById('ivRecordPaymentClose').addEventListener('click', closeRecordPayment);
@@ -991,44 +1007,60 @@
 </script>
 
 <!-- Design annotations -->
-<script src="design-annotations.js"></script>
+<script src="design-annotations.js?v=5"></script>
 <script>
   DesignAnnotations.init({
     page: 'Invoicing — Invoices list',
     required: [
       {
-        text: 'Ensure the invoice total displayed in the table reflects the actual invoice currency',
+        text: 'Organization Currency + Invoice Currency columns replace the old Total / Paid / USD columns',
+        target: '.iv-col-amount-org, .iv-col-amount-orig',
+        sub: [
+          'Invoice Currency shows the invoice total in the original currency, with paid-so-far on a second line',
+          'Organization Currency shows the equivalent in org currency (USD), with paid-so-far on a second line',
+          'No currency symbols — use ISO codes only (USD, EUR, GBP, etc.)',
+          'No approximation prefixes (no ~, no ≈, no =)'
+        ]
+      },
+      {
+        text: 'Invoice Currency column — must reflect the actual invoice currency',
+        target: '.iv-amount-main',
         sub: [
           'Currently all totals show USD — they should match the currency selected on each individual invoice',
           'If an invoice uses CAD, the amount column should show CAD'
         ]
       },
       {
-        text: 'Add a Currencies filter to the filter bar',
+        text: 'Currency filter — must be populated from real data',
+        target: '.iv-filter-group--currency, #iv-apply-btn',
         sub: [
-          'Populated from the distinct currencies present across invoices',
+          'List should only include currencies actually used across invoices',
           'Filtering by currency should update the table and aggregate totals accordingly'
         ]
       },
       {
-        text: 'Aggregate totals (Outstanding / Paid) should reflect multi-currency context',
+        text: 'Aggregate totals (Outstanding / Paid) — show org-currency equivalent',
+        target: '.iv-breakdown-link',
         sub: [
           'Show a USD equivalent total as the primary value',
-          'Provide a "View breakdown" link that expands to show per-currency native amounts, exchange rate used, and USD equivalent',
-          'Breakdown popover footer should include exchange rate source (Open Exchange Rates), date, and a disclaimer that amounts are indicative and may fluctuate'
+          'Exchange rate is derived from Open Exchange Rates on the payment date',
+          'Amounts are indicative — disclaimer must be visible in the breakdown'
         ]
       },
       {
-        text: 'Amount Orig. and Amount Org Currency columns replace the old Total / Paid / USD columns',
+        text: 'Breakdown by invoice currency — popover (Outstanding + Paid)',
+        target: '.iv-breakdown-link, .iv-breakdown-panel',
         sub: [
-          'Amount Orig. shows the invoice total in the original currency, with paid-so-far on a second line',
-          'Amount Org Currency shows the equivalent in org currency (USD), with paid-so-far on a second line',
-          'No currency symbols — use ISO codes only (USD, EUR, GBP, etc.)',
-          'No approximation prefixes (no ~, no ≈, no =)'
+          'Clicking "View breakdown" opens a popover showing per-currency rows: native amount, exchange rate used, and USD equivalent',
+          'Outstanding breakdown: 3-column layout — Amount | Rate | USD',
+          'Paid breakdown: 2-column layout — Amount | USD (no rate column needed)',
+          'Footer must include: exchange rate source (Open Exchange Rates), the date the rate was fetched, and a disclaimer that amounts are indicative',
+          'Both Outstanding and Paid have their own independent breakdown popovers'
         ]
       },
       {
-        text: 'Add a Table columns control to the toolbar (after Export)',
+        text: 'Table columns control — icon button after Export',
+        target: '.iv-col-toggle-wrap',
         sub: [
           'Icon-only button (view_column icon) that opens a dropdown listing all table columns',
           'Invoice and Client columns are always on and non-interactive (disabled state)',
@@ -1037,19 +1069,24 @@
         ]
       },
       {
-        text: 'Record payment dialog — Payment date field must include a helper note',
+        text: 'Conversion history — visible inside each invoice detail (click any invoice link)',
+        target: '.iv-invoice-link',
         sub: [
-          'Helper text below the Payment date field: "The payment date determines the exchange rate used to convert this payment into your organization currency."',
-          'This is critical for user understanding — the selected date locks the FX rate used for the conversion entry in the invoice detail\'s Conversion history',
-          'Helper text should be visible at all times (not behind a tooltip), using muted gray (#6b7280), font-size 12px'
+          'Click any invoice number (e.g. DA1037) to open the invoice detail page',
+          'Scroll to the bottom of the detail page to find the Conversion history section',
+          'Each payment recorded creates a card: payment date, amount in original + org currency, exchange rate used, and source (Open Exchange Rates)',
+          'Section is internal-only — must not appear in "View as client" mode'
+        ]
+      },
+      {
+        text: 'Record payment dialog — open via Actions → Record payment on any Sent invoice',
+        target: '.iv-td--actions, .iv-actions-btn',
+        sub: [
+          'Available on Sent invoices only — "Record payment" appears in the Actions dropdown',
+          'Right-click while the dialog is open to see the dialog-specific annotation',
+          'Dialog requires a helper note below the Payment date field explaining the FX rate impact'
         ]
       }
-    ],
-    suggestions: [
-      'Consider locking the rate used at the time an invoice is paid (vs. always showing today\'s live rate) to support accurate reconciliation against bank statements',
-      'A "stale rate" indicator on the Amount Org Currency column header could warn users when rate data is older than 24h',
-      'New invoice + Export buttons have been moved into the page header area (toolbar row), not a separate action bar — revisit placement in final design',
-      'Apply filter button should be outlined blue (border: 1px solid #2aa7ff, background: transparent, text: #2aa7ff) rather than a filled green CTA — it is a filter action, not a primary action'
     ]
   });
 </script>
